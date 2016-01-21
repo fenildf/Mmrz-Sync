@@ -3,7 +3,7 @@
 
 from cgi import parse_qs, escape
 from wsgiref.simple_server import make_server
-import time
+import time, json
 from urllib import unquote
 
 def getRequestBody(environ):
@@ -22,13 +22,35 @@ def getRequestBody(environ):
 def application(environ, start_response):
     status = '200 OK'
     response_headers = [('Content-type', 'text/plain')]
-    d = parse_qs(environ['QUERY_STRING'])
-    read = parse_qs( getRequestBody(environ) )['q'][0]
-    print unquote(read)
     write = start_response(status, response_headers)
-    write("first write message\n")
-    write("second write message\n")
-    return "return message"
+
+    if environ['REQUEST_METHOD'] == 'POST':
+        print "POST method"
+
+        return_dict = {}
+
+        dict_from_client = parse_qs(getRequestBody(environ))
+        word_rows_json = unquote(dict_from_client['word_rows'][0])
+        word_rows = json.loads(word_rows_json)
+        print word_rows
+
+        return_dict['from_client'] = word_rows
+        return_json = json.dumps(return_dict)
+
+        return return_json
+
+    if environ['REQUEST_METHOD'] == 'GET':
+        print "GET method"
+
+        return_dict = {}
+
+        return_dict['lock'] = "Mac"
+        return_json = json.dumps(return_dict)
+
+        return return_json
+
+
+    return "WTF?"
 
 port  = 2603
 httpd = make_server('', port, application)
