@@ -3,21 +3,34 @@
 
 from cgi import parse_qs, escape
 from wsgiref.simple_server import make_server
-import time, json
 from urllib import unquote
+import configparser
+import json, sys
+
+CONFIG_PATH   = sys.path[0] + '/version.ini'
+
+universal_dict = {
+    'occupied_client': 'NULL',
+    'version_info': {"CLI": "CLI-0.0.0", "GUI": "GUI-0.0.0"},
+    'message_str': 'message from Mmrz-Sync server'
+}
+
+def getVersion():
+    config = configparser.ConfigParser()
+    config.read(CONFIG_PATH)
+    CLI_VERSION = config['MMRZ_VER']['CLI_VERSION']
+    GUI_VERSION = config['MMRZ_VER']['GUI_VERSION']
+
+    return CLI_VERSION, GUI_VERSION
 
 def getRequestBody(environ):
-# the environment variable CONTENT_LENGTH may be empty or missing
     try:
         request_body_size = int(environ.get('CONTENT_LENGTH', 0))
 
     except (ValueError):
         request_body_size = 0
 
-    request_body = environ['wsgi.input'].read(request_body_size)
-
-    return request_body
-
+    return environ['wsgi.input'].read(request_body_size)
 
 def application(environ, start_response):
     status = '200 OK'
@@ -25,7 +38,6 @@ def application(environ, start_response):
     write = start_response(status, response_headers)
 
     if environ['REQUEST_METHOD'] == 'POST':
-        print "POST method"
 
         return_dict = {}
 
@@ -40,17 +52,34 @@ def application(environ, start_response):
         return return_json
 
     if environ['REQUEST_METHOD'] == 'GET':
-        print "GET method"
+        received_param = parse_qs(environ['QUERY_STRING'])
+        req_thing = received_param.get('req_thing')[0]
 
-        return_dict = {}
+        print req_thing
+        if req_thing == 'occupied_client':
+            dict_for_return = universal_dict
+            dict_for_return['lock'] = "Mac"
+            json_for_return = json.dumps(dict_for_return)
 
-        return_dict['lock'] = "Mac"
-        return_json = json.dumps(return_dict)
+            return json_for_return
 
-        return return_json
+        if req_thing == 'version_info':
+            cli, gui = getVersion()
+            dict_for_return = universal_dict
+            dict_for_return['version_info'] = {"CLI": cli, "GUI": gui}
+            json_for_return = json.dumps(dict_for_return)
 
+            return json_for_return
 
-    return "WTF?"
+        dict_for_return = universal_dict
+        dict_for_return['message_str'] = "GET method end"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
+    dict_for_return = universal_dict
+    dict_for_return['message_str'] = "no GET/POST method end"
+    json_for_return = json.dumps(dict_for_return)
+    return json_for_return
 
 port  = 2603
 httpd = make_server('', port, application)
