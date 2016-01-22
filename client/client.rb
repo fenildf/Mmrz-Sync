@@ -3,14 +3,15 @@
 
 require 'net/http'
 require 'json'
+require 'base64'
 
 require './db'
 
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
-dbMgr = MmrzDBManager.new
-rows_all = dbMgr.readAllDB
+# dbMgr = MmrzDBManager.new
+# rows_all = dbMgr.readAllDB
 
 def urlencode params
   URI.escape(params.collect{|k, v| "#{k}=#{v}"}.join('&'))
@@ -31,13 +32,19 @@ uri = URI('http://127.0.0.1:2603/?' + a)
 
 
 # get demo
-rec = JSON.parse Net::HTTP.get(uri)
-p rec['version_info']['CLI']
-p version_to_int rec['version_info']['CLI']
+# rec = JSON.parse Net::HTTP.get(uri)
+# p rec['version_info']['CLI']
+# p version_to_int rec['version_info']['CLI']
 
 # post demo
-# params = {}
-# params["word_rows"] = rows_all.to_json
-# res = Net::HTTP.post_form(uri, params)
-# puts res.body
+params = {
+  # 'req_thing' => 'occupied_client'
+  'post_thing' => 'login_data'
+}
+
+a = urlencode params
+uri = URI('http://127.0.0.1:2603/?' + a)
+login = { "username" => "zhanglin", "password" => Base64.encode64('zhanglin') }
+res = Net::HTTP.post_form(uri, login)
+puts res.body
 

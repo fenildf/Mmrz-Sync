@@ -6,6 +6,23 @@ from wsgiref.simple_server import make_server
 from urllib import unquote
 import configparser
 import json, sys
+import base64
+
+"""
+accept when POST:
+{
+    post_thing|
+    "login_data": { "username": "", "password"(base64): "" }
+}
+
+return when GET:
+{
+    req_thing|
+    "occupied_client": "",
+    "version_info": { "CLI": "", "GUI": ""},
+    "message_str": "",
+}
+"""
 
 CONFIG_PATH   = sys.path[0] + '/version.ini'
 
@@ -38,18 +55,30 @@ def application(environ, start_response):
     write = start_response(status, response_headers)
 
     if environ['REQUEST_METHOD'] == 'POST':
+        received_param = parse_qs(environ['QUERY_STRING'])
+        post_thing = received_param.get('post_thing')[0]
 
-        return_dict = {}
+        if post_thing == 'login_data':
+            dict_from_client = parse_qs(getRequestBody(environ))
+            username = dict_from_client['username'][0]
+            password_encrypted = dict_from_client['password'][0]
+            password = base64.b64decode(password_encrypted)
 
-        dict_from_client = parse_qs(getRequestBody(environ))
-        word_rows_json = unquote(dict_from_client['word_rows'][0])
-        word_rows = json.loads(word_rows_json)
-        print word_rows
+            # print username, password
 
-        return_dict['from_client'] = word_rows
-        return_json = json.dumps(return_dict)
+        return json.dumps(dict_from_client)
 
-        return return_json
+        # return_dict = {}
+
+        # dict_from_client = parse_qs(getRequestBody(environ))
+        # word_rows_json = unquote(dict_from_client['word_rows'][0])
+        # word_rows = json.loads(word_rows_json)
+        # print word_rows
+
+        # return_dict['from_client'] = word_rows
+        # return_json = json.dumps(return_dict)
+
+        # return return_json
 
     if environ['REQUEST_METHOD'] == 'GET':
         received_param = parse_qs(environ['QUERY_STRING'])
@@ -84,6 +113,5 @@ def application(environ, start_response):
 port  = 2603
 httpd = make_server('', port, application)
 print "Serving HTTP on port {0}...".format(port)
-
 httpd.serve_forever()
 
