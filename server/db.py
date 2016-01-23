@@ -3,7 +3,7 @@
 
 import sqlite3
 
-class MmrzDBManager:
+class MmrzSyncDBManager:
     """
         table UNMMRZ:
         [0]word           -- char[255]
@@ -14,19 +14,24 @@ class MmrzDBManager:
         [5]wordID         -- int
     """
 
-    def __init__(self):
-        self.db = sqlite3.connect("./wordbook.db")
+    def __init__(self, dbName):
+        self.db = sqlite3.connect(dbName + ".db")
         self.c = self.db.cursor()
 
-    def createDB(self):
+    def create_USERS_DB(self):
         try:
-            self.c.execute("create table UNMMRZ(word char[255], pronounce char[255], memTimes int, remindTime int, remindTimeStr char[255], wordID int)")
+            self.c.execute("create table USERS(username char[255], password char[255])")
             self.db.commit()
         except:
             pass
 
-    def insertDB(self, row):
-        self.c.execute("insert into UNMMRZ values(?, ?, ?, ?, ?, ?)", row)
+    def insert_USERS_DB(self, userInfo):
+        self.c.execute("insert into USERS values(?, ?)", userInfo)
+
+    def read_USERS_DB(self):
+        return self.c.execute("select * from USERS").fetchall()
+
+
 
     def updateDB(self, row):
         self.c.execute("update UNMMRZ set memTimes = #{row[2]}, remindTime = #{row[3]}, remindTimeStr = '#{row[4]}' where wordID = '#{row[5]}'")
@@ -44,5 +49,4 @@ class MmrzDBManager:
     def closeDB(self):
         self.db.commit()
         self.db.close()
-
 
