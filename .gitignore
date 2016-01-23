@@ -61,3 +61,5 @@ target/
 client/preferences-user.json
 
 client/wordbook.db
+
+*.db
