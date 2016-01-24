@@ -137,6 +137,6 @@ if __name__ == '__main__':
     print "Serving HTTP on port {0}...".format(port)
 
     httpd = make_server('', port, application)
-    # httpd.serve_forever()
+    httpd.serve_forever()
 
 
