@@ -50,3 +50,12 @@ class MmrzSyncDBManager:
         self.db.commit()
         self.db.close()
 
+# db = MmrzSyncDBManager("USERS")
+# userdict = dict(db.read_USERS_DB())
+# print userdict
+# db.create_USERS_DB()
+# db.insert_USERS_DB(["zhanglin", "zhanglin"])
+# db.insert_USERS_DB(["wuhong", "wuhong"])
+# db.closeDB()
+
+

@@ -4,6 +4,7 @@
 from cgi import parse_qs, escape
 from wsgiref.simple_server import make_server
 from urllib import unquote
+from db import MmrzSyncDBManager
 import configparser
 import json, sys
 import base64
@@ -49,6 +50,50 @@ def getRequestBody(environ):
 
     return environ['wsgi.input'].read(request_body_size)
 
+def verifyUserName(username):
+    dbMgr = MmrzSyncDBManager("USERS")
+    users = dict(dbMgr.read_USERS_DB())
+    dbMgr.closeDB()
+
+    return username in users
+
+def verifyLogin(username, password):
+    dbMgr = MmrzSyncDBManager("USERS")
+    users = dict(dbMgr.read_USERS_DB())
+    dbMgr.closeDB()
+    
+    if username in users:
+        if password == users[username]:
+            return True
+
+    return False
+
+def login_data(environ):
+    dict_from_client = parse_qs(getRequestBody(environ))
+    username = dict_from_client['username'][0]
+    password_encrypted = dict_from_client['password'][0]
+    password = password_encrypted # password = base64.b64decode(password_encrypted)
+
+    return verifyLogin(username, password)
+
+def sign_up(environ):
+    return False
+
+def occupied_client(environ):
+    dict_for_return = universal_dict
+    dict_for_return['lock'] = "Mac"
+    json_for_return = json.dumps(dict_for_return)
+
+    return json_for_return
+
+def version_info(environ):
+    cli, gui = getVersion()
+    dict_for_return = universal_dict
+    dict_for_return['version_info'] = {"CLI": cli, "GUI": gui}
+    json_for_return = json.dumps(dict_for_return)
+
+    return json_for_return
+
 def application(environ, start_response):
     status = '200 OK'
     response_headers = [('Content-type', 'text/plain')]
@@ -59,26 +104,12 @@ def application(environ, start_response):
         post_thing = received_param.get('post_thing')[0]
 
         if post_thing == 'login_data':
-            dict_from_client = parse_qs(getRequestBody(environ))
-            username = dict_from_client['username'][0]
-            password_encrypted = dict_from_client['password'][0]
-            password = base64.b64decode(password_encrypted)
+            return login_data(environ)
 
-            # print username, password
+        if post_thing == 'sign_up':
+            return sign_up(environ)
 
         return json.dumps(dict_from_client)
-
-        # return_dict = {}
-
-        # dict_from_client = parse_qs(getRequestBody(environ))
-        # word_rows_json = unquote(dict_from_client['word_rows'][0])
-        # word_rows = json.loads(word_rows_json)
-        # print word_rows
-
-        # return_dict['from_client'] = word_rows
-        # return_json = json.dumps(return_dict)
-
-        # return return_json
 
     if environ['REQUEST_METHOD'] == 'GET':
         received_param = parse_qs(environ['QUERY_STRING'])
@@ -86,19 +117,10 @@ def application(environ, start_response):
 
         print req_thing
         if req_thing == 'occupied_client':
-            dict_for_return = universal_dict
-            dict_for_return['lock'] = "Mac"
-            json_for_return = json.dumps(dict_for_return)
-
-            return json_for_return
+            return occupied_client(environ)
 
         if req_thing == 'version_info':
-            cli, gui = getVersion()
-            dict_for_return = universal_dict
-            dict_for_return['version_info'] = {"CLI": cli, "GUI": gui}
-            json_for_return = json.dumps(dict_for_return)
-
-            return json_for_return
+            return version_info(environ)
 
         dict_for_return = universal_dict
         dict_for_return['message_str'] = "GET method end"
@@ -110,8 +132,11 @@ def application(environ, start_response):
     json_for_return = json.dumps(dict_for_return)
     return json_for_return
 
-port  = 2603
-httpd = make_server('', port, application)
-print "Serving HTTP on port {0}...".format(port)
-httpd.serve_forever()
+if __name__ == '__main__':
+    port  = 2603
+    print "Serving HTTP on port {0}...".format(port)
+
+    httpd = make_server('', port, application)
+    # httpd.serve_forever()
+
 
