@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from cgi import parse_qs, escape
 from wsgiref.simple_server import make_server
-from urllib import unquote
+from cgi import parse_qs, escape
 from db import MmrzSyncDBManager
 import configparser
 import json, sys
@@ -15,7 +14,13 @@ accept when POST:
     post_thing|
     "login_data": { "username": "", "password"(base64): "" }
 }
-
+------------------------------------------
+return of POST:
+{
+    "verified": true/false,
+    "message_str":  "" 
+}
+------------------------------------------
 return when GET:
 {
     req_thing|
@@ -27,7 +32,12 @@ return when GET:
 
 CONFIG_PATH   = sys.path[0] + '/version.ini'
 
-universal_dict = {
+universal_POST_dict = {
+    "verified": False,
+    "message_str":  ""
+}
+
+universal_GET_dict = {
     'occupied_client': 'NULL',
     'version_info': {"CLI": "CLI-0.0.0", "GUI": "GUI-0.0.0"},
     'message_str': 'message from Mmrz-Sync server'
@@ -62,11 +72,7 @@ def verifyLogin(username, password):
     users = dict(dbMgr.read_USERS_DB())
     dbMgr.closeDB()
     
-    if username in users:
-        if password == users[username]:
-            return True
-
-    return False
+    return username in users and password == users[username]
 
 def login_data(environ):
     dict_from_client = parse_qs(getRequestBody(environ))
@@ -74,13 +80,30 @@ def login_data(environ):
     password_encrypted = dict_from_client['password'][0]
     password = password_encrypted # password = base64.b64decode(password_encrypted)
 
-    return verifyLogin(username, password)
+    dict_for_return = universal_POST_dict
+    if verifyLogin(username, password):
+        dict_for_return['verified'] = True
+    else:
+        dict_for_return['verified'] = False
+
+    json_for_return = json.dumps(dict_for_return)
+    return json_for_return
 
 def sign_up(environ):
-    return False
+    dict_from_client = parse_qs(getRequestBody(environ))
+    username = dict_from_client['username'][0]
+
+    dict_for_return = universal_POST_dict
+    if verifyUserName(username):
+        dict_for_return['verified'] = True
+    else:
+        dict_for_return['verified'] = False
+
+    json_for_return = json.dumps(dict_for_return)
+    return json_for_return
 
 def occupied_client(environ):
-    dict_for_return = universal_dict
+    dict_for_return = universal_GET_dict
     dict_for_return['lock'] = "Mac"
     json_for_return = json.dumps(dict_for_return)
 
@@ -88,7 +111,7 @@ def occupied_client(environ):
 
 def version_info(environ):
     cli, gui = getVersion()
-    dict_for_return = universal_dict
+    dict_for_return = universal_GET_dict
     dict_for_return['version_info'] = {"CLI": cli, "GUI": gui}
     json_for_return = json.dumps(dict_for_return)
 
@@ -109,7 +132,7 @@ def application(environ, start_response):
         if post_thing == 'sign_up':
             return sign_up(environ)
 
-        return json.dumps(dict_from_client)
+        return json.dumps(universal_POST_dict)
 
     if environ['REQUEST_METHOD'] == 'GET':
         received_param = parse_qs(environ['QUERY_STRING'])
@@ -122,15 +145,9 @@ def application(environ, start_response):
         if req_thing == 'version_info':
             return version_info(environ)
 
-        dict_for_return = universal_dict
-        dict_for_return['message_str'] = "GET method end"
-        json_for_return = json.dumps(dict_for_return)
-        return json_for_return
+        return json.dumps(universal_GET_dict)
 
-    dict_for_return = universal_dict
-    dict_for_return['message_str'] = "no GET/POST method end"
-    json_for_return = json.dumps(dict_for_return)
-    return json_for_return
+    return "End of POST/GET"
 
 if __name__ == '__main__':
     port  = 2603

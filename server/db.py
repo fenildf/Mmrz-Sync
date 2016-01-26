@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 import sqlite3
+import base64
 
 class MmrzSyncDBManager:
     """
@@ -51,10 +52,10 @@ class MmrzSyncDBManager:
         self.db.close()
 
 # db = MmrzSyncDBManager("USERS")
-# userdict = dict(db.read_USERS_DB())
-# print userdict
+# # userdict = dict(db.read_USERS_DB())
+# # print userdict
 # db.create_USERS_DB()
-# db.insert_USERS_DB(["zhanglin", "zhanglin"])
+# db.insert_USERS_DB(["zhanglin", base64.b64encode("zhanglin")])
 # db.insert_USERS_DB(["wuhong", "wuhong"])
 # db.closeDB()
 
