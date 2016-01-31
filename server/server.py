@@ -102,6 +102,18 @@ def sign_up(environ):
     json_for_return = json.dumps(dict_for_return)
     return json_for_return
 
+def upload_wordbook(environ):
+    dict_from_client = parse_qs(getRequestBody(environ))
+    rows = dict_from_client['data'][0]
+    rows = json.loads(rows)
+    dbMgr = MmrzSyncDBManager("zhanglin")
+    dbMgr.createDB()
+    for row in rows:
+        dbMgr.insertDB(row)
+    dbMgr.closeDB()
+
+    return ""
+
 def occupied_client(environ):
     dict_for_return = universal_GET_dict
     dict_for_return['lock'] = "Mac"
@@ -117,14 +129,24 @@ def version_info(environ):
 
     return json_for_return
 
+def database_info(environ):
+    dbMgr = MmrzSyncDBManager("wordbook")
+    rows = dbMgr.readAllDB()
+    dbMgr.closeDB()
+
+    return json.dumps(rows)
+
 def application(environ, start_response):
     status = '200 OK'
     response_headers = [('Content-type', 'text/plain')]
     write = start_response(status, response_headers)
 
-    if environ['REQUEST_METHOD'] == 'POST':
-        received_param = parse_qs(environ['QUERY_STRING'])
-        post_thing = received_param.get('post_thing')[0]
+    path   = environ['PATH_INFO'].replace("/", "")
+    method = environ['REQUEST_METHOD']
+    params = parse_qs(environ['QUERY_STRING'])
+
+    if method == 'POST':
+        post_thing = params.get('post_thing', [0])[0]
 
         if post_thing == 'login_data':
             return login_data(environ)
@@ -132,20 +154,24 @@ def application(environ, start_response):
         if post_thing == 'sign_up':
             return sign_up(environ)
 
+        if path == "upload_wordbook":
+            return upload_wordbook(environ)
+
         return json.dumps(universal_POST_dict)
 
-    if environ['REQUEST_METHOD'] == 'GET':
-        received_param = parse_qs(environ['QUERY_STRING'])
-        req_thing = received_param.get('req_thing')[0]
-
-        print req_thing
-        if req_thing == 'occupied_client':
-            return occupied_client(environ)
+    if method == 'GET':
+        req_thing = params.get('req_thing', [0])[0]
 
         if req_thing == 'version_info':
             return version_info(environ)
 
-        return json.dumps(universal_GET_dict)
+        if path == "version_info":
+            return version_info(environ)
+
+        if path == "database_info":
+            return database_info(environ)
+
+        return json.dumps("nothing here")
 
     return "End of POST/GET"
 

@@ -33,6 +33,14 @@ class MmrzSyncDBManager:
         return self.c.execute("select * from USERS").fetchall()
 
 
+    def createDB(self):
+        try:
+            self.c.execute("create table UNMMRZ(word char[255], pronounce char[255], memTimes int, remindTime int, remindTimeStr char[255], wordID int)")
+        except:
+            pass
+
+    def insertDB(self, row):
+        self.c.execute("insert into UNMMRZ values(?, ?, ?, ?, ?, ?)", row)
 
     def updateDB(self, row):
         self.c.execute("update UNMMRZ set memTimes = #{row[2]}, remindTime = #{row[3]}, remindTimeStr = '#{row[4]}' where wordID = '#{row[5]}'")
