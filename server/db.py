@@ -33,6 +33,7 @@ class MmrzSyncDBManager:
         return self.c.execute("select * from USERS").fetchall()
 
 
+
     def createDB(self):
         try:
             self.c.execute("create table UNMMRZ(word char[255], pronounce char[255], memTimes int, remindTime int, remindTimeStr char[255], wordID int)")
@@ -50,6 +51,9 @@ class MmrzSyncDBManager:
 
     def readAllDB(self):
         return self.c.execute("select * from UNMMRZ").fetchall()
+
+    def pruneDB(self):
+        self.c.execute("delete from UNMMRZ")
 
     def getMaxWordID(self):
         # format of maxWordID is like: maxWordID = [[33]], thus use maxWordID[0][0] to access it
