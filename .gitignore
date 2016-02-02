@@ -63,3 +63,4 @@ client/preferences-user.json
 client/wordbook.db
 
 *.db
+/server/version.ini
