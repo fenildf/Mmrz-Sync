@@ -45,7 +45,7 @@ params = {
 a = urlencode params
 uri = URI('http://127.0.0.1:2603/upload_wordbook/?' + a)
 # login = { "username" => "zhanglin", "password" => Base64.encode64('zhanglin') }
-database = {"data" => rows_all.to_json}
+database = {"username"=>"yanbin", "password"=>"yanbin", "data"=>rows_all.to_json}
 res = Net::HTTP.post_form(uri, database)
 puts res.body
 
