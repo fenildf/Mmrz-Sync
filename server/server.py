@@ -12,7 +12,7 @@ import base64
 accept when POST:
 {
     post_thing|
-    "login_data": { "username": "", "password"(base64): "" }
+    "log_in": { "username": "", "password"(base64): "" }
 }
 ------------------------------------------
 return of POST:
@@ -60,12 +60,12 @@ def getRequestBody(environ):
 
     return environ['wsgi.input'].read(request_body_size)
 
-def verifyUserName(username):
+def isUserNameAvailable(username):
     dbMgr = MmrzSyncDBManager("USERS")
     users = dict(dbMgr.read_USERS_DB())
     dbMgr.closeDB()
 
-    return username in users
+    return not username in users
 
 def verifyLogin(username, password):
     dbMgr = MmrzSyncDBManager("USERS")
@@ -74,17 +74,18 @@ def verifyLogin(username, password):
     
     return username in users and password == users[username]
 
-def login_data(environ):
+def log_in(environ):
     dict_from_client = parse_qs(getRequestBody(environ))
     username = dict_from_client['username'][0]
-    password_encrypted = dict_from_client['password'][0]
-    password = password_encrypted # password = base64.b64decode(password_encrypted)
+    password = dict_from_client['password'][0]
 
     dict_for_return = universal_POST_dict
     if verifyLogin(username, password):
         dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "logged in"
     else:
         dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "username or password not correct"
 
     json_for_return = json.dumps(dict_for_return)
     return json_for_return
@@ -92,27 +93,46 @@ def login_data(environ):
 def sign_up(environ):
     dict_from_client = parse_qs(getRequestBody(environ))
     username = dict_from_client['username'][0]
+    password = dict_from_client['password'][0]
 
     dict_for_return = universal_POST_dict
-    if verifyUserName(username):
+    if isUserNameAvailable(username):
+        dbMgr = MmrzSyncDBManager("USERS")
+        dbMgr.insert_USERS_DB([username, password])
+        dbMgr.closeDB()
         dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "Signed up"
     else:
         dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "Username not available"
 
     json_for_return = json.dumps(dict_for_return)
     return json_for_return
 
 def upload_wordbook(environ):
     dict_from_client = parse_qs(getRequestBody(environ))
-    rows = dict_from_client['data'][0]
-    rows = json.loads(rows)
-    dbMgr = MmrzSyncDBManager("zhanglin")
-    dbMgr.createDB()
-    for row in rows:
-        dbMgr.insertDB(row)
-    dbMgr.closeDB()
+    username = dict_from_client['username'][0]
+    password = dict_from_client['password'][0]
+    dict_for_return = universal_POST_dict
+    if not verifyLogin(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        rows = dict_from_client['data'][0]
+        rows = json.loads(rows)
+        dbMgr = MmrzSyncDBManager(username)
+        dbMgr.createDB()
+        dbMgr.pruneDB()
+        for row in rows:
+            dbMgr.insertDB(row)
+        dbMgr.closeDB()
 
-    return ""
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "upload done"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
 
 def occupied_client(environ):
     dict_for_return = universal_GET_dict
@@ -141,6 +161,10 @@ def application(environ, start_response):
     response_headers = [('Content-type', 'text/plain')]
     write = start_response(status, response_headers)
 
+    dbMgr = MmrzSyncDBManager("USERS")
+    dbMgr.create_USERS_DB()
+    dbMgr.closeDB()
+
     path   = environ['PATH_INFO'].replace("/", "")
     method = environ['REQUEST_METHOD']
     params = parse_qs(environ['QUERY_STRING'])
@@ -148,10 +172,10 @@ def application(environ, start_response):
     if method == 'POST':
         post_thing = params.get('post_thing', [0])[0]
 
-        if post_thing == 'login_data':
-            return login_data(environ)
+        if path == "log_in":
+            return log_in(environ)
 
-        if post_thing == 'sign_up':
+        if path == "sign_up":
             return sign_up(environ)
 
         if path == "upload_wordbook":
