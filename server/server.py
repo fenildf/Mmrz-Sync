@@ -113,6 +113,7 @@ def upload_wordbook(environ):
     dict_from_client = parse_qs(getRequestBody(environ))
     username = dict_from_client['username'][0]
     password = dict_from_client['password'][0]
+
     dict_for_return = universal_POST_dict
     if not verifyLogin(username, password):
         dict_for_return['verified'] = False
@@ -120,7 +121,7 @@ def upload_wordbook(environ):
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
     else:
-        rows = dict_from_client['data'][0]
+        rows = dict_from_client['wordbook'][0]
         rows = json.loads(rows)
         dbMgr = MmrzSyncDBManager(username)
         dbMgr.createDB()
@@ -131,6 +132,28 @@ def upload_wordbook(environ):
 
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "upload done"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
+def download_wordbook(environ):
+    dict_from_client = parse_qs(getRequestBody(environ))
+    username = parse_qs(environ['QUERY_STRING']).get('username', [0])[0]
+    password = parse_qs(environ['QUERY_STRING']).get('password', [0])[0]
+
+    dict_for_return = universal_POST_dict
+    if not verifyLogin(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        dict_for_return['wordbook'] = []
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        dbMgr = MmrzSyncDBManager(username)
+        dbMgr.createDB()
+        rows = dbMgr.readAllDB()
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "Download success"
+        dict_for_return['wordbook'] = rows
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
@@ -194,6 +217,9 @@ def application(environ, start_response):
 
         if path == "database_info":
             return database_info(environ)
+
+        if path == "download_wordbook":
+            return download_wordbook(environ)
 
         return json.dumps("nothing here")
 
