@@ -79,7 +79,7 @@ def log_in(environ):
     username = dict_from_client['username'][0]
     password = dict_from_client['password'][0]
 
-    dict_for_return = universal_POST_dict
+    dict_for_return = dict(universal_POST_dict)
     if verifyLogin(username, password):
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "logged in"
@@ -95,7 +95,7 @@ def sign_up(environ):
     username = dict_from_client['username'][0]
     password = dict_from_client['password'][0]
 
-    dict_for_return = universal_POST_dict
+    dict_for_return = dict(universal_POST_dict)
     if isUserNameAvailable(username):
         dbMgr = MmrzSyncDBManager("USERS")
         dbMgr.insert_USERS_DB([username, password])
@@ -114,7 +114,7 @@ def upload_wordbook(environ):
     username = dict_from_client['username'][0]
     password = dict_from_client['password'][0]
 
-    dict_for_return = universal_POST_dict
+    dict_for_return = dict(universal_POST_dict)
     if not verifyLogin(username, password):
         dict_for_return['verified'] = False
         dict_for_return['message_str'] = "login failed"
@@ -140,7 +140,7 @@ def download_wordbook(environ):
     username = parse_qs(environ['QUERY_STRING']).get('username', [0])[0]
     password = parse_qs(environ['QUERY_STRING']).get('password', [0])[0]
 
-    dict_for_return = universal_POST_dict
+    dict_for_return = dict(universal_POST_dict)
     if not verifyLogin(username, password):
         dict_for_return['verified'] = False
         dict_for_return['message_str'] = "login failed"
@@ -158,7 +158,7 @@ def download_wordbook(environ):
         return json_for_return
 
 def occupied_client(environ):
-    dict_for_return = universal_GET_dict
+    dict_for_return = dict(universal_GET_dict)
     dict_for_return['lock'] = "Mac"
     json_for_return = json.dumps(dict_for_return)
 
@@ -166,7 +166,7 @@ def occupied_client(environ):
 
 def version_info(environ):
     cli, gui = getVersion()
-    dict_for_return = universal_GET_dict
+    dict_for_return = dict(universal_GET_dict)
     dict_for_return['version_info'] = {"CLI": cli, "GUI": gui}
     json_for_return = json.dumps(dict_for_return)
 
