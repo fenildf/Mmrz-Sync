@@ -54,6 +54,7 @@ class MmrzSyncDBManager:
 
     def pruneDB(self):
         self.c.execute("delete from UNMMRZ")
+        self.c.execute("VACUUM")
 
     def getMaxWordID(self):
         # format of maxWordID is like: maxWordID = [[33]], thus use maxWordID[0][0] to access it
