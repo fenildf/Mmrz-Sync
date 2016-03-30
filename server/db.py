@@ -16,7 +16,7 @@ class MmrzSyncDBManager:
     """
 
     def __init__(self, dbName):
-        self.db = sqlite3.connect(dbName + ".db")
+        self.db = sqlite3.connect("./USERDB/{0}.db".format(dbName))
         self.c = self.db.cursor()
 
     def create_USERS_DB(self):
