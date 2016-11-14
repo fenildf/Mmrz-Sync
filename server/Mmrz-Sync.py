@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bottle import route, run, template
+# Bottle.py official tutorial: http://bottlepy.org/docs/dev/tutorial.html
 
-@route('/<name>')
-def index(name):
-    return template('<b>Hello {{name}}</b>!', name=name)
+# GET mothod params: request.params
+# POST mothod params: request.forms
+
+from bottle import route, run, template, request
+
+@route('/')
+def index():
+    return "Hello, world!!!"
 
 run(host='localhost', port=3516)
