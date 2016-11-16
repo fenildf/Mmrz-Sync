@@ -68,6 +68,51 @@ def log_in():
     json_for_return = json.dumps(dict_for_return)
     return json_for_return
 
+@post('/sign_up')
+def sign_up():
+    username = request.forms['username']
+    password = request.forms['password']
+
+    dict_for_return = dict(universal_POST_dict)
+    if is_username_available(username):
+        dbMgr = MmrzSyncDBManager("USERS")
+        dbMgr.insert_USERS_DB([username, password])
+        dbMgr.closeDB()
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "Signed up"
+    else:
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "Username not available"
+
+    json_for_return = json.dumps(dict_for_return)
+    return json_for_return
+
+@post('/upload_wordbook')
+def upload_wordbook(environ):
+    username = request.forms['username']
+    password = request.forms['password']
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        rows = dict_from_client['wordbook'][0]
+        rows = json.loads(rows)
+        dbMgr = MmrzSyncDBManager(username)
+        dbMgr.createDB()
+        dbMgr.pruneDB()
+        for row in rows:
+            dbMgr.insertDB(row)
+        dbMgr.closeDB()
+
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "upload done"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
 ### gets
 @get('/')
 def index():
@@ -91,6 +136,28 @@ def database_info():
     dbMgr.closeDB()
 
     return json.dumps(rows)
+
+@get('/download_wordbook')
+def download_wordbook():
+    username = request.params['username']
+    password = request.params['password']
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        dict_for_return['wordbook'] = []
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        dbMgr = MmrzSyncDBManager(username)
+        dbMgr.createDB()
+        rows = dbMgr.readAllDB()
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "Download success"
+        dict_for_return['wordbook'] = rows
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
 
 
 run(host='localhost', port=PORT)
