@@ -52,6 +52,7 @@ def verify_login(username, password):
     return username in users and password == users[username]
 
 ### posts
+@post('/log_in/')
 @post('/log_in')
 def log_in():
     username = request.forms['username']
@@ -68,6 +69,7 @@ def log_in():
     json_for_return = json.dumps(dict_for_return)
     return json_for_return
 
+@post('/sign_up/')
 @post('/sign_up')
 def sign_up():
     username = request.forms['username']
@@ -87,6 +89,7 @@ def sign_up():
     json_for_return = json.dumps(dict_for_return)
     return json_for_return
 
+@post('/upload_wordbook/')
 @post('/upload_wordbook')
 def upload_wordbook(environ):
     username = request.forms['username']
@@ -118,6 +121,7 @@ def upload_wordbook(environ):
 def index():
     return "Hello, world!!!"
 
+@get('/version_info/')
 @get('/version_info')
 def version_info():
     cli, gui = read_version()
@@ -127,6 +131,7 @@ def version_info():
 
     return json.dumps(version)
 
+@get('/database_info/')
 @get('/database_info')
 def database_info():
     username = request.params['username']
@@ -137,6 +142,7 @@ def database_info():
 
     return json.dumps(rows)
 
+@get('/download_wordbook/')
 @get('/download_wordbook')
 def download_wordbook():
     username = request.params['username']
@@ -160,6 +166,6 @@ def download_wordbook():
         return json_for_return
 
 
-run(host='localhost', port=PORT)
+run(host='0.0.0.0', port=PORT)
 
 
