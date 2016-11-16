@@ -83,8 +83,10 @@ def version_info():
     return json.dumps(version)
 
 @get('/database_info')
-def database_info(environ):
-    dbMgr = MmrzSyncDBManager("wordbook")
+def database_info():
+    username = request.params['username']
+
+    dbMgr = MmrzSyncDBManager(username)
     rows = dbMgr.readAllDB()
     dbMgr.closeDB()
 
