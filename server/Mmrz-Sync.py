@@ -119,7 +119,12 @@ def upload_wordbook(environ):
 ### gets
 @get('/')
 def index():
-    return "Hello, world!!!"
+    req_thing = request.params.get('req_thing', None)
+    if req_thing == "version_info":
+        return version_info()
+
+    else:
+        return "Hello, world!!!"
 
 @get('/version_info/')
 @get('/version_info')
