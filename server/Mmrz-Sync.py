@@ -9,9 +9,19 @@
 from bottle import route, run, template
 from bottle import post, get, request
 from db import MmrzSyncDBManager
+import bottle
 import configparser
 import json, sys
 import base64
+
+# Refer to: http://stackoverflow.com/questions/16865997/python-bottle-module-causes-error-413-request-entity-too-large
+# There was a bug:
+# If a client post something with a very large parameter, it will be encountered a "broken pipe" problem.
+# The line below can change the Bottle's acceptable max-size of request.
+# So this bug is no longer exist.
+bottle.BaseRequest.MEMFILE_MAX = 1024 * 1024
+
+bottle.debug(True)
 
 PORT = 2603
 CONFIG_PATH = sys.path[0] + '/version.ini'
