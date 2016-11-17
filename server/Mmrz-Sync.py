@@ -13,7 +13,7 @@ import configparser
 import json, sys
 import base64
 
-PORT = 3516 # 2603
+PORT = 2603
 CONFIG_PATH = sys.path[0] + '/version.ini'
 
 universal_POST_dict = {
