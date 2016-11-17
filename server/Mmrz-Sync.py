@@ -91,7 +91,7 @@ def sign_up():
 
 @post('/upload_wordbook/')
 @post('/upload_wordbook')
-def upload_wordbook(environ):
+def upload_wordbook():
     username = request.forms['username']
     password = request.forms['password']
 
@@ -102,7 +102,7 @@ def upload_wordbook(environ):
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
     else:
-        rows = dict_from_client['wordbook'][0]
+        rows = request.forms['wordbook']
         rows = json.loads(rows)
         dbMgr = MmrzSyncDBManager(username)
         dbMgr.createDB()
