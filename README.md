@@ -14,6 +14,8 @@ Sync server of [Mmrz](http://github.com/zhanglintc/Mmrz) project.
 
 ~~使用 **Python** 的 **WSGI** 作为服务器.~~
 
-逐步改用 **Bottle** 框架作为服务器.
+~~逐步改用 **Bottle** 框架作为服务器.~~
 
-仍然在开发中...
+已经正式启用 **Bottle** 框架进行开发.
+
+仍在开发中...
