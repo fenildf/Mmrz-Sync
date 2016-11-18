@@ -18,4 +18,10 @@ Sync server of [Mmrz](http://github.com/zhanglintc/Mmrz) project.
 
 已经正式启用 **Bottle** 框架进行开发.
 
-仍在开发中...
+除了同步服务意外, 本项目可能还要支持 Mmrz 网页版服务. 因为本来打算在 [Mmrz-Web](http://github.com/zhanglintc/Mmrz-Web) 中实现的 Mmrz 网页版无法单独实现, 只能合并在本项目中来. 未来将直接由本项目提供 Mmrz 网页版服务.
+
+初步计划以后将两个项目合并, Mmrz-Web 直接指向本项目即可.
+
+------
+
+**仍在开发中...**
