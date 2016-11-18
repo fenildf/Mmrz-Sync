@@ -6,7 +6,7 @@
 # GET mothod params: request.params
 # POST mothod params: request.forms
 
-from bottle import route, run, template
+from bottle import route, run, template, view, static_file
 from bottle import post, get, request
 from db import MmrzSyncDBManager
 import bottle
@@ -60,6 +60,19 @@ def verify_login(username, password):
     dbMgr.closeDB()
 
     return username in users and password == users[username]
+
+### static files
+@route('/<filename>')
+def server_static(filename):
+    return static_file(filename, root='./static')
+
+@route('/css/<filename>')
+def server_static_css(filename):
+    return static_file(filename, root='./static/css')
+
+@route('/js/<filename>')
+def server_static_js(filename):
+    return static_file(filename, root='./static/js')
 
 ### posts
 @post('/log_in/')
@@ -128,13 +141,14 @@ def upload_wordbook():
 
 ### gets
 @get('/')
-def index():
+@view('login')
+def login():
     req_thing = request.params.get('req_thing', None)
     if req_thing == "version_info":
         return version_info()
 
     else:
-        return "Hello, world!!!"
+        return {}
 
 @get('/version_info/')
 @get('/version_info')
