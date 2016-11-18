@@ -26,6 +26,9 @@ bottle.debug(True)
 PORT = 2603
 CONFIG_PATH = sys.path[0] + '/version.ini'
 
+POST_PARAMS = request.forms
+GET_PARAMS  = request.params
+
 universal_POST_dict = {
     "verified": False,
     "message_str":  ""
@@ -65,8 +68,8 @@ def verify_login(username, password):
 @post('/log_in/')
 @post('/log_in')
 def log_in():
-    username = request.forms['username']
-    password = request.forms['password']
+    username = POST_PARAMS.get('username', None)
+    password = POST_PARAMS.get('password', None)
 
     dict_for_return = dict(universal_POST_dict)
     if verify_login(username, password):
@@ -82,8 +85,8 @@ def log_in():
 @post('/sign_up/')
 @post('/sign_up')
 def sign_up():
-    username = request.forms['username']
-    password = request.forms['password']
+    username = POST_PARAMS.get('username', None)
+    password = POST_PARAMS.get('password', None)
 
     dict_for_return = dict(universal_POST_dict)
     if is_username_available(username):
@@ -102,8 +105,8 @@ def sign_up():
 @post('/upload_wordbook/')
 @post('/upload_wordbook')
 def upload_wordbook():
-    username = request.forms['username']
-    password = request.forms['password']
+    username = POST_PARAMS.get('username', None)
+    password = POST_PARAMS.get('password', None)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -112,7 +115,7 @@ def upload_wordbook():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
     else:
-        rows = request.forms['wordbook']
+        rows = POST_PARAMS.get('wordbook', None)
         rows = json.loads(rows)
         dbMgr = MmrzSyncDBManager(username)
         dbMgr.createDB()
@@ -129,7 +132,7 @@ def upload_wordbook():
 ### gets
 @get('/')
 def index():
-    req_thing = request.params.get('req_thing', None)
+    req_thing = GET_PARAMS.get('req_thing', None)
     if req_thing == "version_info":
         return version_info()
 
@@ -149,7 +152,7 @@ def version_info():
 @get('/database_info/')
 @get('/database_info')
 def database_info():
-    username = request.params['username']
+    username = GET_PARAMS.get('username', None)
 
     dbMgr = MmrzSyncDBManager(username)
     rows = dbMgr.readAllDB()
@@ -160,8 +163,8 @@ def database_info():
 @get('/download_wordbook/')
 @get('/download_wordbook')
 def download_wordbook():
-    username = request.params['username']
-    password = request.params['password']
+    username = GET_PARAMS.get('username', None)
+    password = GET_PARAMS.get('password', None)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
