@@ -18,32 +18,37 @@
     <link rel="shortcut icon" href="./fav.ico"/>
     <link rel="bookmark" href="./fav.ico"/>
 
-    <title>Mmrz</title>
+    <title>Mmrz 网页版</title>
   </head>
 
   <body>
     <div id="center_board">
       <h2 id="title">Mmrz 网页版</h2>
 
-      <div class="info">
-        <span>帐号:</span>
-        <br>
-        <input type="text", id="username" onkeypress='if(event.keyCode==13){$("#password").focus()}'>
-        <br>
-      </div>
+      <div id="center_center">
+        <div class="info">
+          <span class="label">帐号:</span>
+        </div>
 
-      <div class="info">
-        <span>密码:</span>
-        <br>
-        <input type="password" id="password" onkeypress='if(event.keyCode==13){login()}'>
-      </div>
+        <div class="info">
+          <input class="edit_area" type="text", id="username" onkeypress='if(event.keyCode==13){$("#password").focus()}'>
+        </div>
 
-      <div class="btn">
-        <button id="submit">登录</button>
-        <button id="signup">注册</button>
-      </div>
+        <div class="info">
+          <span class="label">密码:</span>
+        </div>
 
-      <div id="copyright"></div>
+        <div class="info">
+          <input class="edit_area" type="password" id="password" onkeypress='if(event.keyCode==13){login()}'>
+        </div>
+
+        <div id="btn_board">
+          <button class="btn" id="submit">登录</button>
+          <button class="btn" id="signup">注册</button>
+        </div>
+
+        <div id="copyright"></div>
+      </div>
 
       <script type="text/javascript">
         domain = document.domain;
