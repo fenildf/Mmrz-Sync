@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" type="text/css" href="./css/style.css">
 
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
 
     <title>Mmrz</title>
@@ -44,8 +45,8 @@
       <script type="text/javascript">
         submit.onclick = function() {
           params = {
-            username: document.getElementById("username").value,
-            password: window.btoa(document.getElementById("password").value),
+            username: $("#username").val(),
+            password: window.btoa($("#password").val()),
           }
 
           post("/log_in", params);
