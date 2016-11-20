@@ -31,7 +31,7 @@
         </div>
 
         <div class="info">
-          <input class="edit_area" type="text", id="username" onkeypress='if(event.keyCode==13){$("#password").focus()}'>
+          <input class="edit_area" type="text", id="username" onkeypress='if(event.keyCode==13){username_check()}'>
         </div>
 
         <div class="info">
@@ -40,6 +40,10 @@
 
         <div class="info">
           <input class="edit_area" type="password" id="password" onkeypress='if(event.keyCode==13){login()}'>
+        </div>
+
+        <div class="info" id="prompt_board">
+          <span id="prompt"></span>
         </div>
 
         <div id="btn_board">
@@ -51,19 +55,32 @@
       </div>
 
       <script type="text/javascript">
+        $("#username").focus();
         domain = document.domain;
         if(domain == "localhost" || domain == "127.0.0.1") {
           $("#title").text("Mmrz 网页版 [debug]");
         }
 
-        login = function() {
+        username_check = function() {
           if($("#username").val() == "") {
-            alert("请输入账号");
+            $("#prompt").text("请输入账号")
             $("#username").focus();
+            return false;
+          }
+          else {
+            $("#prompt").text("")
+            $("#password").focus();
+            return true;
+          }
+        }
+
+        login = function() {
+          if(!username_check()) {
             return;
           }
+
           if($("#password").val() == "") {
-            alert("请输入密码");
+            $("#prompt").text("请输入密码")
             $("#password").focus();
             return;
           }
