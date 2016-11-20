@@ -31,7 +31,7 @@
         </div>
 
         <div class="info">
-          <input class="edit_area" type="text", id="username" onkeypress='if(event.keyCode==13){username_check()}'>
+          <input class="edit_area" type="text", id="username" onkeydown="prompt_change()" onkeypress='if(event.keyCode==13){username_check()}'>
         </div>
 
         <div class="info">
@@ -39,7 +39,7 @@
         </div>
 
         <div class="info">
-          <input class="edit_area" type="password" id="password" onkeypress='if(event.keyCode==13){login()}'>
+          <input class="edit_area" type="password" id="password" onkeydown="prompt_change()" onkeypress='if(event.keyCode==13){login()}'>
         </div>
 
         <div class="info" id="prompt_board">
@@ -58,12 +58,19 @@
         $("#username").focus();
         domain = document.domain;
         if(domain == "localhost" || domain == "127.0.0.1") {
-          $("#title").text("Mmrz 网页版 [debug]");
+          $("#title").text("Mmrz -- Debug");
+        }
+
+        prompt_change = function() {
+          $("#prompt").text("");
+          $("#username").css("background-color", "white");
+          $("#password").css("background-color", "white");
         }
 
         username_check = function() {
           if($("#username").val() == "") {
-            $("#prompt").text("请输入账号")
+            $("#prompt").text("不能为空")
+            $("#username").css("background-color", "#ffb6c1");
             $("#username").focus();
             return false;
           }
@@ -80,7 +87,8 @@
           }
 
           if($("#password").val() == "") {
-            $("#prompt").text("请输入密码")
+            $("#prompt").text("不能为空")
+            $("#password").css("background-color", "#ffb6c1");
             $("#password").focus();
             return;
           }
