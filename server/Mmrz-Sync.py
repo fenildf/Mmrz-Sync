@@ -173,6 +173,8 @@ def database_info():
 
 @get('/download_wordbook/')
 @get('/download_wordbook')
+@post('/download_wordbook/')
+@post('/download_wordbook')
 def download_wordbook():
     username = request.params['username']
     password = request.params['password']
