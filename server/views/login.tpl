@@ -11,7 +11,9 @@
     <meta name="format-detection" content="telephone=no">
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
+    <script type="text/javascript" src="./js/login.js"></script>
 
     <link rel="stylesheet" type="text/css" href="./css/login.css">
 
@@ -53,68 +55,24 @@
 
         <div id="copyright"></div>
       </div>
-
-      <script type="text/javascript">
-        $("#username").focus();
-        domain = document.domain;
-        if(domain == "localhost" || domain == "127.0.0.1") {
-          $("#title").text("Mmrz -- Debug");
-        }
-
-        prompt_change = function() {
-          $("#prompt").text("");
-          $("#username").css("background-color", "white");
-          $("#password").css("background-color", "white");
-        }
-
-        username_check = function() {
-          if($("#username").val() == "") {
-            $("#prompt").text("不能为空")
-            $("#username").css("background-color", "#ffb6c1");
-            $("#username").focus();
-            return false;
-          }
-          else {
-            $("#prompt").text("")
-            $("#password").focus();
-            return true;
-          }
-        }
-
-        login = function() {
-          if(!username_check()) {
-            return;
-          }
-
-          if($("#password").val() == "") {
-            $("#prompt").text("不能为空")
-            $("#password").css("background-color", "#ffb6c1");
-            $("#password").focus();
-            return;
-          }
-
-          params = {
-            username: $("#username").val(),
-            password: window.btoa($("#password").val()),
-          }
-
-          // post("/log_in", params);
-          $.post('/log_in', params, function(rec) {
-            rec = JSON.parse(rec);
-            if(rec['verified'] == true) {
-              location.href="/memorize";
-            }
-            else {
-              $("#prompt").text("帐号或密码不正确");
-            }
-          });
-        }
-        submit.onclick = login;
-      </script>
-
-      <script type="text/javascript">
-        copyright.innerHTML = "&copy; 2016-" + (new Date()).getFullYear() + " by zhanglintc";
-      </script>
     </div>
+    <script type="text/javascript">
+      $("#username").focus();
+
+      submit.onclick = login;
+
+      domain = document.domain;
+      if(domain == "localhost" || domain == "127.0.0.1") {
+        $("#title").text("Mmrz -- Debug");
+      }
+
+      if(verify_user($.cookie('username'), $.cookie('password'))) {
+        location.href="/memorize";
+      }
+    </script>
+
+    <script type="text/javascript">
+      copyright.innerHTML = "&copy; 2016-" + (new Date()).getFullYear() + " by zhanglintc";
+    </script>
   </body>
 </html>

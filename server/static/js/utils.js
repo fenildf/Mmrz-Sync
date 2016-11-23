@@ -30,6 +30,27 @@ var post = function(url, params) {
     return form;
 }
 
+function verify_user(username, password) {
+    verified = true;
+
+    params = {
+        username: username,
+        password: window.btoa(password),
+    }
+
+    $.post('/log_in', params, function(rec) {
+        rec = JSON.parse(rec);
+        if(rec['verified'] == true) {
+            verified = true;
+        }
+        else {
+            verified = false;
+        }
+    });
+
+    return verified;
+}
+
 function getRadioValue(radio) {
     var obj = window.document.getElementsByName(radio);
 
