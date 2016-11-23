@@ -74,6 +74,21 @@ def server_static_css(filename):
 def server_static_js(filename):
     return static_file(filename, root='./static/js')
 
+@route('/')
+@view('login')
+def login():
+    req_thing = request.params.get('req_thing', None)
+    if req_thing == "version_info":
+        return version_info()
+
+    else:
+        return {}
+
+@route('/memorize')
+@view('mmrz')
+def mmrz():
+    return {}
+
 ### posts
 @post('/log_in/')
 @post('/log_in')
@@ -140,16 +155,6 @@ def upload_wordbook():
         return json_for_return
 
 ### gets
-@get('/')
-@view('login')
-def login():
-    req_thing = request.params.get('req_thing', None)
-    if req_thing == "version_info":
-        return version_info()
-
-    else:
-        return {}
-
 @get('/version_info/')
 @get('/version_info')
 def version_info():

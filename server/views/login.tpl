@@ -13,7 +13,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link rel="stylesheet" type="text/css" href="./css/login.css">
 
     <link rel="shortcut icon" href="./fav.ico"/>
     <link rel="bookmark" href="./fav.ico"/>
@@ -98,7 +98,16 @@
             password: window.btoa($("#password").val()),
           }
 
-          post("/log_in", params);
+          // post("/log_in", params);
+          $.post('/log_in', params, function(rec) {
+            rec = JSON.parse(rec);
+            if(rec['verified'] == true) {
+              location.href="/memorize";
+            }
+            else {
+              $("#prompt").text("帐号或密码不正确");
+            }
+          });
         }
         submit.onclick = login;
       </script>

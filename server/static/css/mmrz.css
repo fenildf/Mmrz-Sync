@@ -1,0 +1,64 @@
+html, body {
+    font-family: Ebrima;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: lightblue;
+    color: black;
+}
+
+#center_board {
+    width: 400px;
+    margin: 0px auto;
+    text-align: center;
+}
+
+#title {
+    font-size: 30px;
+    margin-top: 40px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.line {
+    margin-top: 5px;
+}
+
+.info {
+    margin-top: 10px;
+    width: auto;
+    text-align: center;
+}
+
+.label {
+    font-size: 20px;
+    text-align: center;
+}
+
+#view_board {
+    height: 50px;
+}
+
+#btn_board {
+    height: 25px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.btn {
+    font-size: 18px;
+}
+
+#btn_yes {
+    margin-right: 10px;
+}
+
+#btn_no {
+    margin-left: 10px;
+}
+
+#copyright {
+    margin-top: 60px;
+    text-align: center;
+}
