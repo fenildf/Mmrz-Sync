@@ -10,7 +10,7 @@ Array.prototype.contains = function (obj) {
     return false;
 }
 
-var post = function(url, params) {
+function post(url, params) {
     var form = document.createElement("form");
 
     form.action = url;
@@ -31,20 +31,26 @@ var post = function(url, params) {
 }
 
 function verify_user(username, password) {
-    verified = true;
+    verified = false;
 
     params = {
         username: username,
         password: window.btoa(password),
     }
 
-    $.post('/log_in', params, function(rec) {
-        rec = JSON.parse(rec);
-        if(rec['verified'] == true) {
-            verified = true;
-        }
-        else {
-            verified = false;
+    $.ajax({
+        url:"/log_in",
+        type:"post",
+        data:params,
+        async:false,
+        success:function(rec) {
+            rec = JSON.parse(rec);
+            if(rec['verified'] == true) {
+                verified = true;
+            }
+            else {
+                verified = false;
+            }
         }
     });
 

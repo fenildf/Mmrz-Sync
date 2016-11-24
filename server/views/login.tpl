@@ -56,18 +56,14 @@
         <div id="copyright"></div>
       </div>
     </div>
+
     <script type="text/javascript">
       $("#username").focus();
-
-      submit.onclick = login;
+      $("#submit").click(login);
 
       domain = document.domain;
       if(domain == "localhost" || domain == "127.0.0.1") {
         $("#title").text("Mmrz -- Debug");
-      }
-
-      if(verify_user($.cookie('username'), $.cookie('password'))) {
-        location.href="/memorize";
       }
     </script>
 

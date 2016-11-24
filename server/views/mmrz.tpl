@@ -13,6 +13,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
+    <script type="text/javascript" src="./js/mmrz.js"></script>
 
     <link rel="stylesheet" type="text/css" href="./css/mmrz.css">
 
@@ -42,6 +43,11 @@
       <div id="btn_board">
         <button class="btn" id="btn_yes">记得住</button>
         <button class="btn" id="btn_no">记不住</button>
+      </div>
+
+      <div id="uinfo_board">
+        <span id="user_info"></span>
+        <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
       </div>
 
       <div id="copyright"></div>
@@ -76,6 +82,10 @@
             $("#label_meaning").text("")
           }
         );
+      </script>
+
+      <script>
+        $("#user_info").text($.cookie('username'));
       </script>
 
       <script type="text/javascript">

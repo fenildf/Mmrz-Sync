@@ -58,7 +58,12 @@ html, body {
     margin-left: 10px;
 }
 
+#uinfo_board {
+    margin-top: 100px;
+    text-align: center;
+}
+
 #copyright {
-    margin-top: 60px;
+    margin-top: 10px;
     text-align: center;
 }

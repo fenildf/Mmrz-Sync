@@ -1,12 +1,12 @@
 // functions for login.tpl
 
-prompt_change = function() {
+function prompt_change() {
     $("#prompt").text("");
     $("#username").css("background-color", "white");
     $("#password").css("background-color", "white");
 }
 
-username_check = function() {
+function username_check() {
     if($("#username").val() == "") {
         $("#prompt").text("不能为空")
         $("#username").css("background-color", "#ffb6c1");
@@ -20,7 +20,7 @@ username_check = function() {
     }
 }
 
-login = function() {
+function login() {
     username = $("#username").val();
     password = $("#password").val();
 
@@ -56,3 +56,9 @@ login = function() {
         }
     });
 }
+
+(function() {
+    if(verify_user($.cookie('username'), $.cookie('password'))) {
+        location.href="/memorize";
+    }
+}());
