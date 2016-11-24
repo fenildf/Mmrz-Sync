@@ -28,7 +28,7 @@
       <h2 id="title">背诵模式</h2>
 
       <div class="info">
-        <span class="label" id="label_word">味わう</span>
+        <span class="label" id="label_word"></span>
       </div>
 
       <div class="info" id="view_board">
@@ -45,6 +45,10 @@
         <button class="btn" id="btn_no">记不住</button>
       </div>
 
+      <div id="words_count">
+        <span id="words_left"></span>
+      </div>
+
       <div id="uinfo_board">
         <span id="user_info"></span>
         <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
@@ -58,33 +62,27 @@
 
         $("#btn_view").click(
           function () {
-            $("#btn_view").css("display", "none");
-            $("#btn_yes").css("display", "");
-            $("#btn_no").css("display", "");
-            $("#label_meaning").text("あじわう -- 品尝")
+            show_secret();
           }
         );
 
         $("#btn_yes").click(
           function () {
-            $("#btn_view").css("display", "");
-            $("#btn_yes").css("display", "none");
-            $("#btn_no").css("display", "none");
-            $("#label_meaning").text("")
+            hide_secret(true, false);
+            show_word();
           }
         );
 
         $("#btn_no").click(
           function () {
-            $("#btn_view").css("display", "");
-            $("#btn_yes").css("display", "none");
-            $("#btn_no").css("display", "none");
-            $("#label_meaning").text("")
+            hide_secret(false, false);
+            show_word();
           }
         );
       </script>
 
       <script>
+        show_word();
         $("#user_info").text($.cookie('username'));
       </script>
 
