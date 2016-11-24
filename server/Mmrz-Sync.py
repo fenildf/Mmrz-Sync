@@ -93,8 +93,8 @@ def mmrz():
 @post('/log_in/')
 @post('/log_in')
 def log_in():
-    username = request.forms['username']
-    password = request.forms['password']
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
 
     dict_for_return = dict(universal_POST_dict)
     if verify_login(username, password):
@@ -110,8 +110,8 @@ def log_in():
 @post('/sign_up/')
 @post('/sign_up')
 def sign_up():
-    username = request.forms['username']
-    password = request.forms['password']
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
 
     dict_for_return = dict(universal_POST_dict)
     if is_username_available(username):
@@ -130,8 +130,8 @@ def sign_up():
 @post('/upload_wordbook/')
 @post('/upload_wordbook')
 def upload_wordbook():
-    username = request.forms['username']
-    password = request.forms['password']
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -157,8 +157,8 @@ def upload_wordbook():
 @post('/unmemorized_words/')
 @post('/unmemorized_words')
 def unmemorized_words():
-    username = request.params['username']
-    password = request.params['password']
+    username = request.params.get('username', None)
+    password = request.params.get('password', None)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -191,7 +191,7 @@ def version_info():
 @get('/database_info/')
 @get('/database_info')
 def database_info():
-    username = request.params['username']
+    username = request.params.get('username', None)
 
     dbMgr = MmrzSyncDBManager(username)
     rows = dbMgr.readAllDB()
@@ -204,8 +204,8 @@ def database_info():
 @post('/download_wordbook/')
 @post('/download_wordbook')
 def download_wordbook():
-    username = request.params['username']
-    password = request.params['password']
+    username = request.params.get('username', None)
+    password = request.params.get('password', None)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
