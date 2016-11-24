@@ -36,7 +36,7 @@ function init_rows_from_DB() {
     for(i = 0; i < wordbook.length; i++) {
         row = wordbook[i];
         row[6] = false;
-        if(row[3] < new Date().getTime() / 1000) {
+        if(row[3] < (new Date().getTime() / 1000)) {
             window.rows_from_DB.push(row);
         }
     }
