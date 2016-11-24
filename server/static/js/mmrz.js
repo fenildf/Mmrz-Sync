@@ -15,7 +15,7 @@ function get_wordbook() {
     }
 
     $.ajax({
-        url:"/download_wordbook",
+        url:"/unmemorized_words",
         type:"post",
         data:params,
         async:false,

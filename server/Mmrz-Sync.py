@@ -154,6 +154,29 @@ def upload_wordbook():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
+@post('/unmemorized_words/')
+@post('/unmemorized_words')
+def unmemorized_words():
+    username = request.params['username']
+    password = request.params['password']
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        dict_for_return['wordbook'] = []
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        dbMgr = MmrzSyncDBManager(username)
+        dbMgr.createDB()
+        rows = dbMgr.readDB()
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "Download success"
+        dict_for_return['wordbook'] = rows
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
 ### gets
 @get('/version_info/')
 @get('/version_info')
