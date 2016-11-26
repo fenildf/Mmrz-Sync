@@ -22,6 +22,8 @@ Sync server of [Mmrz](http://github.com/zhanglintc/Mmrz) project.
 
 初步计划以后将两个项目合并, Mmrz-Web 直接指向本项目即可.
 
+Demo 展示页面请直接查看这里: http://zhanglintc.work:2603/
+
 ------
 
 **仍在开发中...**
