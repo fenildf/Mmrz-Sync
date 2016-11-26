@@ -3,7 +3,7 @@
 function logout() {
     $.cookie('username', "", {path: '/', expires: 7});
     $.cookie('password', "", {path: '/', expires: 7});
-    location.reload(true);   
+    location.href="/";
 }
 
 function get_wordbook() {
