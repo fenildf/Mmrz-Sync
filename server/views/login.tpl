@@ -60,6 +60,7 @@
     <script type="text/javascript">
       $("#username").focus();
       $("#submit").click(login);
+      $("#signup").click(function(){alert("尚未开放注册功能")});
 
       domain = document.domain;
       if(domain == "localhost" || domain == "127.0.0.1") {
