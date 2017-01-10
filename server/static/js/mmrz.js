@@ -28,6 +28,21 @@ function get_wordbook() {
     return wordbook;
 }
 
+function update_row(row) {
+    params = {
+        username: $.cookie('username'),
+        password: window.btoa($.cookie('password')),
+        row: JSON.stringify(row),
+    }
+
+    $.ajax({
+        url:"/update_row",
+        type:"post",
+        data:params,
+        async:false,
+    });
+}
+
 function init_rows_from_DB() {
     wordbook = get_wordbook();
     window.rows_from_DB = [];
@@ -98,6 +113,7 @@ function hide_secret(remember, pass) {
         row[4] = cal_remind_time(row[2], "str")
 
         // operate DB here
+        update_row(row);
 
         window.rows_from_DB.splice(window.cursor_of_rows, 1);
         move_cursor(false);

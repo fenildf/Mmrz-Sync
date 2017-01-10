@@ -44,7 +44,7 @@ class MmrzSyncDBManager:
         self.c.execute("insert into UNMMRZ values(?, ?, ?, ?, ?, ?)", row)
 
     def updateDB(self, row):
-        self.c.execute("update UNMMRZ set memTimes = #{row[2]}, remindTime = #{row[3]}, remindTimeStr = '#{row[4]}' where wordID = '#{row[5]}'")
+        self.c.execute("update UNMMRZ set memTimes = {0}, remindTime = {1}, remindTimeStr = '{2}' where wordID = '{3}'".format(row[2], row[3], row[4], row[5]))
 
     def readDB(self):
         return self.c.execute("select * from UNMMRZ where memTimes < 8").fetchall()

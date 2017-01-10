@@ -171,9 +171,34 @@ def unmemorized_words():
         dbMgr = MmrzSyncDBManager(username)
         dbMgr.createDB()
         rows = dbMgr.readDB()
+        dbMgr.closeDB()
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "Download success"
         dict_for_return['wordbook'] = rows
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
+@post('/update_row/')
+@post('/update_row')
+def update_row():
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        row = request.forms['row']
+        row = json.loads(row)
+        dbMgr = MmrzSyncDBManager(username)
+        dbMgr.createDB()
+        dbMgr.updateDB(row)
+        dbMgr.closeDB()
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "Update row success"
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
@@ -218,6 +243,7 @@ def download_wordbook():
         dbMgr = MmrzSyncDBManager(username)
         dbMgr.createDB()
         rows = dbMgr.readAllDB()
+        dbMgr.closeDB()
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "Download success"
         dict_for_return['wordbook'] = rows
