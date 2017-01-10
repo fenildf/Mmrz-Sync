@@ -84,6 +84,11 @@
       <script>
         show_word();
         $("#user_info").text($.cookie('username'));
+
+        domain = document.domain;
+        if(domain == "localhost" || domain == "127.0.0.1") {
+          $("#title").text("背诵模式 -- Debug");
+        }
       </script>
 
       <script type="text/javascript">

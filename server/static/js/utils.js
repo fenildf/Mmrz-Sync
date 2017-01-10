@@ -57,6 +57,47 @@ function verify_user(username, password) {
     return verified;
 }
 
+function cal_remind_time(memTimes, type) {
+    curTime = parseInt(new Date().getTime() / 1000);
+
+    switch(memTimes) {
+    case 0:
+        remindTime = curTime + (60 * 5); // 5 minutes
+        break;
+    case 1:
+        remindTime = curTime + (60 * 30); // 30 minutes
+        break;
+    case 2:
+        remindTime = curTime + (60 * 60 * 12); // 12 hours
+        break;
+    case 3:
+        remindTime = curTime + (60 * 60 * 24); // 1 day
+        break;
+    case 4:
+        remindTime = curTime + (60 * 60 * 24 * 2); // 2 days
+        break;
+    case 5:
+        remindTime = curTime + (60 * 60 * 24 * 4); // 4 days
+        break;
+    case 6:
+        remindTime = curTime + (60 * 60 * 24 * 7); // 7 days
+        break;
+    case 7:
+        remindTime = curTime + (60 * 60 * 24 * 15); // 15 days
+        break;
+    default:
+        remindTime = curTime;
+        break;
+    }
+
+    switch(type) {
+    case "int":
+        return remindTime;
+    case "str":
+        return new Date(remindTime * 1000);
+    }
+}
+
 function getRadioValue(radio) {
     var obj = window.document.getElementsByName(radio);
 

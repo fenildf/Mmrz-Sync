@@ -94,8 +94,10 @@ function hide_secret(remember, pass) {
         if(pass) {
             row[2] = 9;
         }
-        // row[3] = COMM::cal_remind_time row[2], "int"
-        // row[4] = COMM::cal_remind_time row[2], "str"
+        row[3] = cal_remind_time(row[2], "int")
+        row[4] = cal_remind_time(row[2], "str")
+
+        // operate DB here
 
         window.rows_from_DB.splice(window.cursor_of_rows, 1);
         move_cursor(false);
