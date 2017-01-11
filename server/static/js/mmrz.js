@@ -18,7 +18,7 @@ function get_wordbook() {
         url:"/unmemorized_words",
         type:"post",
         data:params,
-        async:true,
+        async:false,
         success:function(rec) {
             rec = JSON.parse(rec);
             wordbook = rec['wordbook'];
@@ -39,7 +39,7 @@ function update_row(row) {
         url:"/update_row",
         type:"post",
         data:params,
-        async:false,
+        async:true,
     });
 }
 
