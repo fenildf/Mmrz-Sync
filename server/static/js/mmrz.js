@@ -18,7 +18,7 @@ function get_wordbook() {
         url:"/unmemorized_words",
         type:"post",
         data:params,
-        async:false,
+        async:true,
         success:function(rec) {
             rec = JSON.parse(rec);
             wordbook = rec['wordbook'];
