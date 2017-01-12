@@ -58,6 +58,7 @@
       <div id="copyright"></div>
 
       <script type="text/javascript">
+        $("#btn_view").css("display", "none");
         $("#btn_yes").css("display", "none");
         $("#btn_no").css("display", "none");
 

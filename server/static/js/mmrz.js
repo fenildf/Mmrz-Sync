@@ -47,6 +47,7 @@ function init_rows_from_DB() {
     wordbook = get_wordbook();
     window.rows_from_DB = [];
     window.cursor_of_rows = 0;
+    window.null_when_open = false;
 
     for(i = 0; i < wordbook.length; i++) {
         row = wordbook[i];
@@ -54,6 +55,10 @@ function init_rows_from_DB() {
         if(row[3] < (new Date().getTime() / 1000)) {
             window.rows_from_DB.push(row);
         }
+    }
+
+    if(window.rows_from_DB.length == 0) {
+        window.null_when_open = true;
     }
 }
 
@@ -75,11 +80,17 @@ function move_cursor(need_move) {
 
 function show_word() {
     if(window.rows_from_DB.length == 0) {
-        alert("本次背诵完毕");
+        $("#label_word").text("暂无进入背诵周期的单词");
+        $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
+
+        if(!window.null_when_open) {
+            alert("本次背诵完毕");
+        }
     }
     else {
         $("#label_word").text(window.rows_from_DB[window.cursor_of_rows][0]);
-        $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词")
+        $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
+        $("#btn_view").css("display", "");
     }
 }
 
@@ -123,7 +134,6 @@ function hide_secret(remember, pass) {
         move_cursor(true);
     }
 
-    $("#btn_view").css("display", "");
     $("#btn_yes").css("display", "none");
     $("#btn_no").css("display", "none");
     $("#label_meaning").text("");
