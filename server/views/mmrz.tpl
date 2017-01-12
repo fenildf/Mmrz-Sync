@@ -47,6 +47,7 @@
 
       <div id="words_count">
         <span id="words_left"></span>
+        <a href="javascript:show_wordbook()">单词本</a>
       </div>
 
       <div id="uinfo_board">
@@ -81,7 +82,7 @@
         );
       </script>
 
-      <script>
+      <script type="text/javascript">
         show_word();
         $("#user_info").text($.cookie('username'));
 
@@ -89,6 +90,12 @@
         if(domain == "localhost" || domain == "127.0.0.1") {
           $("#title").text("背诵模式 -- Debug");
         }
+      </script>
+
+      <script type="text/javascript">
+          function show_wordbook() {
+            window.open("/wordbook?username=" + $.cookie('username'));
+          }
       </script>
 
       <script type="text/javascript">

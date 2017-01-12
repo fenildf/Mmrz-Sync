@@ -7,12 +7,13 @@
 # POST mothod params: request.forms
 
 from bottle import route, run, template, view, static_file
-from bottle import post, get, request
+from bottle import post, get, request, redirect
 from db import MmrzSyncDBManager
 import bottle
 import configparser
 import json, sys
 import base64
+import time
 
 # Refer to: http://stackoverflow.com/questions/16865997/python-bottle-module-causes-error-413-request-entity-too-large
 # There was a bug:
@@ -61,6 +62,20 @@ def verify_login(username, password):
 
     return username in users and password == users[username]
 
+def split_remindTime(remindTime, adjust=False):
+    if adjust:
+        remindTime += 59
+
+    if remindTime > 0:
+        days  = remindTime / (60 * 60 * 24)
+        hours = remindTime % (60 * 60 * 24) / (60 * 60)
+        mins  = remindTime % (60 * 60 * 24) % (60 * 60) / 60
+        secs  = remindTime % (60 * 60 * 24) % (60 * 60) % 60
+    else:
+        days = hours = mins = secs = 0
+
+    return days, hours, mins, secs
+
 ### static files
 @route('/<filename>')
 def server_static(filename):
@@ -88,6 +103,45 @@ def login():
 @view('mmrz')
 def mmrz():
     return {}
+
+@route('/wordbook')
+@view('wordbook')
+def show_wordbook():
+    username = request.params.get('username', None)
+
+    try:
+        dbMgr = MmrzSyncDBManager(username)
+        rows = dbMgr.readAllDB()
+        dbMgr.closeDB()
+    except:
+        redirect('/') 
+
+    rows_for_return = []
+    tail_of_8_times = []
+    rows = sorted(rows, key=lambda row: row[3]) # from small to big
+    for row in rows:
+        row = list(row)
+
+        word          = row[0]
+        pronounce     = row[1]
+        memTimes      = row[2]
+        remindTime    = row[3]
+        remindTimeStr = row[4]
+        wordID        = row[5]
+
+        remindTime -= int(time.time())
+        days, hours, mins, secs = split_remindTime(remindTime, True)
+        remindTimeStr = "{0}d-{1}h-{2}m".format(days, hours, mins)
+        row[4] = remindTimeStr
+
+        if memTimes >= 8:
+            tail_of_8_times.append(row)
+        else:
+            rows_for_return.append(row)
+
+    rows_for_return += tail_of_8_times
+
+    return dict(rows=rows_for_return)
 
 ### posts
 @post('/log_in/')
