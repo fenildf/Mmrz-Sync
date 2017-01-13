@@ -15,6 +15,7 @@
     <script type="text/javascript" src="./js/utils.js"></script>
     <script type="text/javascript" src="./js/mmrz.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="./css/common.css">
     <link rel="stylesheet" type="text/css" href="./css/mmrz.css">
 
     <link rel="shortcut icon" href="./fav.ico"/>

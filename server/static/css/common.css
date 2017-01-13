@@ -1,0 +1,21 @@
+html, body {
+    font-family: Ebrima;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    background: lightblue;
+    color: black;
+}
+
+#center_board {
+    width: auto;
+    margin: 0px auto;
+}
+
+#title {
+    font-size: 30px;
+    margin-top: 40px;
+    margin-bottom: 50px;
+    text-align: center;
+}

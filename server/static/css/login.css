@@ -1,20 +1,3 @@
-html, body {
-    font-family: Ebrima;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background: lightblue;
-    color: black;
-}
-
-#title {
-    font-size: 30px;
-    margin-top: 40px;
-    margin-bottom: 50px;
-    text-align: center;
-}
-
 .line {
     margin-top: 5px;
 }
@@ -41,11 +24,6 @@ html, body {
     font-size: 20px;
     width: 100%;
     height: 25px;
-}
-
-#center_board {
-    width: 400px;
-    margin: 0px auto;
 }
 
 #center_center {

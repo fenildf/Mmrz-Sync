@@ -15,6 +15,7 @@
     <script type="text/javascript" src="./js/utils.js"></script>
     <script type="text/javascript" src="./js/wordbook.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="./css/common.css">
     <link rel="stylesheet" type="text/css" href="./css/wordbook.css">
 
     <link rel="shortcut icon" href="./fav.ico"/>
