@@ -30,6 +30,7 @@
 
       <div class="info">
         <span class="label" id="label_word"></span>
+        <a id="btn_pass" href="javascript:if(confirm('确定不再记忆此单词?')){hide_secret(true, true);show_word()}">Pass</a>
       </div>
 
       <div class="info" id="view_board">

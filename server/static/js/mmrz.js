@@ -102,6 +102,7 @@ function show_word() {
     if(window.rows_from_DB.length == 0) {
         $("#label_word").text(get_shortest_remind());
         $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
+        $("#btn_pass").text("");
 
         if(!window.null_when_open) {
             alert("本次背诵完毕");
@@ -126,7 +127,7 @@ function show_secret() {
 function hide_secret(remember, pass) {
     window.secret_is_hiding = true;
     if(window.rows_from_DB.length == 0) {
-        alert("no word now");
+        alert("rows_from_DB is null when hide_secret() is called");
         return;
     }
 
@@ -138,7 +139,7 @@ function hide_secret(remember, pass) {
             row[2] += 1;
         }
         if(pass) {
-            row[2] = 9;
+            row[2] = 8;
         }
         row[3] = cal_remind_time(row[2], "int")
         row[4] = cal_remind_time(row[2], "str")
