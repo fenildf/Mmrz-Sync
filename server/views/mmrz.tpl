@@ -11,7 +11,7 @@
     <meta name="format-detection" content="telephone=no">
 
     <script type="text/javascript" src="./js/jquery1.8.3.min.js"></script>
-    <script type="text/javascript" src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src="./js/jquery1.4.1.cookie.min.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
     <script type="text/javascript" src="./js/mmrz.js"></script>
 
