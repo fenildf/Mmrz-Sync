@@ -49,7 +49,7 @@
 
       <div id="words_count">
         <span id="words_left"></span>
-        <a href="javascript:show_wordbook()">单词本</a>
+        <a href="javascript:if(confirm('现在打开单词本(将使用新页面打开)?'))show_wordbook()">单词本</a>
       </div>
 
       <div id="uinfo_board">
