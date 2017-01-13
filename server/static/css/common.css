@@ -19,3 +19,8 @@ html, body {
     margin-bottom: 50px;
     text-align: center;
 }
+
+#copyright {
+    margin-top: 30px;
+    text-align: center;
+}
