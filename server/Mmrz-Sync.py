@@ -109,11 +109,13 @@ def mmrz():
 def show_wordbook():
     username = request.params.get('username', None)
 
-    try:
+    # username not available means username exist, connect it
+    if not is_username_available(username):
         dbMgr = MmrzSyncDBManager(username)
         rows = dbMgr.readAllDB()
         dbMgr.closeDB()
-    except:
+    # else user name not exist, redirect to /
+    else:
         redirect('/') 
 
     rows_for_return = []
