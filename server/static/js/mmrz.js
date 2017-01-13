@@ -43,6 +43,27 @@ function update_row(row) {
     });
 }
 
+function get_shortest_remind() {
+    shortest_remind = "";
+
+    params = {
+        username: $.cookie('username'),
+        password: window.btoa($.cookie('password')),
+    }
+
+    $.ajax({
+        url:"/get_shortest_remind",
+        type:"get",
+        data:params,
+        async:false,
+        success:function(rec) {
+            shortest_remind = rec;
+        }
+    });
+
+    return shortest_remind;
+}
+
 function init_rows_from_DB() {
     wordbook = get_wordbook();
     window.rows_from_DB = [];
@@ -80,7 +101,7 @@ function move_cursor(need_move) {
 
 function show_word() {
     if(window.rows_from_DB.length == 0) {
-        $("#label_word").text("暂无进入背诵周期的单词");
+        $("#label_word").text(get_shortest_remind());
         $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
 
         if(!window.null_when_open) {

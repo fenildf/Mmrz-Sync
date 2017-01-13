@@ -280,6 +280,33 @@ def database_info():
 
     return json.dumps(rows)
 
+@get('/get_shortest_remind/')
+@get('/get_shortest_remind')
+def get_shortest_remind():
+    username = request.params.get('username', None)
+
+    if not is_username_available(username):
+        dbMgr = MmrzSyncDBManager(username)
+        rows = dbMgr.readDB()
+        dbMgr.closeDB()
+
+        rows = sorted(rows, key=lambda row: row[3]) # from small to big
+        word          = rows[0][0]
+        pronounce     = rows[0][1]
+        memTimes      = rows[0][2]
+        remindTime    = rows[0][3]
+        remindTimeStr = rows[0][4]
+        wordID        = rows[0][5]
+
+        remindTime -= int(time.time())
+        days, hours, mins, secs = split_remindTime(remindTime, True)
+        remindTimeStr = "{0}d-{1}h-{2}m".format(days, hours, mins)
+        remindTimeStr = "下次背诵 {0} 后开始".format(remindTimeStr)
+    else:
+        remindTimeStr = "数据获取错误"
+
+    return remindTimeStr
+
 @get('/download_wordbook/')
 @get('/download_wordbook')
 @post('/download_wordbook/')
