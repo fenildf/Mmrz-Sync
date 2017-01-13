@@ -7,7 +7,7 @@
 }
 
 .info {
-    margin-top: 10px;
+    margin-top: 20px;
     height: 30px;
     width: auto;
     text-align: center;
@@ -41,7 +41,7 @@
 }
 
 #words_count {
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 #uinfo_board {
