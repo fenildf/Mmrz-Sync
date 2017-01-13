@@ -48,7 +48,6 @@ function get_shortest_remind() {
 
     params = {
         username: $.cookie('username'),
-        password: window.btoa($.cookie('password')),
     }
 
     $.ajax({
