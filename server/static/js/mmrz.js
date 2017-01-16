@@ -106,6 +106,7 @@ function show_word() {
 
         if(!window.null_when_open) {
             alert("本次背诵完毕");
+            location.reload();
         }
     }
     else {
