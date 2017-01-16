@@ -100,14 +100,14 @@ function move_cursor(need_move) {
 
 function show_word() {
     if(window.rows_from_DB.length == 0) {
-        $("#label_word").text(get_shortest_remind());
-        $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
-        $("#btn_pass").text("");
-
         if(!window.null_when_open) {
             alert("本次背诵完毕");
             location.reload();
         }
+
+        $("#label_word").text(get_shortest_remind());
+        $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
+        $("#btn_pass").text("");
     }
     else {
         $("#label_word").text(window.rows_from_DB[window.cursor_of_rows][0]);
