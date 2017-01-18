@@ -52,7 +52,7 @@
       </script>
 
       <script type="text/javascript">
-        copyright.innerHTML = "&copy; 2016-" + (new Date()).getFullYear() + " by zhanglintc";
+        copyright.innerHTML = "&copy; 2016-" + (new Date()).getFullYear() + " by <a style='color: black; text-decoration: underline;' target='_blank' href='http://zhanglintc.co'>zhanglintc</a>";
       </script>
     </div>
   </body>
