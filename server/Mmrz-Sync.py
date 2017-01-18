@@ -90,14 +90,23 @@ def server_static_js(filename):
     return static_file(filename, root='./static/js')
 
 @route('/')
-@view('login')
-def login():
+def index():
     req_thing = request.params.get('req_thing', None)
     if req_thing == "version_info":
         return version_info()
 
     else:
-        return {}
+        redirect('/login')
+
+@route('/login')
+@view('login')
+def login():
+    return {}
+
+@route('/signup')
+@view('signup')
+def signup():
+    return {}
 
 @route('/memorize')
 @view('mmrz')

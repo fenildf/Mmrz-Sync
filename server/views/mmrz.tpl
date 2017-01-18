@@ -21,7 +21,7 @@
     <link rel="shortcut icon" href="./fav.ico"/>
     <link rel="bookmark" href="./fav.ico"/>
 
-    <title>Mmrz 网页版</title>
+    <title>Mmrz</title>
   </head>
 
   <body>

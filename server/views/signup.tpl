@@ -21,12 +21,12 @@
     <link rel="shortcut icon" href="./fav.ico"/>
     <link rel="bookmark" href="./fav.ico"/>
 
-    <title>Mmrz 网页版</title>
+    <title>Mmrz</title>
   </head>
 
   <body>
     <div id="center_board">
-      <h2 id="title">Mmrz 网页版</h2>
+      <h2 id="title">注册</h2>
 
       <div id="center_center">
         <div class="info">
@@ -45,12 +45,19 @@
           <input class="edit_area" type="password" id="password" onkeydown="prompt_change()" onkeypress='if(event.keyCode==13){login()}'>
         </div>
 
+        <div class="info">
+          <span class="label">密码确认:</span>
+        </div>
+
+        <div class="info">
+          <input class="edit_area" type="password" id="password_confirm" onkeydown="prompt_change()" onkeypress='if(event.keyCode==13){login()}'>
+        </div>
+
         <div class="info" id="prompt_board">
           <span id="prompt"></span>
         </div>
 
         <div id="btn_board">
-          <button class="btn" id="submit">登录</button>
           <button class="btn" id="signup">注册</button>
         </div>
 
@@ -60,12 +67,11 @@
 
     <script type="text/javascript">
       $("#username").focus();
-      $("#submit").click(login);
       $("#signup").click(function(){alert("尚未开放注册功能")});
 
       domain = document.domain;
       if(domain == "localhost" || domain == "127.0.0.1") {
-        $("#title").text("Mmrz -- Debug");
+        $("#title").text("注册 -- Debug");
       }
     </script>
 

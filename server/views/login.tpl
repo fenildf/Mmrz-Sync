@@ -21,12 +21,12 @@
     <link rel="shortcut icon" href="./fav.ico"/>
     <link rel="bookmark" href="./fav.ico"/>
 
-    <title>Mmrz 网页版</title>
+    <title>Mmrz</title>
   </head>
 
   <body>
     <div id="center_board">
-      <h2 id="title">Mmrz 网页版</h2>
+      <h2 id="title">登录</h2>
 
       <div id="center_center">
         <div class="info">
@@ -61,11 +61,11 @@
     <script type="text/javascript">
       $("#username").focus();
       $("#submit").click(login);
-      $("#signup").click(function(){alert("尚未开放注册功能")});
+      $("#signup").click(function(){window.open("/signup")});
 
       domain = document.domain;
       if(domain == "localhost" || domain == "127.0.0.1") {
-        $("#title").text("Mmrz -- Debug");
+        $("#title").text("登录 -- Debug");
       }
     </script>
 
