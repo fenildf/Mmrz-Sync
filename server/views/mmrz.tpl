@@ -53,7 +53,7 @@
       </div>
 
       <div id="uinfo_board">
-        <span id="user_info"></span>
+        <a href="javascript:alert('&quot用户信息&quot 尚未开放')" id="user_info"></a>
         <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
       </div>
 
