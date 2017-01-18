@@ -113,6 +113,11 @@ def signup():
 def mmrz():
     return {}
 
+@route('/individual')
+@view('individual')
+def individual():
+    return {}
+
 @route('/wordbook')
 @view('wordbook')
 def show_wordbook():
