@@ -8,13 +8,13 @@ function prompt_change() {
 
 function username_check() {
     if($("#username").val() == "") {
-        $("#prompt").text("不能为空")
+        $("#prompt").text("不能为空");
         $("#username").css("background-color", "#ffb6c1");
         $("#username").focus();
         return false;
     }
     else {
-        $("#prompt").text("")
+        $("#prompt").text("");
         $("#password").focus();
         return true;
     }
@@ -29,7 +29,7 @@ function login() {
     }
 
     if($("#password").val() == "") {
-        $("#prompt").text("不能为空")
+        $("#prompt").text("不能为空");
         $("#password").css("background-color", "#ffb6c1");
         $("#password").focus();
         return;

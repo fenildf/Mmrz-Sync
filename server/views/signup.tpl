@@ -13,10 +13,10 @@
     <script type="text/javascript" src="./js/jquery1.8.3.min.js"></script>
     <script type="text/javascript" src="./js/jquery1.4.1.cookie.min.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
-    <script type="text/javascript" src="./js/login.js"></script>
+    <script type="text/javascript" src="./js/signup.js"></script>
 
     <link rel="stylesheet" type="text/css" href="./css/common.css">
-    <link rel="stylesheet" type="text/css" href="./css/login.css">
+    <link rel="stylesheet" type="text/css" href="./css/signup.css">
 
     <link rel="shortcut icon" href="./fav.ico"/>
     <link rel="bookmark" href="./fav.ico"/>
@@ -42,7 +42,7 @@
         </div>
 
         <div class="info">
-          <input class="edit_area" type="password" id="password" onkeydown="prompt_change()" onkeypress='if(event.keyCode==13){login()}'>
+          <input class="edit_area" type="password" id="password" onkeydown="prompt_change()" onkeypress='if(event.keyCode==13){password_check()}'>
         </div>
 
         <div class="info">
@@ -50,7 +50,7 @@
         </div>
 
         <div class="info">
-          <input class="edit_area" type="password" id="password_confirm" onkeydown="prompt_change()" onkeypress='if(event.keyCode==13){login()}'>
+          <input class="edit_area" type="password" id="password_confirm" onkeydown="prompt_change()" onkeypress='if(event.keyCode==13){signup()}'>
         </div>
 
         <div class="info" id="prompt_board">
@@ -67,7 +67,7 @@
 
     <script type="text/javascript">
       $("#username").focus();
-      $("#signup").click(function(){alert("尚未开放注册功能")});
+      $("#signup").click(signup);
 
       domain = document.domain;
       if(domain == "localhost" || domain == "127.0.0.1") {
