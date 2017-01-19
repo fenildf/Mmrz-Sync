@@ -304,6 +304,9 @@ def get_shortest_remind():
         rows = dbMgr.readDB()
         dbMgr.closeDB()
 
+        if len(rows) == 0:
+            return "单词本中没有数据"
+
         rows = sorted(rows, key=lambda row: row[3]) # from small to big
         word          = rows[0][0]
         pronounce     = rows[0][1]
