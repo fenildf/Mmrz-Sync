@@ -49,11 +49,11 @@
 
       <div id="words_count">
         <span id="words_left"></span>
-        <a href="javascript:if(confirm('确认在新页面中打开单词本?'))show_wordbook()">单词本</a>
+        <a href="javascript:if(confirm('将在新页面中打开单词本'))show_wordbook()">单词本</a>
       </div>
 
       <div id="uinfo_board">
-        <a href="javascript:alert('&quot用户信息&quot 尚未开放')" id="user_info"></a>
+        <a href="javascript:individual()" id="user_info"></a>
         <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
       </div>
 
@@ -98,6 +98,15 @@
       <script type="text/javascript">
           function show_wordbook() {
             window.open("/wordbook?username=" + $.cookie('username'));
+          }
+
+          function individual() {
+            if($.cookie('username') == "zhanglin") {
+              if(confirm('将在新页面中查看个人信息'))window.open('/individual');
+            }
+            else {
+              alert("该功能尚未开放");
+            }
           }
       </script>
 
