@@ -66,4 +66,8 @@ client/preferences-user.json
 client/wordbook.db
 
 *.db
+*.yb
+*.mmz
 /server/version.ini
+/WORDBOOK
+/USERDB
