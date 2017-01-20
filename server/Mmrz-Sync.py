@@ -15,6 +15,7 @@ import json, sys
 import base64
 import random
 import time
+import re
 
 # Refer to: http://stackoverflow.com/questions/16865997/python-bottle-module-causes-error-413-request-entity-too-large
 # There was a bug:
@@ -77,7 +78,54 @@ def split_remindTime(remindTime, adjust=False):
 
     return days, hours, mins, secs
 
-def smart_import(path):
+def cal_remind_time(memTimes, type):
+  #   curTime = Time.now
+
+  #   case memTimes
+  #   when 0
+  #     remindTime = curTime + (60 * 5) # 5 minutes
+  #     remindTime = curTime if COMM::DEBUG_MODE # 0 minutes, debug mode
+  #   when 1
+  #     remindTime = curTime + (60 * 30) # 30 minutes
+  #   when 2
+  #     remindTime = curTime + (60 * 60 * 12) # 12 hours
+  #   when 3
+  #     remindTime = curTime + (60 * 60 * 24) # 1 day
+  #   when 4
+  #     remindTime = curTime + (60 * 60 * 24 * 2) # 2 days
+  #   when 5
+  #     remindTime = curTime + (60 * 60 * 24 * 4) # 4 days
+  #   when 6
+  #     remindTime = curTime + (60 * 60 * 24 * 7) # 7 days
+  #   when 7
+  #     remindTime = curTime + (60 * 60 * 24 * 15) # 15 days
+  #   else
+  #     remindTime = curTime
+  #   end
+
+  #   case type
+  #   when "int"
+  #     return remindTime.to_i
+  #   when "str"
+  #     return remindTime.to_s[0..-7]
+  #   end
+  # end
+  pass
+
+def smart_import(path, username):
+    if path == "":
+        return
+
+    if ".mmz" not in path and ".yb" not in path:
+        return
+
+    if ".mmz" in path:
+        suffix = ".mmz"
+    elif ".yb" in path:
+        suffix = ".yb"
+    else:
+        suffix = ".*"
+
     IMPORT_QUANTITY = 100
 
     # split & count lines
@@ -91,11 +139,11 @@ def smart_import(path):
     idx_range = line_quantity
     idx_amount = min(line_quantity, IMPORT_QUANTITY)
     rand_idxes = []
-    extracted = ""
+    extracted = []
     while len(rand_idxes) != idx_amount:
         rand_num = random.randint(1, line_quantity)
         if rand_num not in rand_idxes:
-            extracted += content_list[rand_num - 1] + "\n"
+            extracted.append(content_list[rand_num - 1] + "\n")
             content_list[rand_num - 1] = ""
 
             rand_idxes.append(rand_num)
@@ -105,7 +153,38 @@ def smart_import(path):
     fw.writelines([(line + "\n") for line in content_list if line != ""])
     fw.close
 
-    return extracted
+    dbMgr = MmrzSyncDBManager(username)
+
+    for line in extracted:
+        line = line.strip()
+
+        if re.search("^[ |\t]*#.*", line) or line == "":
+            continue # ignore comment line or null line
+
+        if suffix == ".yb":
+            line = line.replace(" ", "")
+            mc = re.search("(.*)「(.*)」(.*)")
+            if mc:
+                if mc.group(2) == "":
+                    wordInfo = [mc.group(1), mc.group(3)]
+                else:
+                    wordInfo = [mc.group(1), mc.group(2), mc.group(3)]
+            else:
+                print "load err"
+
+        word          = wordInfo[0]
+        pronounce     = wordInfo[1] if len(wordInfo) == 2 else "{0} -- {1}".format(wordInfo[1], wordInfo[2])
+        memTimes      = 0
+        remindTime    = cal_remind_time(memTimes, "int")
+        remindTimeStr = cal_remind_time(memTimes, "str")
+        wordID        = dbMgr.getMaxWordID + 1
+
+        row = [word, pronounce, memTimes, remindTime, remindTimeStr, wordID]
+        dbMgr.insertDB(row)
+
+    dbMgr.closeDB()
+
+    return True
 
 ### static files
 @route('/<filename>')
