@@ -13,6 +13,7 @@ import bottle
 import configparser
 import json, sys
 import base64
+import random
 import time
 
 # Refer to: http://stackoverflow.com/questions/16865997/python-bottle-module-causes-error-413-request-entity-too-large
@@ -75,6 +76,36 @@ def split_remindTime(remindTime, adjust=False):
         days = hours = mins = secs = 0
 
     return days, hours, mins, secs
+
+def smart_import(path):
+    IMPORT_QUANTITY = 100
+
+    # split & count lines
+    fr = open(path, "rb")
+    content = fr.read()
+    fr.close()
+    content_list = content.split("\n")
+    line_quantity = len(content_list)
+
+    # get rand indexes & extract lines
+    idx_range = line_quantity
+    idx_amount = min(line_quantity, IMPORT_QUANTITY)
+    rand_idxes = []
+    extracted = ""
+    while len(rand_idxes) != idx_amount:
+        rand_num = random.randint(1, line_quantity)
+        if rand_num not in rand_idxes:
+            extracted += content_list[rand_num - 1] + "\n"
+            content_list[rand_num - 1] = ""
+
+            rand_idxes.append(rand_num)
+
+    # write back
+    fw = open(path, "wb")
+    fw.writelines([(line + "\n") for line in content_list if line != ""])
+    fw.close
+
+    return extracted
 
 ### static files
 @route('/<filename>')
