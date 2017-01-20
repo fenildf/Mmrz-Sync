@@ -78,39 +78,26 @@ def split_remindTime(remindTime, adjust=False):
 
     return days, hours, mins, secs
 
-def cal_remind_time(memTimes, type):
-  #   curTime = Time.now
+def cal_remind_time(memTimes, types):
+    curTime = int(time.time())
 
-  #   case memTimes
-  #   when 0
-  #     remindTime = curTime + (60 * 5) # 5 minutes
-  #     remindTime = curTime if COMM::DEBUG_MODE # 0 minutes, debug mode
-  #   when 1
-  #     remindTime = curTime + (60 * 30) # 30 minutes
-  #   when 2
-  #     remindTime = curTime + (60 * 60 * 12) # 12 hours
-  #   when 3
-  #     remindTime = curTime + (60 * 60 * 24) # 1 day
-  #   when 4
-  #     remindTime = curTime + (60 * 60 * 24 * 2) # 2 days
-  #   when 5
-  #     remindTime = curTime + (60 * 60 * 24 * 4) # 4 days
-  #   when 6
-  #     remindTime = curTime + (60 * 60 * 24 * 7) # 7 days
-  #   when 7
-  #     remindTime = curTime + (60 * 60 * 24 * 15) # 15 days
-  #   else
-  #     remindTime = curTime
-  #   end
+    remindTime = {
+        0: curTime + (60 * 5), # 5 minutes
+        1: curTime + (60 * 30), # 30 minutes
+        2: curTime + (60 * 60 * 12), # 12 hours
+        3: curTime + (60 * 60 * 24), # 1 day
+        4: curTime + (60 * 60 * 24 * 2), # 2 days
+        5: curTime + (60 * 60 * 24 * 4), # 4 days
+        6: curTime + (60 * 60 * 24 * 7), # 7 days
+        7: curTime + (60 * 60 * 24 * 15), # 15 days
+    }.get(memTimes, curTime)
 
-  #   case type
-  #   when "int"
-  #     return remindTime.to_i
-  #   when "str"
-  #     return remindTime.to_s[0..-7]
-  #   end
-  # end
-  pass
+    if types == "int":
+        remindTime = remindTime
+    elif types ==  "str":
+        remindTime = time.strftime('%Y-%m-%d %H:%M:%S +0800', time.localtime(remindTime))
+
+    return remindTime
 
 def smart_import(path, username):
     if path == "":
@@ -163,7 +150,7 @@ def smart_import(path, username):
 
         if suffix == ".yb":
             line = line.replace(" ", "")
-            mc = re.search("(.*)「(.*)」(.*)")
+            mc = re.search("(.*)「(.*)」(.*)", line)
             if mc:
                 if mc.group(2) == "":
                     wordInfo = [mc.group(1), mc.group(3)]
@@ -172,12 +159,12 @@ def smart_import(path, username):
             else:
                 print "load err"
 
-        word          = wordInfo[0]
-        pronounce     = wordInfo[1] if len(wordInfo) == 2 else "{0} -- {1}".format(wordInfo[1], wordInfo[2])
+        word          = wordInfo[0].decode("utf8")
+        pronounce     = wordInfo[1].decode("utf8") if len(wordInfo) == 2 else "{0} -- {1}".format(wordInfo[1], wordInfo[2]).decode("utf8")
         memTimes      = 0
         remindTime    = cal_remind_time(memTimes, "int")
         remindTimeStr = cal_remind_time(memTimes, "str")
-        wordID        = dbMgr.getMaxWordID + 1
+        wordID        = dbMgr.getMaxWordID() + 1
 
         row = [word, pronounce, memTimes, remindTime, remindTimeStr, wordID]
         dbMgr.insertDB(row)
@@ -380,6 +367,25 @@ def update_row():
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "Update row success"
         json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
+@post('/online_import/')
+@post('/online_import')
+def online_import():
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "Online import success"
+        json_for_return = json.dumps(dict_for_return)
+        smart_import("./WORDBOOK/{0}/N1.yb".format(username), username)
         return json_for_return
 
 ### gets
