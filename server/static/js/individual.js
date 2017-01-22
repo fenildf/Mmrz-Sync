@@ -8,6 +8,7 @@ function online_import() {
 
     $.post('/online_import', params, function(rec) {
         alert("导入成功");
+        location.reload(true);
     });
 }
 

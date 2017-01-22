@@ -30,9 +30,10 @@
       <h2 id="title">个人信息</h2>
 
       <h3>单词导入区:</h3>
-      <p>使用的单词书: N1.yb</p>
-      <p>目前导入进度: 12.32%</p>
-      <p>最近导入: 2017-1-19 09:18:45</p>
+      <p>使用的单词书: {{book_name}}</p>
+      <P>剩余单词数: {{remained_words}}</P>
+      <p>目前导入进度: {{import_rate}}%</p>
+      <p>最近导入: {{last_import_time}}</p>
       <p><a href="javascript:if(confirm('立即导入远端单词本?'))online_import()">立即导入</a></p>
 
       <br/>

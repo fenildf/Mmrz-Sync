@@ -13,6 +13,7 @@ import bottle
 import configparser
 import json, sys
 import base64
+import pickle
 import random
 import time
 import re
@@ -112,6 +113,15 @@ def smart_import(path, username):
         suffix = ".yb"
     else:
         suffix = ".*"
+
+    fr = open("./WORDBOOK/{0}/data.pkl".format(username), "rb")
+    pkl_data = pickle.load(fr)
+    fr.close()
+
+    fw = open("./WORDBOOK/{0}/data.pkl".format(username), "wb")
+    pkl_data["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    pickle.dump(pkl_data, fw)
+    fw.close()
 
     IMPORT_QUANTITY = 100
 
@@ -213,7 +223,20 @@ def mmrz():
 @route('/individual')
 @view('individual')
 def individual():
-    return {}
+    username = request.params.get('username', None)
+
+    fr = open("./WORDBOOK/{0}/data.pkl".format(username), "rb")
+    pkl = pickle.load(fr)
+    fr.close()
+
+    fr = open("./WORDBOOK/{0}/N1.yb".format(username), "rb")
+    lq = len(fr.read().split("\n"))
+    fr.close()
+
+    pkl["remained_words"] = lq
+    pkl["import_rate"]    = (1 - round(float(lq) / float(pkl["total_lines"]), 4)) * 100
+
+    return pkl
 
 @route('/wordbook')
 @view('wordbook')
