@@ -100,7 +100,7 @@ def cal_remind_time(memTimes, types):
 
     return remindTime
 
-def smart_import(path, username):
+def smart_import(path, username, quantity=100):
     if path == "":
         return
 
@@ -123,7 +123,7 @@ def smart_import(path, username):
     pickle.dump(pkl_data, fw)
     fw.close()
 
-    IMPORT_QUANTITY = 100
+    IMPORT_QUANTITY = quantity
 
     # split & count lines
     fr = open(path, "rb")
@@ -397,6 +397,8 @@ def update_row():
 def online_import():
     username = request.forms.get('username', None)
     password = request.forms.get('password', None)
+    quantity = request.forms.get('quantity', None)
+    quantity = int(quantity)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -412,7 +414,7 @@ def online_import():
         fr = open("./WORDBOOK/{0}/data.pkl".format(username), "rb")
         pkl = pickle.load(fr)
         fr.close()
-        smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username)
+        smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username, quantity)
         return json_for_return
 
 ### gets
