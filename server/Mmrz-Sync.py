@@ -229,7 +229,7 @@ def individual():
     pkl = pickle.load(fr)
     fr.close()
 
-    fr = open("./WORDBOOK/{0}/N1.yb".format(username), "rb")
+    fr = open("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), "rb")
     lq = len(fr.read().split("\n"))
     fr.close()
 
@@ -408,7 +408,11 @@ def online_import():
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "Online import success"
         json_for_return = json.dumps(dict_for_return)
-        smart_import("./WORDBOOK/{0}/N1.yb".format(username), username)
+
+        fr = open("./WORDBOOK/{0}/data.pkl".format(username), "rb")
+        pkl = pickle.load(fr)
+        fr.close()
+        smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username)
         return json_for_return
 
 ### gets

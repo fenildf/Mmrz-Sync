@@ -42,10 +42,14 @@
 
       <div id="copyright"></div>
 
-      <script>
+      <script type="text/javascript">
         domain = document.domain;
         if(domain == "localhost" || domain == "127.0.0.1") {
           $("#title").text("个人信息 -- Debug");
+        }
+
+        if(getQueryString("username") != $.cookie("username")) {
+          location.href = "/";
         }
       </script>
 
