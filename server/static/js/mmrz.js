@@ -118,7 +118,12 @@ function show_word() {
 
 function show_secret() {
     window.secret_is_hiding = false;
-    $("#label_meaning").text(window.rows_from_DB[window.cursor_of_rows][1]);
+
+    to_show = window.rows_from_DB[window.cursor_of_rows][1];
+    if(to_show.length > 30) {
+        to_show = to_show.substr(0, 30) + "...";
+    }
+    $("#label_meaning").text(to_show);
 
     $("#btn_view").css("display", "none");
     $("#btn_yes").css("display", "");
