@@ -10,6 +10,10 @@ Array.prototype.contains = function (obj) {
     return false;
 }
 
+function Copyright() {
+    copyright.innerHTML = "&copy; 2016-" + (new Date()).getFullYear() + " by <a style='color: black;' target='_blank' href='http://zhanglintc.co'>zhanglintc</a>";
+}
+
 function getQueryString(name) { 
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
