@@ -33,7 +33,7 @@
       <p>使用的单词书: {{book_name}}</p>
       <P>剩余单词数: {{remained_words}}</P>
       <p>目前导入进度: {{import_rate}}%</p>
-      <p>最近导入: {{last_import_time}}</p>
+      <p>离上次导入已有: {{time_elapsed}}</p>
       导入数量(1-200): <input id="quantity" type="tel" onafterpaste="limit_import_number(this)" onkeyup="limit_import_number(this)" value="100" style="width: 30px">
       <p><a href="javascript:if(confirm('立即导入远端单词本?'))online_import()">立即导入</a></p>
 

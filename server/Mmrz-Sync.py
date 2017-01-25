@@ -18,6 +18,14 @@ import random
 import time
 import re
 
+# pkl data format:
+# pkl = {   
+#     book_name: str,
+#     total_lines: int,
+#     last_import_time: str,
+#     last_import_time_int: int,
+# }
+
 # Refer to: http://stackoverflow.com/questions/16865997/python-bottle-module-causes-error-413-request-entity-too-large
 # There was a bug:
 # If a client post something with a very large parameter, it will be encountered a "broken pipe" problem.
@@ -120,6 +128,7 @@ def smart_import(path, username, quantity=100):
 
     fw = open("./WORDBOOK/{0}/data.pkl".format(username), "wb")
     pkl_data["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    pkl_data["last_import_time_int"] = int(time.time())
     pickle.dump(pkl_data, fw)
     fw.close()
 
@@ -235,6 +244,9 @@ def individual():
 
     pkl["remained_words"] = lq
     pkl["import_rate"]    = (1 - round(float(lq) / float(pkl["total_lines"]), 4)) * 100
+
+    days, hours, mins, secs = split_remindTime(int(time.time()) - pkl.get("last_import_time_int", 0))
+    pkl["time_elapsed"]   = "{0}d-{1}h-{2}m".format(days, hours, mins)
 
     return pkl
 
