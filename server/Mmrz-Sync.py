@@ -254,11 +254,13 @@ def individual():
 @view('wordbook')
 def show_wordbook():
     username = request.params.get('username', None)
+    show_all = request.params.get('show_all', None)
 
     # username not available means username exist, connect it
     if not is_username_available(username):
         dbMgr = MmrzSyncDBManager(username)
-        rows = dbMgr.readAllDB()
+        rows = dbMgr.readAllDB() if show_all == "yes" else dbMgr.readDB()
+        word_quantity = len(dbMgr.readAllDB())
         dbMgr.closeDB()
     # else user name not exist, redirect to /
     else:
@@ -289,7 +291,7 @@ def show_wordbook():
 
     rows_for_return += tail_of_8_times
 
-    return dict(rows=rows_for_return)
+    return dict(rows=rows_for_return, word_quantity=word_quantity)
 
 ### posts
 @post('/log_in/')

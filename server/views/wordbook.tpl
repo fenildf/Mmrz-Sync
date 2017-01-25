@@ -29,7 +29,9 @@
 
       <h2 id="title">单词本</h2>
 
-      <h3>共计 {{len(rows)}} 个单词</h3>
+      <h3>库中共计 {{word_quantity}} 个单词</h3>
+      <h3>当前提取 {{len(rows)}} 个单词</h3>
+      <a href="javascript:location.href='/wordbook?username=' + $.cookie('username') + '&show_all=yes'">点击提取全部单词</a>
 
       %for row in rows:
         %word          = row[0]
