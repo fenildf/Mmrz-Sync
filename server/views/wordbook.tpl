@@ -31,7 +31,7 @@
 
       <h3>库中共计 {{word_quantity}} 个单词</h3>
       <h3>当前提取 {{len(rows)}} 个单词</h3>
-      <a href="javascript:location.href='/wordbook?username=' + $.cookie('username') + '&show_all=yes'">点击提取全部单词</a>
+      <a id="show_all" href="javascript:location.href='/wordbook?username=' + $.cookie('username') + '&show_all=yes'">点击提取全部单词</a>
 
       %for row in rows:
         %word          = row[0]
@@ -50,6 +50,10 @@
         domain = document.domain;
         if(domain == "localhost" || domain == "127.0.0.1") {
           $("#title").text("单词本 -- Debug");
+        }
+
+        if(getQueryString('show_all') == "yes") {
+          $("#show_all").text("");
         }
       </script>
 
