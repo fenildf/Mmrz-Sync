@@ -11,7 +11,7 @@ Array.prototype.contains = function (obj) {
 }
 
 function Copyright() {
-    copyright.innerHTML = "&copy; 2016-" + (new Date()).getFullYear() + " by <a style='color: black;' target='_blank' href='http://zhanglintc.co'>zhanglintc</a>";
+    copyright.innerHTML = "<a style='color: black;' target='_blank' href='/ranking'> &copy </a>" + "2016-" + (new Date()).getFullYear() + " by <a style='color: black;' target='_blank' href='http://zhanglintc.co'>zhanglintc</a>";
 }
 
 function getQueryString(name) { 
