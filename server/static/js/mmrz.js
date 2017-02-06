@@ -99,6 +99,8 @@ function move_cursor(need_move) {
 }
 
 function show_word() {
+    window.secret_is_hiding = true;
+
     if(window.rows_from_DB.length == 0) {
         if(!window.null_when_open) {
             alert("本次背诵完毕");
@@ -114,6 +116,10 @@ function show_word() {
         $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
         $("#btn_view").css("display", "");
     }
+
+    $("#btn_yes").css("display", "none");
+    $("#btn_no").css("display", "none");
+    $("#label_meaning").text("");
 }
 
 function show_secret() {
@@ -131,7 +137,6 @@ function show_secret() {
 }
 
 function hide_secret(remember, pass) {
-    window.secret_is_hiding = true;
     if(window.rows_from_DB.length == 0) {
         alert("rows_from_DB is null when hide_secret() is called");
         return;
@@ -160,10 +165,6 @@ function hide_secret(remember, pass) {
         window.rows_from_DB[window.cursor_of_rows][6] = true; // firstTimeFail: false => true
         move_cursor(true);
     }
-
-    $("#btn_yes").css("display", "none");
-    $("#btn_no").css("display", "none");
-    $("#label_meaning").text("");
 }
 
 (function() {
