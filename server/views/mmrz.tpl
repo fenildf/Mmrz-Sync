@@ -60,9 +60,38 @@
       <div id="copyright"></div>
 
       <script type="text/javascript">
+        KEY_UP = 38;
+        KEY_DOWN = 40;
+        KEY_LEFT = 37;
+        KEY_RIGHT = 39;
+
         $("#btn_view").css("display", "none");
         $("#btn_yes").css("display", "none");
         $("#btn_no").css("display", "none");
+
+        // down key: btn_view
+        $(document).keydown(function(event) {
+          if(event.keyCode == KEY_DOWN) {
+            show_secret();
+          }
+        });
+
+        // left key: btn_yes
+        $(document).keydown(function(event) {
+          if(event.keyCode == KEY_LEFT && !window.secret_is_hiding) {
+            hide_secret(true, false);
+            show_word();
+          }
+        });
+
+        // right key: btn_no
+        $(document).keydown(function(event) {
+          if(event.keyCode == KEY_RIGHT && !window.secret_is_hiding) {
+            hide_secret(false, false);
+            show_word();
+          }
+        });
+
 
         $("#btn_view").click(
           function () {
