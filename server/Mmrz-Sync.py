@@ -246,7 +246,7 @@ def individual():
     pkl["import_rate"]    = (1 - round(float(lq) / float(pkl["total_lines"]), 4)) * 100
 
     days, hours, mins, secs = split_remindTime(int(time.time()) - pkl.get("last_import_time_int", 0))
-    pkl["time_elapsed"]   = "{0}d-{1}h-{2}m".format(days, hours, mins)
+    pkl["time_elapsed"]   = "{0}天{1}时{2}分".format(days, hours, mins)
 
     return pkl
 
