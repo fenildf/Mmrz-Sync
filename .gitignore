@@ -68,6 +68,7 @@ client/wordbook.db
 *.db
 *.yb
 *.mmz
+*.pkl
 /server/version.ini
 /WORDBOOK
 /USERDB
