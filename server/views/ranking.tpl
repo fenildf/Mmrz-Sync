@@ -33,11 +33,13 @@
         <tr>
           <th>用户名</th>
           <th>最后活跃时间</th>
+          <th>单词总数</th>
         </tr>
         %for user in db_info_list:
           <tr>
             <th>{{user[0]}}</th>
             <th>{{user[1]}}</th>
+            <th>{{user[2]}}</th>
           </tr>
         %end
       </table>

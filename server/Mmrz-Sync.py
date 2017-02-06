@@ -270,7 +270,10 @@ def ranking():
         if basename == "USERS.db":
             continue
 
-        db_info_list.append([username, os.path.getmtime(path)])
+        dbMgr = MmrzSyncDBManager(username)
+        words = dbMgr.getMaxWordID()
+        dbMgr.closeDB
+        db_info_list.append([username, os.path.getmtime(path), words])
 
     db_info_list.sort(cmp = lambda u1, u2: cmp(u2[1], u1[1]))
 
