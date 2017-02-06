@@ -99,7 +99,8 @@ function move_cursor(need_move) {
 }
 
 function show_word() {
-    window.secret_is_hiding = true;
+    window.secret_is_hiding  = true;
+    window.secret_is_showing = !window.secret_is_hiding;
 
     if(window.rows_from_DB.length == 0) {
         if(!window.null_when_open) {
@@ -123,7 +124,8 @@ function show_word() {
 }
 
 function show_secret() {
-    window.secret_is_hiding = false;
+    window.secret_is_hiding  = false;
+    window.secret_is_showing = !window.secret_is_hiding;
 
     to_show = window.rows_from_DB[window.cursor_of_rows][1];
     if(to_show.length > 30) {

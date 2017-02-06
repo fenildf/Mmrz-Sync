@@ -85,7 +85,7 @@
 
         // LEFT key: btn_yes
         $(document).keydown(function(event) {
-          if(event.keyCode == KEY_LEFT && !window.secret_is_hiding) {
+          if(event.keyCode == KEY_LEFT && window.secret_is_showing) {
             hide_secret(true, false);
             show_word();
           }
@@ -93,7 +93,7 @@
 
         // RIGHT key: btn_no
         $(document).keydown(function(event) {
-          if(event.keyCode == KEY_RIGHT && !window.secret_is_hiding) {
+          if(event.keyCode == KEY_RIGHT && window.secret_is_showing) {
             hide_secret(false, false);
             show_word();
           }
