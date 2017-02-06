@@ -272,7 +272,7 @@ def ranking():
 
         db_info_list.append([username, os.path.getmtime(path)])
 
-    db_info_list.sort(reverse = True)
+    db_info_list.sort(cmp = lambda u1, u2: cmp(u2[1], u1[1]))
 
     for user in db_info_list:
         user[1] = time.strftime('%Y-%m-%d %H:%M', time.localtime(user[1]))
