@@ -1,0 +1,12 @@
+table {
+    border-collapse: collapse;
+    border: none; 
+}
+
+th {
+    border: solid #000 1px;
+}
+
+#center_board {
+    text-align: center;
+}

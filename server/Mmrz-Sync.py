@@ -17,6 +17,12 @@ import pickle
 import random
 import time
 import re
+import os
+
+def each_file(target):
+    for root, dirs, files in os.walk(target):
+        for f in files:
+            yield os.path.join(root, f)
 
 # pkl data format:
 # pkl = {   
@@ -249,6 +255,29 @@ def individual():
     pkl["time_elapsed"]   = "{0}天{1}时{2}分".format(days, hours, mins)
 
     return pkl
+
+@route('/ranking')
+@view('ranking')
+def ranking():
+    db_info_list = []
+    for path in each_file("./USERDB"):
+        basename = os.path.basename(path)
+        username = basename.replace(".db", "")
+
+        if ".db" not in basename:
+            continue
+
+        if basename == "USERS.db":
+            continue
+
+        db_info_list.append([username, os.path.getmtime(path)])
+
+    db_info_list.sort(reverse = True)
+
+    for user in db_info_list:
+        user[1] = time.strftime('%Y-%m-%d %H:%M', time.localtime(user[1]))
+
+    return dict(db_info_list = db_info_list)
 
 @route('/wordbook')
 @view('wordbook')
