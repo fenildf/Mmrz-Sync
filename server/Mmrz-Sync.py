@@ -12,6 +12,7 @@ from db import MmrzSyncDBManager
 import bottle
 import configparser
 import json, sys
+import socket
 import base64
 import pickle
 import random
@@ -463,6 +464,11 @@ def online_import():
         smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username, quantity)
         return json_for_return
 
+@post('/mem_duration/')
+@post('/mem_duration')
+def mem_duration():
+    return ""
+
 ### gets
 @get('/version_info/')
 @get('/version_info')
@@ -541,7 +547,15 @@ def download_wordbook():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
+# show serving IP (for debug)
+myname = socket.getfqdn(socket.gethostname())
+myaddr = socket.gethostbyname(myname)
 
+print ""
+print "Serving IP: " + myaddr
+print ""
+
+# run server
 run(host='0.0.0.0', port=PORT)
 
 
