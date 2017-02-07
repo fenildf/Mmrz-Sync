@@ -31,7 +31,8 @@
 
       <h3>单词导入区:</h3>
       <p>使用的单词书: {{book_name}}</p>
-      <P>剩余单词数: {{remained_words}}</P>
+      更换单词书: <button onclick="alert('上传功能尚未开放')">上传</button>
+      <P>剩余单词数: {{remained_words}} / {{total_lines}}</P>
       <p>目前导入进度: {{import_rate}}%</p>
       <p>离上次导入已有: {{time_elapsed}}</p>
       导入数量(1-200): <input id="quantity" type="tel" onafterpaste="limit_import_number(this)" onkeyup="limit_import_number(this)" value="100" style="width: 30px">
