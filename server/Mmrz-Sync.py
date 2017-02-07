@@ -38,7 +38,7 @@ def each_file(target):
 # If a client post something with a very large parameter, it will be encountered a "broken pipe" problem.
 # The line below can change the Bottle's acceptable max-size of request.
 # So this bug is no longer exist.
-bottle.BaseRequest.MEMFILE_MAX = 1024 * 1024 # max size: 1 MB
+bottle.BaseRequest.MEMFILE_MAX = 1024 * 1024 * 5 # max size: 5 MB
 
 bottle.debug(True)
 
