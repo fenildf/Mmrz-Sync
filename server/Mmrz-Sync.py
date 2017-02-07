@@ -464,9 +464,9 @@ def online_import():
         smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username, quantity)
         return json_for_return
 
-@post('/mem_duration/')
-@post('/mem_duration')
-def mem_duration():
+@post('/tik_tik/')
+@post('/tik_tik')
+def tik_tik():
     return ""
 
 ### gets
