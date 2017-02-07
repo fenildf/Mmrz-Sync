@@ -38,7 +38,7 @@ def each_file(target):
 # If a client post something with a very large parameter, it will be encountered a "broken pipe" problem.
 # The line below can change the Bottle's acceptable max-size of request.
 # So this bug is no longer exist.
-bottle.BaseRequest.MEMFILE_MAX = 1024 * 1024
+bottle.BaseRequest.MEMFILE_MAX = 1024 * 1024 # max size: 1 MB
 
 bottle.debug(True)
 
@@ -385,6 +385,34 @@ def upload_wordbook():
         for row in rows:
             dbMgr.insertDB(row)
         dbMgr.closeDB()
+
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "upload done"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
+@post('/upload_file_for_import/')
+@post('/upload_file_for_import')
+def upload_file_for_import():
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
+    wordfile = request.files.get('wordfile', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not wordfile:
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "word file not specified"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        name, ext = os.path.splitext(wordfile.filename)
+        wordfile.save("./WORDBOOK/{0}/".format(username))
 
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "upload done"
