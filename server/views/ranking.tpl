@@ -37,14 +37,12 @@
         </tr>
         %for user in db_info_list:
           <tr>
-            <th>{{user[0]}}</th>
-            <th>{{user[1]}}</th>
-            <th>{{user[2]}}</th>
+            <td>{{user[0]}}</td>
+            <td>{{user[1]}}</td>
+            <td>{{user[2]}}</td>
           </tr>
         %end
       </table>
-
-      <p>注: 上表根据时间由近及远排列</p>
 
       <div id="copyright"></div>
 

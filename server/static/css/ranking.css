@@ -3,7 +3,7 @@ table {
     border: none; 
 }
 
-th {
+th, td {
     border: solid #000 1px;
 }
 
