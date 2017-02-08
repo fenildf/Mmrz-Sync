@@ -46,7 +46,7 @@
         </div>
 
         <div class="info">
-          <span class="label">密码确认:</span>
+          <span class="label">确认:</span>
         </div>
 
         <div class="info">
