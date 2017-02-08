@@ -364,6 +364,29 @@ def sign_up():
     json_for_return = json.dumps(dict_for_return)
     return json_for_return
 
+@post('/update_password/')
+@post('/update_password')
+def update_password():
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
+    new_pass = request.forms.get('new_pass', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        dbMgr = MmrzSyncDBManager("USERS")
+        dbMgr.update_USERS_DB([username, new_pass])
+        dbMgr.closeDB()
+
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "password updated"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
 @post('/upload_wordbook/')
 @post('/upload_wordbook')
 def upload_wordbook():

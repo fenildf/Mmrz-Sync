@@ -29,6 +29,9 @@ class MmrzSyncDBManager:
     def insert_USERS_DB(self, userInfo):
         self.c.execute("insert into USERS values(?, ?)", userInfo)
 
+    def update_USERS_DB(self, userInfo):
+        self.c.execute("update USERS set password = '{0}' where username = '{1}'".format(userInfo[1], userInfo[0]))
+
     def read_USERS_DB(self):
         return self.c.execute("select * from USERS").fetchall()
 

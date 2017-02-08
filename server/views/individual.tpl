@@ -44,22 +44,24 @@
         <tbody>
           <tr>
             <td align="right">当前密码:</td>
-            <td align="left"><input type="password" style="width:135px"></td>
+            <td align="left"><input id="password_current" type="password" style="width:135px"></td>
           </tr>
           <tr>
             <td align="right">新密码:</td>
-            <td align="left"><input type="password" style="width:135px"></td>
+            <td align="left"><input id="password_new" type="password" style="width:135px"></td>
           </tr>
           <tr>
             <td align="right">确认新密码:</td>
-            <td align="left"><input type="password" style="width:135px"></td>
+            <td align="left"><input id="password_again" type="password" style="width:135px"></td>
           </tr>
 
           <tr>
-            <td></td>
+            <td>
+              <div id="#prompt"></div>
+            </td>
             <td align="right">
               <div>
-                <button class="btn" onclick="alert('功能仍在开发中')" style="margin-top: 5px; font-size: 14px">更改密码</button>
+                <button class="btn" onclick="update_password()" style="margin-top: 5px; font-size: 14px">更改密码</button>
               </div>
             </td>
           </tr>
