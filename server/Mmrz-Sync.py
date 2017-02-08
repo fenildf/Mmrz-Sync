@@ -98,7 +98,7 @@ def cal_remind_time(memTimes, types):
     curTime = int(time.time())
 
     remindTime = {
-        0: curTime + (60 * 5), # 5 minutes
+        0: curTime + (60 * 0), # back end import always 0 minute, request from @smilebin818
         1: curTime + (60 * 30), # 30 minutes
         2: curTime + (60 * 60 * 12), # 12 hours
         3: curTime + (60 * 60 * 24), # 1 day
