@@ -43,14 +43,14 @@ function login() {
     $.post('/log_in', params, function(rec) {
         rec = JSON.parse(rec);
         if(rec['verified'] == true) {
-            $.cookie('username', username, {path: '/', expires: 7});
-            $.cookie('password', password, {path: '/', expires: 7});
+            $.cookie('username', username, {path: '/', expires: 365});
+            $.cookie('password', password, {path: '/', expires: 365});
 
             location.href="/memorize";
         }
         else {
-            $.cookie('username', "", {path: '/', expires: 7});
-            $.cookie('password', "", {path: '/', expires: 7});
+            $.cookie('username', "", {path: '/', expires: 365});
+            $.cookie('password', "", {path: '/', expires: 365});
 
             $("#prompt").text("帐号或密码不正确");
         }
