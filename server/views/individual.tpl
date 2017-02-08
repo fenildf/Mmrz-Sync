@@ -39,8 +39,32 @@
       <p><a href="javascript:if(confirm('立即从远端单词本中导入' + $('#quantity').val() + '个单词?'))online_import()">立即导入</a></p>
 
       <br/>
-      <h3>功能区:</h3>
-      <p><a href="javascript:alert('修改密码功能尚未开放')">修改密码</a></p>
+      <h3>修改密码:</h3>
+      <table border="0" align="center">
+        <tbody>
+          <tr>
+            <td align="right">当前密码:</td>
+            <td align="left"><input type="password" style="width:135px"></td>
+          </tr>
+          <tr>
+            <td align="right">新密码:</td>
+            <td align="left"><input type="password" style="width:135px"></td>
+          </tr>
+          <tr>
+            <td align="right">确认新密码:</td>
+            <td align="left"><input type="password" style="width:135px"></td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td align="right">
+              <div>
+                <button class="btn" onclick="alert('功能仍在开发中')" style="margin-top: 5px; font-size: 14px">更改密码</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
       <div id="copyright"></div>
 
