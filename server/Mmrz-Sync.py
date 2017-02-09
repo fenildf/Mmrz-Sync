@@ -25,6 +25,40 @@ def each_file(target):
         for f in files:
             yield os.path.join(root, f)
 
+class PickleManager:
+    def __init__(self, username):
+        self.path = "./WORDBOOK/{0}/data.pkl".format(username)
+
+    def load_pkl(self):
+        fr = open(self.path, "rb")
+        self.pkl = pickle.load(fr)
+        fr.close()
+
+    def dump_pkl(self):
+        fw = open(self.path, "wb")
+        pickle.dump(self.pkl, fw)
+        fw.close()
+
+    def set_book_name(self, book_name):
+        self.load_pkl()
+        self.pkl["book_name"] = book_name
+        self.dump_pkl()
+
+    def set_total_lines(self, total_lines):
+        self.load_pkl()
+        self.pkl["total_lines"] = total_lines
+        self.dump_pkl()
+
+    def set_last_import_time(self):
+        self.load_pkl()
+        self.pkl["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+        self.dump_pkl()
+
+    def set_last_import_time_int(self):
+        self.load_pkl()
+        self.pkl["last_import_time_int"] = int(time.time())
+        self.dump_pkl()
+
 # pkl data format:
 # pkl = {   
 #     book_name: str,
