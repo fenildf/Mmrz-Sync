@@ -115,7 +115,7 @@ function show_word() {
     }
     else {
         $("#label_word").text(window.rows_from_DB[window.cursor_of_rows][0]);
-        $("#mem_times").text("第 " + window.rows_from_DB[window.cursor_of_rows][2] + " 次");
+        $("#mem_times").text(window.rows_from_DB[window.cursor_of_rows][2]);
         $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
         $("#btn_view").css("display", "");
     }

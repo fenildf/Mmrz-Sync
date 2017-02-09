@@ -2,3 +2,11 @@
     text-align: center;
 }
 
+table {
+    border-collapse: collapse;
+    border: none; 
+}
+
+th, td {
+    border: solid #000 1px;
+}

@@ -1,5 +1,9 @@
 // functions for individual.tpl
 
+function show_wordbook() {
+    window.open("/wordbook?username=" + $.cookie('username'));
+}
+
 function online_import() {
     if($("#quantity").val() == "") {
         alert("导入数量不能为空");

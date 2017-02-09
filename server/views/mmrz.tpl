@@ -30,7 +30,6 @@
 
       <div class="info">
         <span class="label" id="label_word"></span>
-        <a id="btn_pass" href="javascript:if(confirm('确定不再记忆此单词?')){hide_secret(true, true);show_word()}">Pass</a>
       </div>
 
       <div class="info" id="view_board">
@@ -48,10 +47,10 @@
       </div>
 
       <div id="words_count">
-        <span id="mem_times"></span>
+        第 <span style="color:#0000c6;" id="mem_times"></span> 次
+        &nbsp;<a id="btn_pass" href="javascript:if(confirm('确定不再记忆此单词?')){hide_secret(true, true);show_word()}">Pass</a>
         <br/>
         <span id="words_left"></span>
-        <a href="javascript:if(confirm('将在新页面中打开单词本'))show_wordbook()">单词本</a>
       </div>
 
       <div id="uinfo_board">
@@ -134,10 +133,6 @@
       </script>
 
       <script type="text/javascript">
-          function show_wordbook() {
-            window.open("/wordbook?username=" + $.cookie('username'));
-          }
-
           function individual() {
             if($.cookie('username') == "zhanglin" || $.cookie('username') == "smile") {
               if(confirm('将在新页面中查看个人信息'))window.open("/individual?username=" + $.cookie('username'));
