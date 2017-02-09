@@ -48,6 +48,8 @@
       </div>
 
       <div id="words_count">
+        <span id="mem_times"></span>
+        <br/>
         <span id="words_left"></span>
         <a href="javascript:if(confirm('将在新页面中打开单词本'))show_wordbook()">单词本</a>
       </div>

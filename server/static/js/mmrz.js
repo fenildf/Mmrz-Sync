@@ -110,10 +110,12 @@ function show_word() {
 
         $("#label_word").text(get_shortest_remind());
         $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
+        $("#mem_times").text("");
         $("#btn_pass").text("");
     }
     else {
         $("#label_word").text(window.rows_from_DB[window.cursor_of_rows][0]);
+        $("#mem_times").text("第 " + window.rows_from_DB[window.cursor_of_rows][2] + " 次");
         $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
         $("#btn_view").css("display", "");
     }
