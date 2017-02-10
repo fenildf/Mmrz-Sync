@@ -30,3 +30,14 @@ html, body {
     margin-top: 30px;
     text-align: center;
 }
+
+#music_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 100px;
+    border: 0;
+    background: url(/img/speaker.png);
+    background-size: cover;
+}

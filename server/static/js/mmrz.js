@@ -126,6 +126,7 @@ function show_word() {
     $("#btn_yes").css("display", "none");
     $("#btn_no").css("display", "none");
     $("#label_meaning").text("");
+    $("#music_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
 }
 
 function show_secret() {

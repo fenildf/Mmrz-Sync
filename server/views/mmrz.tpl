@@ -58,6 +58,12 @@
         <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
       </div>
 
+      <audio id="music">
+        你的浏览器不支持播放功能
+      </audio>
+
+      <button id="music_btn" onclick="audioMusic()"></button>
+
       <div id="copyright"></div>
 
       <script type="text/javascript">
@@ -120,6 +126,21 @@
             show_word();
           }
         );
+
+        function audioMusic() {
+          music = document.getElementById("music");
+          label_word = $("#label_word").text();
+          music.src = "./get_hujiang_tts?key_word=" + label_word;
+
+          if(music.paused){
+            music.play();
+            $("#music_btn").css("background", 'url(/img/speaker.gif)').css("background-size", 'cover');
+          }
+          else {
+            music.pause();
+            $("#music_btn").css("background", "url('/img/pause.png')").css("background-size", 'cover');
+          }
+        }
       </script>
 
       <script type="text/javascript">
