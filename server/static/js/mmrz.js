@@ -102,7 +102,23 @@ function show_word() {
     window.secret_is_hiding  = true;
     window.secret_is_showing = !window.secret_is_hiding;
 
+    // 每次都清空相关内容
     document.getElementById("speaker").src = "";
+    window.word_tts_url = "";
+
+    key_word = window.rows_from_DB[window.cursor_of_rows][0];
+    params = {};
+
+    // 此时会有网络访问
+    $.ajax({
+        url: "/get_hujiang_tts/?key_word=" + key_word,
+        type: "get",
+        data: params,
+        async: true,
+        success: function(rec) {
+            window.word_tts_url = rec;
+        }
+    });
 
     if(window.rows_from_DB.length == 0) {
 

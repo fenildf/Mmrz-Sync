@@ -647,7 +647,7 @@ def get_hujiang_tts():
         return "tts_url not found"
 
     tts_url = mc.group(1)
-    redirect(tts_url)
+    return tts_url
 
 @get('/download_wordbook/')
 @get('/download_wordbook')

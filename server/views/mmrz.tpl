@@ -129,10 +129,15 @@
 
         function speak_word() {
           speaker = document.getElementById("speaker");
-          label_word = $("#label_word").text();
 
+          // 如果全局 window.word_tts_url 为空, 则不发音
+          if(window.word_tts_url == "") {
+            return;
+          }
+
+          // 如果 speaker.src 尚未赋值, 则设置为全局 window.word_tts_url (此时会有网络访问)
           if(speaker.src == window.location.href) {
-            speaker.src = "./get_hujiang_tts?key_word=" + label_word;
+            speaker.src = window.word_tts_url;
           }
 
           speaker.play();
@@ -156,6 +161,7 @@
 
       <script type="text/javascript">
         show_word();
+
         $("#user_info").text($.cookie('username'));
 
         domain = document.domain;
