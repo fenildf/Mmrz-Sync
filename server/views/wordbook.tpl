@@ -44,6 +44,7 @@
           <th>词意</th>
         </tr>
 
+        %idx = 0
         %for row in rows:
           %word          = row[0]
           %pronounce     = row[1]
@@ -52,11 +53,12 @@
           %remindTimeStr = row[4]
           %wordID        = row[5]
 
+          %idx += 1
           <tr>
-            <td width="35px">{{wordID}}</td>
-            <td width="125px">{{remindTimeStr}}</td>
+            <td width="35px">{{idx}}</td>
+            <td width="130px">{{remindTimeStr}}</td>
             <td width="45px">{{memTimes}}</td>
-            <td width="140px">{{word}}</td>
+            <td width="135px">{{word}}</td>
             <td width="300px" style="word-wrap: break-word;">{{pronounce}}</td>
           </tr>
         %end
