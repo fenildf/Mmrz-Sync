@@ -102,6 +102,8 @@ function show_word() {
     window.secret_is_hiding  = true;
     window.secret_is_showing = !window.secret_is_hiding;
 
+    document.getElementById("speaker").src = "";
+
     if(window.rows_from_DB.length == 0) {
 
         $("#words_count").empty();
@@ -126,7 +128,7 @@ function show_word() {
     $("#btn_yes").css("display", "none");
     $("#btn_no").css("display", "none");
     $("#label_meaning").text("");
-    $("#music_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
+    $("#speak_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
 }
 
 function show_secret() {

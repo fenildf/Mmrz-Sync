@@ -58,11 +58,11 @@
         <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
       </div>
 
-      <audio id="music">
+      <audio id="speaker" src="">
         你的浏览器不支持播放功能
       </audio>
 
-      <button id="music_btn" onclick="audioMusic()"></button>
+      <button id="speak_btn" onclick="speak_word()"></button>
 
       <div id="copyright"></div>
 
@@ -127,19 +127,30 @@
           }
         );
 
-        function audioMusic() {
-          music = document.getElementById("music");
+        function speak_word() {
+          speaker = document.getElementById("speaker");
           label_word = $("#label_word").text();
-          music.src = "./get_hujiang_tts?key_word=" + label_word;
 
-          if(music.paused){
-            music.play();
-            $("#music_btn").css("background", 'url(/img/speaker.gif)').css("background-size", 'cover');
+          if(speaker.src == window.location.href) {
+            speaker.src = "./get_hujiang_tts?key_word=" + label_word;
           }
-          else {
-            music.pause();
-            $("#music_btn").css("background", "url('/img/pause.png')").css("background-size", 'cover');
-          }
+
+          speaker.play();
+          $("#speak_btn").css("background", 'url(/img/speaker.gif)').css("background-size", 'cover');
+
+          speaker.addEventListener('ended', function () {  
+            $("#speak_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
+          }, false);
+
+          // temporarily commented
+          // if(speaker.paused){
+          //   speaker.play();
+          //   $("#speak_btn").css("background", 'url(/img/speaker.gif)').css("background-size", 'cover');
+          // }
+          // else {
+          //   speaker.pause();
+          //   $("#speak_btn").css("background", "url('/img/pause.png')").css("background-size", 'cover');
+          // }
         }
       </script>
 
