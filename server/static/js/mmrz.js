@@ -103,6 +103,9 @@ function show_word() {
     window.secret_is_showing = !window.secret_is_hiding;
 
     if(window.rows_from_DB.length == 0) {
+
+        $("#words_count").empty();
+
         if(!window.null_when_open) {
             alert("本次背诵完毕");
             location.reload();
