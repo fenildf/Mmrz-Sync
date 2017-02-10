@@ -8,8 +8,11 @@
 
 from bottle import route, run, template, view, static_file
 from bottle import post, get, request, redirect
+from bs4 import BeautifulSoup
 from db import MmrzSyncDBManager
 import bottle
+import urllib, urllib2
+import gzip, StringIO
 import configparser
 import json, sys
 import socket
@@ -245,6 +248,10 @@ def server_static_css(filename):
 @route('/js/<filename>')
 def server_static_js(filename):
     return static_file(filename, root='./static/js')
+
+@route('/img/<filename>')
+def server_static_img(filename):
+    return static_file(filename, root='./static/img')
 
 @route('/')
 def index():
@@ -605,6 +612,42 @@ def get_shortest_remind():
         remindTimeStr = "数据获取错误"
 
     return remindTimeStr
+
+@get('/get_hujiang_tts/')
+@get('/get_hujiang_tts')
+def get_hujiang_tts():
+    key_word = request.params.get('key_word', None)
+    if not key_word:
+        return "key_word is null"
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36',
+        'Accept-Encoding': 'gzip, deflate, sdch',
+    }
+
+    url = "http://dict.hjenglish.com/jp/jc/" + urllib.quote(key_word)
+
+    req = urllib2.Request(url, None, headers)
+    response = urllib2.urlopen(req)
+    compressedData = response.read()
+
+    compressedStream = StringIO.StringIO(compressedData)
+    gzipper = gzip.GzipFile(fileobj=compressedStream)
+    html = gzipper.read()
+
+    soup = BeautifulSoup(html, "html.parser")
+
+    jpSound_list = soup.select('span[class=jpSound]')
+    if len(jpSound_list) < 1:
+        return "jpSound not found"
+
+    jpSound = str(jpSound_list[0])
+    mc = re.search("GetTTSVoice\(\"(.*?)\"\)", jpSound)
+    if not mc:
+        return "tts_url not found"
+
+    tts_url = mc.group(1)
+    redirect(tts_url)
 
 @get('/download_wordbook/')
 @get('/download_wordbook')
