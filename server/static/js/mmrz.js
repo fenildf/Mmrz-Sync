@@ -102,24 +102,7 @@ function show_word() {
     window.secret_is_hiding  = true;
     window.secret_is_showing = !window.secret_is_hiding;
 
-    // 每次都清空相关内容
-    document.getElementById("speaker").src = "";
-    window.word_tts_url = "";
-
-    key_word = window.rows_from_DB[window.cursor_of_rows][0];
-    params = {};
-
-    // 此时会有网络访问
-    $.ajax({
-        url: "/get_hujiang_tts/?key_word=" + key_word,
-        type: "get",
-        data: params,
-        async: true,
-        success: function(rec) {
-            window.word_tts_url = rec;
-        }
-    });
-
+    // 单词背诵完毕
     if(window.rows_from_DB.length == 0) {
 
         $("#words_count").empty();
@@ -133,8 +116,28 @@ function show_word() {
         $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
         $("#mem_times").text("");
         $("#btn_pass").text("");
+        $("#speak_btn").css("display", "none");
     }
+    // 尚未背诵完毕
     else {
+        // 每次都清空相关内容
+        document.getElementById("speaker").src = "";
+        window.word_tts_url = "";
+
+        key_word = window.rows_from_DB[window.cursor_of_rows][0];
+        params = {};
+
+        // 此时会有网络访问
+        $.ajax({
+            url: "/get_hujiang_tts/?key_word=" + key_word,
+            type: "get",
+            data: params,
+            async: true,
+            success: function(rec) {
+                window.word_tts_url = rec;
+            }
+        });
+
         $("#label_word").text(window.rows_from_DB[window.cursor_of_rows][0]);
         $("#mem_times").text(window.rows_from_DB[window.cursor_of_rows][2]);
         $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
