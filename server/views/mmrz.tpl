@@ -171,7 +171,7 @@
       <script type="text/javascript">
           function individual() {
             if($.cookie('username') == "zhanglin" || $.cookie('username') == "smile") {
-              if(confirm('将在新页面中查看个人信息'))window.open("/individual?username=" + $.cookie('username'));
+              window.open("/individual?username=" + $.cookie('username'));
             }
             else {
               alert("该功能尚未开放");
