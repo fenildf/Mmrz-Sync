@@ -68,6 +68,7 @@ function init_rows_from_DB() {
     window.rows_from_DB = [];
     window.cursor_of_rows = 0;
     window.null_when_open = false;
+    window.max_size_this_turn = wordbook.length;
 
     for(i = 0; i < wordbook.length; i++) {
         row = wordbook[i];
@@ -105,17 +106,13 @@ function show_word() {
     // 单词背诵完毕
     if(window.rows_from_DB.length == 0) {
 
-        $("#words_count").empty();
-
         if(!window.null_when_open) {
             alert("本次背诵完毕");
             location.reload();
         }
 
         $("#label_word").text(get_shortest_remind());
-        $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
-        $("#mem_times").text("");
-        $("#btn_pass").text("");
+        $("#words_count").empty();
         $("#speak_btn").css("display", "none");
     }
     // 尚未背诵完毕
@@ -140,7 +137,7 @@ function show_word() {
 
         $("#label_word").text(window.rows_from_DB[window.cursor_of_rows][0]);
         $("#mem_times").text(window.rows_from_DB[window.cursor_of_rows][2]);
-        $("#words_left").text("剩余 " + window.rows_from_DB.length + " 个单词");
+        $("#words_left").text("剩余 " + window.rows_from_DB.length + " / " + window.max_size_this_turn + " 个单词");
         $("#btn_view").css("display", "");
     }
 

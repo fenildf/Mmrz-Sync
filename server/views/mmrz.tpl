@@ -58,9 +58,7 @@
         <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
       </div>
 
-      <audio id="speaker" src="">
-        你的浏览器不支持播放功能
-      </audio>
+      <audio id="speaker" src=""></audio>
 
       <button id="speak_btn" onclick="speak_word()"></button>
 
