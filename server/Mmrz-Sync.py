@@ -211,6 +211,12 @@ def smart_import(path, username, quantity=100):
         if re.search("^[ |\t]*#.*", line) or line == "":
             continue # ignore comment line or null line
 
+        if suffix == ".mmz":
+            wordInfo = line.split()
+            if len(wordInfo) not in (2, 3):
+                print "load err"
+                continue
+
         if suffix == ".yb":
             line = line.replace(" ", "")
             mc = re.search("(.*)「(.*)」(.*)", line)
