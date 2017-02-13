@@ -68,7 +68,6 @@ function init_rows_from_DB() {
     window.rows_from_DB = [];
     window.cursor_of_rows = 0;
     window.null_when_open = false;
-    window.max_size_this_turn = wordbook.length;
 
     for(i = 0; i < wordbook.length; i++) {
         row = wordbook[i];
@@ -81,6 +80,8 @@ function init_rows_from_DB() {
     if(window.rows_from_DB.length == 0) {
         window.null_when_open = true;
     }
+
+    window.max_size_this_turn = window.rows_from_DB.length;
 }
 
 function move_cursor(need_move) {
