@@ -132,7 +132,11 @@ function show_word() {
             data: params,
             async: true,
             success: function(rec) {
-                window.word_tts_url = rec;
+                rec = JSON.parse(rec);
+                // rec["found"] = true
+                // rec["message_str"] = "some string"
+                // rec["tts_url"] = "some url"
+                window.word_tts_url = rec["tts_url"];
             }
         });
 

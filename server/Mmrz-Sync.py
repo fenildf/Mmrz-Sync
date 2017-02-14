@@ -643,17 +643,30 @@ def get_hujiang_tts():
 
     soup = BeautifulSoup(html, "html.parser")
 
+    ret_info = {
+        "found": False,
+        "message_str": "",
+        "tts_url": "",
+    }
+
     jpSound_list = soup.select('span[class=jpSound]')
     if len(jpSound_list) < 1:
-        return "jpSound not found"
+        ret_info["found"] = False
+        ret_info["message_str"] = "jpSound not found"
+        return json.dumps(ret_info)
 
     jpSound = str(jpSound_list[0])
     mc = re.search("GetTTSVoice\(\"(.*?)\"\)", jpSound)
     if not mc:
-        return "tts_url not found"
+        ret_info["found"] = False
+        ret_info["message_str"] = "tts_url not found"
+        return json.dumps(ret_info)
 
     tts_url = mc.group(1)
-    return tts_url
+    ret_info["found"] = True
+    ret_info["message_str"] = "tts_url is found"
+    ret_info["tts_url"] = tts_url
+    return json.dumps(ret_info)
 
 @get('/download_wordbook/')
 @get('/download_wordbook')
@@ -689,7 +702,11 @@ print ""
 print "Serving IP: " + myaddr
 print ""
 
+# user gevent
+# import gevent; from gevent import monkey; monkey.patch_all()
+
 # run server
+# run(host='0.0.0.0', port=PORT, server='gevent')
 run(host='0.0.0.0', port=PORT)
 
 
