@@ -121,6 +121,7 @@ function show_word() {
         // 每次都清空相关内容
         document.getElementById("speaker").src = "";
         window.word_tts_url = "";
+        window.word_tts_found = false;
 
         key_word = window.rows_from_DB[window.cursor_of_rows][0];
         params = {};
@@ -133,10 +134,14 @@ function show_word() {
             async: true,
             success: function(rec) {
                 rec = JSON.parse(rec);
-                // rec["found"] = true
-                // rec["message_str"] = "some string"
-                // rec["tts_url"] = "some url"
+                window.word_tts_found = rec["found"];
                 window.word_tts_url = rec["tts_url"];
+
+                if(!window.word_tts_found) {
+                    $("#speak_btn").css("background", 'url(/img/novoice.png)').css("background-size", 'cover');
+                } else {
+                    $("#speak_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
+		}
             }
         });
 

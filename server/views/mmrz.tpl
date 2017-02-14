@@ -144,16 +144,6 @@
           speaker.addEventListener('ended', function () {  
             $("#speak_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
           }, false);
-
-          // temporarily commented
-          // if(speaker.paused){
-          //   speaker.play();
-          //   $("#speak_btn").css("background", 'url(/img/speaker.gif)').css("background-size", 'cover');
-          // }
-          // else {
-          //   speaker.pause();
-          //   $("#speak_btn").css("background", "url('/img/pause.png')").css("background-size", 'cover');
-          // }
         }
       </script>
 
