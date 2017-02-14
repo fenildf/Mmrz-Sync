@@ -115,6 +115,7 @@ function show_word() {
         $("#label_word").text(get_shortest_remind());
         $("#words_count").empty();
         $("#speak_btn").css("display", "none");
+        $("#magnifier_btn").css("display", "none");
     }
     // 尚未背诵完毕
     else {

@@ -31,14 +31,3 @@ html, body {
     margin-bottom: 20px;
     text-align: center;
 }
-
-#speak_btn {
-    width: 30px;
-    height: 30px;
-    position: fixed;
-    right: 15px;
-    top: 100px;
-    border: 0;
-    background: url(/img/speaker.png);
-    background-size: cover;
-}

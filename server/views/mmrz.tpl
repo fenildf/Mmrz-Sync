@@ -61,6 +61,7 @@
       <audio id="speaker" src=""></audio>
 
       <button id="speak_btn" onclick="speak_word()"></button>
+      <button id="magnifier_btn" onclick="view_hujiang()"></button>
 
       <div id="copyright"></div>
 
@@ -124,6 +125,13 @@
             show_word();
           }
         );
+
+        function view_hujiang() {
+          if(window.rows_from_DB.length <= 0) {
+            return;
+          }
+          window.open("http://dict.hjenglish.com/jp/jc/" + window.rows_from_DB[window.cursor_of_rows][0]);
+        }
 
         function speak_word() {
           speaker = document.getElementById("speaker");

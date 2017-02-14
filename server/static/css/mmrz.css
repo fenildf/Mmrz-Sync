@@ -48,3 +48,25 @@
     margin-top: 30px;
     text-align: center;
 }
+
+#speak_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 115px;
+    border: 0;
+    background: url(/img/speaker.png);
+    background-size: cover;
+}
+
+#magnifier_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 80px;
+    border: 0;
+    background: url(/img/magnifier.png);
+    background-size: cover;
+}
