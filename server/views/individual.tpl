@@ -31,8 +31,8 @@
 
       <h3>单词导入区:</h3>
       <p>使用的单词书: {{book_name}}</p>
-      更换单词书: <button onclick="alert('上传功能尚未开放')">上传</button>
-      <form action="/upload_file_for_import" method="post" style="display: none" enctype="multipart/form-data">
+      更换单词书: <button onclick="upload_file()">上传</button>
+      <form id="file_upload_form" action="/upload_file_for_import" method="post" style="display: none" enctype="multipart/form-data">
         <input id="username" type="text" name="username">
         <input id="password" type="password" name="password">
         <input id="file_input" type="file" name="wordfile">
@@ -77,15 +77,6 @@
       <div id="copyright"></div>
 
       <script type="text/javascript">
-        function uplode_file() {
-          filt_input = document.getElementById("file_input");
-          
-          filt_input.onchange = function() {
-            document.getElementById("submit").click();
-          }
-          filt_input.click();
-        }
-
         domain = document.domain;
         if(domain == "localhost" || domain == "127.0.0.1") {
           $("#title").text("个人信息 -- Debug");
