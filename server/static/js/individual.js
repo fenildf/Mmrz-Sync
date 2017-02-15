@@ -25,7 +25,7 @@ function upload_file() {
 
         oData = new FormData(document.forms.namedItem("file_upload_form"));
         oReq = new XMLHttpRequest();  
-        oReq.open("POST", "/upload_file_for_import" , true);
+        oReq.open("POST", "/upload_lexicon" , true);
         oReq.send(oData);
 
         oReq.upload.onprogress = function(event){
@@ -45,6 +45,11 @@ function upload_file() {
 }
 
 function online_import() {
+    if($("#lexicon_in_use").text().indexOf("--") >= 0) {
+        alert("尚未上传单词本, 请先上传一个单词本");
+        return;
+    }
+
     if($("#quantity").val() == "") {
         alert("导入数量不能为空");
         return;

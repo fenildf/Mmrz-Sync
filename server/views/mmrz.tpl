@@ -172,7 +172,7 @@
               window.open("/individual?username=" + $.cookie('username'));
             }
             else {
-              alert("该功能尚未开放");
+              window.open("/individual?username=" + $.cookie('username'));
             }
           }
       </script>

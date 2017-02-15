@@ -32,6 +32,17 @@ class PickleManager:
     def __init__(self, username):
         self.path = "./WORDBOOK/{0}/data.pkl".format(username)
 
+        if not os.path.exists(self.path):
+            tmp_pkl = {}
+            tmp_pkl["book_name"] = ""
+            tmp_pkl["total_lines"] = 0
+            tmp_pkl["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+            tmp_pkl["last_import_time_int"] = int(time.time())
+
+            fw = open(self.path, "wb")
+            pickle.dump(tmp_pkl, fw)
+            fw.close()
+
     def load_pkl(self):
         fr = open(self.path, "rb")
         self.pkl = pickle.load(fr)
@@ -102,6 +113,13 @@ def read_version():
     GUI_VERSION = config['MMRZ_VER']['GUI_VERSION']
 
     return CLI_VERSION, GUI_VERSION
+
+def get_file_lines(path):
+    fr = open(path, "rb")
+    content = fr.read()
+    fr.close()
+
+    return len(content.split("\n"))
 
 def is_username_available(username):
     dbMgr = MmrzSyncDBManager("USERS")
@@ -288,19 +306,46 @@ def mmrz():
 def individual():
     username = request.params.get('username', None)
 
+    user_folder = "./WORDBOOK/{0}/".format(username)
+    user_pkl = "{0}/data.pkl".format(user_folder)
+
+    if not os.path.exists(user_folder):
+        os.mkdir(user_folder)
+
+    if not os.path.exists(user_pkl):
+        pklMgr = PickleManager(username)
+        
+        pklMgr.load_pkl()
+        pklMgr.set_book_name("--")
+        pklMgr.set_total_lines("--")
+        pklMgr.set_last_import_time()
+        pklMgr.set_last_import_time_int()
+        pklMgr.dump_pkl()
+
     fr = open("./WORDBOOK/{0}/data.pkl".format(username), "rb")
     pkl = pickle.load(fr)
     fr.close()
 
-    fr = open("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), "rb")
-    lq = len(fr.read().split("\n"))
-    fr.close()
 
-    pkl["remained_words"] = lq
-    pkl["import_rate"]    = (1 - round(float(lq) / float(pkl["total_lines"]), 4)) * 100
+    if not pkl["book_name"] == "--":
+        fr = open("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), "rb")
+        lq = len(fr.read().split("\n"))
+        fr.close()
 
-    days, hours, mins, secs = split_remindTime(int(time.time()) - pkl.get("last_import_time_int", 0))
-    pkl["time_elapsed"]   = "{0}天{1}时{2}分".format(days, hours, mins)
+        pkl["remained_words"] = lq
+        pkl["import_rate"]    = (1 - round(float(lq) / float(pkl["total_lines"]), 4)) * 100
+
+        days, hours, mins, secs = split_remindTime(int(time.time()) - pkl.get("last_import_time_int", 0))
+        pkl["time_elapsed"]   = "{0}天{1}时{2}分".format(days, hours, mins)
+    else:
+        pkl["book_name"] = "--"
+        pkl["total_lines"] = "--"
+        pkl["last_import_time"] = "--"
+        pkl["last_import_time_int"] = "--"
+        pkl["remained_words"] = "--"
+        pkl["import_rate"] = "--"
+        pkl["time_elapsed"] = "--"
+
 
     return pkl
 
@@ -461,9 +506,9 @@ def upload_wordbook():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
-@post('/upload_file_for_import/')
-@post('/upload_file_for_import')
-def upload_file_for_import():
+@post('/upload_lexicon/')
+@post('/upload_lexicon')
+def upload_lexicon():
     username = request.forms.get('username', None)
     password = request.forms.get('password', None)
     wordfile = request.files.get('wordfile', None)
@@ -481,8 +526,24 @@ def upload_file_for_import():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
     else:
+        target_folder = "./WORDBOOK/{0}/".format(username)
         name, ext = os.path.splitext(wordfile.filename)
-        wordfile.save("./WORDBOOK/{0}/".format(username))
+
+        for path in each_file(target_folder):
+            ext = os.path.basename(path).split(".")[-1].lower()
+            if ext in ("mmz", "yb"):
+                os.remove(path)
+
+        wordfile.save(target_folder)
+
+        wordfile_path = target_folder + wordfile.filename
+        pklMgr = PickleManager(username)
+        pklMgr.load_pkl()
+        pklMgr.set_book_name(wordfile.filename)
+        pklMgr.set_total_lines(get_file_lines(wordfile_path))
+        pklMgr.set_last_import_time()
+        pklMgr.set_last_import_time_int()
+        pklMgr.dump_pkl()
 
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "upload done"
