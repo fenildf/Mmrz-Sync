@@ -14,6 +14,21 @@ function Copyright() {
     copyright.innerHTML = "<a style='color: black;' target='_blank' href='/ranking'>&copy </a>" + "2016-" + (new Date()).getFullYear() + " by <a style='color: black;' target='_blank' href='http://zhanglintc.co'>zhanglintc</a>";
 }
 
+function is_cellphone() {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = ["Android", "iPhone",
+                "SymbianOS", "Windows Phone",
+                "iPad", "iPod"];
+    var flag = false;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = true;
+            break;
+        }
+    }
+    return flag;
+}
+
 function getQueryString(name) { 
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);

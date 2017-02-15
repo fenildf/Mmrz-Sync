@@ -31,7 +31,7 @@
 
       <h3>单词导入区:</h3>
       <p id="lexicon_in_use">使用中的词典: {{book_name}}</p>
-      上传并更换词典: <button onclick="if(confirm('上传词典将删除当前使用中词典, 请谨慎操作.\n\n确认继续上传?'))upload_file()">点击上传</button>
+      上传并更换词典: <button onclick="if(confirm('上传词典将删除当前使用中词典, 请谨慎操作.\n\n注意: 请务必上传 utf-8 格式的词典.\n\n确认继续上传?'))upload_file()">点击上传</button>
       <form id="file_upload_form" action="/upload_file_for_import" method="post" style="display: none" enctype="multipart/form-data">
         <input id="username" type="text" name="username">
         <input id="password" type="password" name="password">

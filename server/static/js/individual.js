@@ -5,6 +5,11 @@ function show_wordbook() {
 }
 
 function upload_file() {
+    if(is_cellphone()) {
+        alert("请使用电脑端上传单词本");
+        return;
+    }
+
     $("#username").val($.cookie("username"));
     $("#password").val(window.btoa($.cookie("password")));
 
