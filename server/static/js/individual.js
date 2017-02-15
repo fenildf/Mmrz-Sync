@@ -6,7 +6,7 @@ function show_wordbook() {
 
 function upload_file() {
     if(is_cellphone()) {
-        alert("请使用电脑端上传单词本");
+        alert("不支持移动端上传词典, 请使用电脑上传");
         return;
     }
 
