@@ -623,6 +623,8 @@ def get_shortest_remind():
 @get('/get_hujiang_tts')
 def get_hujiang_tts():
     key_word = request.params.get('key_word', None)
+    job_id   = request.params.get('job_id', None)
+
     if not key_word:
         return "key_word is null"
 
@@ -647,6 +649,7 @@ def get_hujiang_tts():
         "found": False,
         "message_str": "",
         "tts_url": "",
+        "job_id": job_id,
     }
 
     jpSound_list = soup.select('span[class=jpSound]')

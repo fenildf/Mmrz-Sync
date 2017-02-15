@@ -125,7 +125,7 @@ function show_word() {
         window.word_tts_found = false;
 
         key_word = window.rows_from_DB[window.cursor_of_rows][0];
-        params = {};
+        params = {"job_id": window.rows_from_DB[window.cursor_of_rows][5]};
 
         // 此时会有网络访问
         $.ajax({
@@ -146,6 +146,12 @@ function show_word() {
                 }
 
                 rec = JSON.parse(rec);
+
+                // 返回的单词相关的内容不是当前的单词，舍弃之
+                if(window.rows_from_DB[window.cursor_of_rows][5] != rec["job_id"]) {
+                    return;
+                }
+
                 window.word_tts_found = rec["found"];
                 window.word_tts_url = rec["tts_url"];
 
