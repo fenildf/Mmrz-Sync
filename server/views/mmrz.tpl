@@ -48,7 +48,7 @@
 
       <div id="words_count">
         第 <span style="color:#0000c6;" id="mem_times"></span> 次
-        &nbsp;<a id="btn_pass" href="javascript:if(confirm('确定不再记忆此单词?')){hide_secret(true, true);show_word()}">Pass</a>
+        &nbsp;<a id="btn_pass" href="javascript:if(confirm('Pass 会标记该单词非常熟悉, 永远无需再次进入背诵序列.\n\n确定不再记忆此单词?')){hide_secret(true, true);show_word()}">Pass</a>
         <br/>
         <span id="words_left"></span>
       </div>
