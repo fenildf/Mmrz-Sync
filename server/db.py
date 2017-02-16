@@ -13,6 +13,11 @@ class MmrzSyncDBManager:
         [3]remindTime     -- int
         [4]remindTimeStr  -- char[255]
         [5]wordID         -- int
+
+        table FAVOURITE:
+        [0]wordID         -- int
+        [1]favourite      -- boolean (true: 1, false: 0)
+        [2]memTimes       -- int
     """
 
     def __init__(self, dbName):
@@ -40,6 +45,7 @@ class MmrzSyncDBManager:
     def createDB(self):
         try:
             self.c.execute("create table UNMMRZ(word char[255], pronounce char[255], memTimes int, remindTime int, remindTimeStr char[255], wordID int)")
+            self.c.execute("create table FAVOURITE(wordID int NOT NULL, favourite boolean, memTimes int)")
         except:
             pass
 
@@ -62,6 +68,15 @@ class MmrzSyncDBManager:
     def getMaxWordID(self):
         # format of maxWordID is like: maxWordID = [[33]], thus use maxWordID[0][0] to access it
         return self.c.execute("select max(wordID) from UNMMRZ").fetchall()[0][0] or 0
+
+    def read_WORD_FAVOURITE_DB(self):
+        return self.c.execute("select fav.wordID, fav.favourite from UNMMRZ mmrz LEFT JOIN FAVOURITE fav ON mmrz.wordID = fav.wordID where mmrz.memTimes < 8").fetchall()
+
+    def insert_FAVOURITE_DB(self, row):
+        self.c.execute("insert into FAVOURITE values(?, ?, ?)", row)
+
+    def delete_FAVOURITE_DB(self, wordID):
+        self.c.execute("DELETE FROM favourite WHERE wordID = {0}".format(wordID))
 
     def closeDB(self):
         self.db.commit()

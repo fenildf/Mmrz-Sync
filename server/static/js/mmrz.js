@@ -1,12 +1,30 @@
 // functions for mmrz.tpl
 
+function search_word_id(target, arr, low, high) {
+    if (low <= high) {
+        if (arr[low][5] == target) return low;
+        if (arr[high][5] == target) return high;
+        var mid = Math.ceil((high + low) / 2);
+        if (arr[mid][5] == target) {
+            return mid;
+        }
+        else if(arr[mid][5] > target) {
+            return binarySearch(target, arr, low, mid - 1);
+        } else {
+            return binarySearch(target, arr, mid + 1, high);
+        }
+    }
+    return - 1;
+}
+
+
 function logout() {
     $.cookie('username', "", {path: '/', expires: 7});
     $.cookie('password', "", {path: '/', expires: 7});
     location.href="/";
 }
 
-function get_wordbook() {
+function get_wordbooks() {
     wordbook = []
 
     params = {
@@ -20,8 +38,7 @@ function get_wordbook() {
         data:params,
         async:false,
         success:function(rec) {
-            rec = JSON.parse(rec);
-            wordbook = rec['wordbook'];
+            wordbook = JSON.parse(rec);
         }
     });
 
@@ -64,14 +81,20 @@ function get_shortest_remind() {
 }
 
 function init_rows_from_DB() {
-    wordbook = get_wordbook();
+    wordbooks = get_wordbooks();
+    wordbook_normal = wordbooks['wordbook'];
+    wordbook_favourite = wordbooks['wordfavourite'];
     window.rows_from_DB = [];
     window.cursor_of_rows = 0;
     window.null_when_open = false;
 
-    for(i = 0; i < wordbook.length; i++) {
-        row = wordbook[i];
+    for(i = 0; i < wordbook_normal.length; i++) {
+        row = wordbook_normal[i];
         row[6] = false;
+
+        // sqlite数据库中,显示boolean 有三种状态, 0(false)  1(true)  和 null [不会直接返回true和false]
+	row[7] = wordbook_favourite[i][1] == 1 ? 1 : 0;
+
         if(row[3] < (new Date().getTime() / 1000)) {
             window.rows_from_DB.push(row);
         }
@@ -116,6 +139,7 @@ function show_word() {
         $("#words_count").empty();
         $("#speak_btn").css("display", "none");
         $("#magnifier_btn").css("display", "none");
+        $("#favourite_btn").css("display", "none");
     }
     // 尚未背诵完毕
     else {
@@ -124,7 +148,9 @@ function show_word() {
         window.word_tts_url = "";
         window.word_tts_found = false;
 
-        key_word = window.rows_from_DB[window.cursor_of_rows][0];
+        key_word     = window.rows_from_DB[window.cursor_of_rows][0];
+	is_favourite = window.rows_from_DB[window.cursor_of_rows][7];
+
         params = {"job_id": window.rows_from_DB[window.cursor_of_rows][5]};
 
         // 此时会有网络访问
@@ -167,6 +193,12 @@ function show_word() {
         $("#mem_times").text(window.rows_from_DB[window.cursor_of_rows][2]);
         $("#words_left").text("剩余 " + window.rows_from_DB.length + " / " + window.max_size_this_turn + " 个单词");
         $("#btn_view").css("display", "");
+
+        if(is_favourite == 1) {
+            $("#favourite_btn").css("background", 'url(/img/christmas_star.png)').css("background-size", 'cover');
+        } else {
+            $("#favourite_btn").css("background", 'url(/img/outline_star.png)').css("background-size", 'cover');
+        }
     }
 
     $("#btn_yes").css("display", "none");
@@ -227,3 +259,53 @@ function hide_secret(remember, pass) {
     }
     init_rows_from_DB();
 }());
+
+// 单词收藏 事件处理 （画面收藏小图片触发事件）
+function favourite_action() {
+    // row[0]: word_id
+    // row[1]: favourite
+    // row[2]: memTimes
+
+    row = [];
+
+    row[0] = window.rows_from_DB[window.cursor_of_rows][5];
+    row[1] = window.rows_from_DB[window.cursor_of_rows][7] ^ 1; // 异或操作, 1 => 0, 0 => 1
+    row[2] = 0;
+
+    params = {
+        username: $.cookie('username'),
+        password: window.btoa($.cookie('password')),
+        row: JSON.stringify(row),
+    }
+
+    $.ajax({
+        url: "/update_word_favourite",
+        type: "post",
+        data: params,
+        async: true,
+        success: function(rec) {
+            rec = JSON.parse(rec);
+
+            local_word_id  = window.rows_from_DB[window.cursor_of_rows][5];
+            remote_word_id = rec['verified_info'][0];
+            remote_is_favourite = rec['verified_info'][1];
+
+            // 异步处理回来后，改变收藏小图片的样式
+            if(remote_word_id == local_word_id) {
+
+                if(remote_is_favourite == 1) {
+                    $("#favourite_btn").css("background", 'url(/img/christmas_star.png)').css("background-size", 'cover');
+                } else {
+                    $("#favourite_btn").css("background", 'url(/img/outline_star.png)').css("background-size", 'cover');
+                }
+                window.rows_from_DB[window.cursor_of_rows][7] = remote_is_favourite;
+
+            } else {
+                word_id_row = search_word_id(remote_word_id, window.rows_from_DB, 0, window.rows_from_DB.length - 1);
+                if(word_id_row != -1) {
+                    window.rows_from_DB[word_id_row][7] = remote_is_favourite;
+                }
+            }
+        }
+    });
+}

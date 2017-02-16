@@ -54,7 +54,7 @@
     height: 30px;
     position: fixed;
     right: 15px;
-    top: 115px;
+    top: 125px;
     border: 0;
     background: url(/img/speaker.png);
     background-size: cover;
@@ -65,8 +65,19 @@
     height: 30px;
     position: fixed;
     right: 15px;
-    top: 80px;
+    top: 90px;
     border: 0;
     background: url(/img/magnifier.png);
+    background-size: cover;
+}
+
+#favourite_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 55px;
+    border: 0;
+    background: url(/img/outline_star.png);
     background-size: cover;
 }

@@ -35,6 +35,24 @@ function getQueryString(name) {
     if (r != null) return unescape(r[2]); return null;
 }
 
+// 二分查找法，查找并返回字符在数组中的下标
+function binarySearch(target, arr, low, high) {
+    if (low <= high) {
+        if (arr[low] == target) return low;
+        if (arr[high] == target) return high;
+        var mid = Math.ceil((high + low) / 2);
+        if (arr[mid] == target) {
+            return mid;
+        }
+        else if(arr[mid] > target) {
+            return binarySearch(target, arr, low, mid - 1);
+        } else {
+            return binarySearch(target, arr, mid + 1, high);
+        }
+    }
+    return - 1;
+}
+
 function post(url, params) {
     var form = document.createElement("form");
 

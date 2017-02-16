@@ -561,16 +561,50 @@ def unmemorized_words():
         dict_for_return['verified'] = False
         dict_for_return['message_str'] = "login failed"
         dict_for_return['wordbook'] = []
+        dict_for_return['wordfavourite'] = []
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
     else:
         dbMgr = MmrzSyncDBManager(username)
         dbMgr.createDB()
         rows = dbMgr.readDB()
+        fav  = dbMgr.read_WORD_FAVOURITE_DB()
         dbMgr.closeDB()
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "Download success"
         dict_for_return['wordbook'] = rows
+        dict_for_return['wordfavourite'] = fav
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
+@post('/update_word_favourite/')
+@post('/update_word_favourite')
+def update_word_favourite():
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        row = request.forms['row']
+        row = json.loads(row)
+        dbMgr = MmrzSyncDBManager(username)
+        dbMgr.createDB()
+
+        is_favourite = row[1]
+        if is_favourite == 0:
+            dbMgr.delete_FAVOURITE_DB(row[0])
+        else:
+            dbMgr.insert_FAVOURITE_DB(row)
+
+        dbMgr.closeDB()
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "Update row success"
+        dict_for_return['verified_info'] = row
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
@@ -770,6 +804,6 @@ print ""
 import gevent; from gevent import monkey; monkey.patch_all()
 
 # run server
-run(host='0.0.0.0', port=PORT, server='gevent')
+run(host='0.0.0.0', port=PORT)
 
 

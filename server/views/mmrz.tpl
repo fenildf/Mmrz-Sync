@@ -62,6 +62,7 @@
 
       <button id="speak_btn" onclick="speak_word()"></button>
       <button id="magnifier_btn" onclick="view_hujiang()"></button>
+      <button id="favourite_btn" onclick="favourite_action()"></button>
 
       <div id="copyright"></div>
 
