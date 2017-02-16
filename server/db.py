@@ -44,8 +44,8 @@ class MmrzSyncDBManager:
 
     def createDB(self):
         try:
-            self.c.execute("create table UNMMRZ(word char[255], pronounce char[255], memTimes int, remindTime int, remindTimeStr char[255], wordID int)")
             self.c.execute("create table FAVOURITE(wordID int NOT NULL, favourite boolean, memTimes int)")
+            self.c.execute("create table UNMMRZ(word char[255], pronounce char[255], memTimes int, remindTime int, remindTimeStr char[255], wordID int)")
         except:
             pass
 
