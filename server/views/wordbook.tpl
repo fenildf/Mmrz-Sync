@@ -37,11 +37,11 @@
 
       <table style="font-size: 11px;" align="center">
         <tr>
-          <th>编号</th>
-          <th>时间</th>
-          <th>次数</th>
-          <th>单词</th>
-          <th>词意</th>
+          <th width="35px">编号</th>
+          <th width="130px">时间</th>
+          <th width="45px">次数</th>
+          <th width="135px">单词</th>
+          <th width="300px">词意</th>
         </tr>
 
         %idx = 0
@@ -55,11 +55,11 @@
 
           %idx += 1
           <tr>
-            <td width="35px">{{idx}}</td>
-            <td width="130px">{{remindTimeStr}}</td>
-            <td width="45px">{{memTimes}}</td>
-            <td width="135px">{{word}}</td>
-            <td width="300px" style="word-wrap: break-word;">{{pronounce}}</td>
+            <td>{{idx}}</td>
+            <td>{{remindTimeStr}}</td>
+            <td>{{memTimes}}</td>
+            <td>{{word}}</td>
+            <td style="word-wrap: break-word;">{{pronounce}}</td>
           </tr>
         %end
       </table>
