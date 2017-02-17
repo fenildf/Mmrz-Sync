@@ -418,6 +418,34 @@ def show_wordbook():
 
     return dict(rows=rows_for_return, word_quantity=word_quantity)
 
+@route('/favoritebook')
+@view('favoritebook')
+def show_favoritebook():
+    username = request.params.get('username', None)
+
+    # username not available means username exist, connect it
+    if not is_username_available(username):
+        dbMgr = MmrzSyncDBManager(username)
+        rows = dbMgr.read_FAVOURITE_DB()
+        dbMgr.closeDB()
+
+    # else user name not exist, redirect to /
+    else:
+        redirect('/') 
+
+    rows_for_return = []
+    for row in rows:
+        row = list(row)
+
+        wordID        = row[0]
+        word          = row[1]
+        pronounce     = row[2]
+        favourite     = row[3]
+
+        rows_for_return.append(row)
+
+    return dict(rows=rows_for_return)
+
 ### posts
 @post('/log_in/')
 @post('/log_in')

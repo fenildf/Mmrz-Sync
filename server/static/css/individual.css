@@ -2,3 +2,36 @@
     text-align: center;
 }
 
+
+#show_setting_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 55px;
+    border: 0;
+    background: url(/img/setting.png);
+    background-size: cover;
+}
+
+#show_favourite_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 90px;
+    border: 0;
+    background: url(/img/favorite.png);
+    background-size: cover;
+}
+
+#show_wordbook_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 125px;
+    border: 0;
+    background: url(/img/wordbook.png);
+    background-size: cover;
+}

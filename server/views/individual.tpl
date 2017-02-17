@@ -42,7 +42,11 @@
       <p>目前导入进度: {{import_rate}}%</p>
       <p>离上次导入已有: {{time_elapsed}}</p>
       导入数量(1-200): <input id="quantity" type="tel" onafterpaste="limit_import_number(this)" onkeyup="limit_import_number(this)" value="100" style="width: 30px">
-      <p><a href="javascript:show_wordbook()">查看单词本</a> / <a href="javascript:if(confirm('立即从远端单词本中导入' + $('#quantity').val() + '个单词?'))online_import()">立即导入</a></p>
+      <p><a href="javascript:if(confirm('立即从远端单词本中导入' + $('#quantity').val() + '个单词?'))online_import()">立即导入</a></p>
+
+      <button id="show_setting_btn" onclick="alert('设置功能尚未开放')"></button>
+      <button id="show_favourite_btn" onclick="show_favoritebook()"></button>
+      <button id="show_wordbook_btn" onclick="show_wordbook()"></button>
 
       <br/>
       <h3>修改密码:</h3>

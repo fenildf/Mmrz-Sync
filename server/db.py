@@ -72,6 +72,9 @@ class MmrzSyncDBManager:
     def read_WORD_FAVOURITE_DB(self):
         return self.c.execute("select fav.wordID, fav.favourite from UNMMRZ mmrz LEFT JOIN FAVOURITE fav ON mmrz.wordID = fav.wordID where mmrz.memTimes < 8").fetchall()
 
+    def read_FAVOURITE_DB(self):
+        return self.c.execute("select fav.wordID, mmrz.word, mmrz.pronounce, fav.favourite from FAVOURITE fav LEFT JOIN UNMMRZ mmrz ON mmrz.wordID = fav.wordID").fetchall()
+
     def insert_FAVOURITE_DB(self, row):
         self.c.execute("insert into FAVOURITE values(?, ?, ?)", row)
 

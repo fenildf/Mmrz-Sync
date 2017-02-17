@@ -4,6 +4,10 @@ function show_wordbook() {
     window.open("/wordbook?username=" + $.cookie('username'));
 }
 
+function show_favoritebook() {
+    window.open("/favoritebook?username=" + $.cookie('username'));
+}
+
 function upload_file() {
     if(is_cellphone()) {
         alert("不支持移动端上传词典, 请使用电脑上传");
