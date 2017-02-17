@@ -131,20 +131,35 @@
           if(window.rows_from_DB.length <= 0) {
             return;
           }
-          window.open("http://dict.hjenglish.com/jp/jc/" + window.rows_from_DB[window.cursor_of_rows][0]);
+
+          key_word = window.rows_from_DB[window.cursor_of_rows][0];
+
+          if($.cookie("username") == "quguihua") {
+            window.open("http://dict.hjenglish.com/w/" + key_word);
+          }
+          else {
+            window.open("http://dict.hjenglish.com/jp/jc/" + key_word);
+          }
         }
 
         function speak_word() {
           speaker = document.getElementById("speaker");
 
           // 如果全局 window.word_tts_url 为空, 则不发音
-          if(window.word_tts_url == "") {
-            return;
-          }
+          // if(window.word_tts_url == "") {
+          //   return;
+          // }
 
           // 如果 speaker.src 尚未赋值, 则设置为全局 window.word_tts_url (此时会有网络访问)
           if(speaker.src == window.location.href) {
-            speaker.src = window.word_tts_url;
+            key_word = window.rows_from_DB[window.cursor_of_rows][0];
+
+            if($.cookie("username") == "quguihua") {
+              speaker.src = "http://tts.yeshj.com/s/" + key_word;
+            }
+            else {
+              speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
+            }
           }
 
           speaker.play();
