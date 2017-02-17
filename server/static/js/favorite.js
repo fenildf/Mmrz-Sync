@@ -44,3 +44,19 @@ function favourite_action(idx, word_id) {
         }
     });
 }
+
+function show_word_meaning(idx) {
+    var overlay = $(".td_favourite");
+
+    if(overlay.length <= 0) {
+        return;
+    }
+
+    if(idx != 'all') {
+        overlay[idx - 1].classList.toggle("td_favourite_color");
+    } else {
+        for(var i=0; i < overlay.length; i++) {
+            overlay[i].classList.toggle("td_favourite_color");
+        }
+    }
+}

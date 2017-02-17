@@ -31,9 +31,9 @@
 
       <table style="font-size: 12px;" align="center">
         <tr>
-          <th width="45px">编号</th>
+          <th width="45px" >编号</th>
           <th width="150px">单词</th>
-          <th width="400px">词意</th>
+          <th width="400px" onclick="show_word_meaning('all')">词意<span style="font-size:8px">※点击空白显示词意</span></th>
           <th width="45px">收藏</th>
         </tr>
 
@@ -48,7 +48,7 @@
           <tr>
             <td>{{idx}}</td>
             <td>{{word}}</td>
-            <td>{{pronounce}}</td>
+            <td class="td_favourite" onclick="show_word_meaning({{idx}})">{{pronounce}}</td>
             <td><button class="favourite_btn" onclick="favourite_action({{idx}}, {{wordID}})"></button></td>
             <input name="favourite" type="hidden" value="{{favourite}}"/>
           </tr>
