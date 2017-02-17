@@ -162,6 +162,10 @@
             }
           }
 
+          if($.cookie("username") == "zhanglin") {
+            speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
+          }
+
           speaker.play();
           $("#speak_btn").css("background", 'url(/img/speaker.gif)').css("background-size", 'cover');
 
