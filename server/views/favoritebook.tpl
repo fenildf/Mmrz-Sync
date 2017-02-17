@@ -21,7 +21,7 @@
     <link rel="shortcut icon" href="./fav.ico"/>
     <link rel="bookmark" href="./fav.ico"/>
 
-    <title>favorite</title>
+    <title>Mmrz</title>
   </head>
 
   <body>
