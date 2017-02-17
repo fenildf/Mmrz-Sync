@@ -1,0 +1,6 @@
+百度:
+日语 http://fanyi.baidu.com/gettts?lan=jp&text=france
+英语 http://fanyi.baidu.com/gettts?lan=en&text=france
+
+沪江:
+英语 http://tts.yeshj.com/s/france
