@@ -1,29 +1,59 @@
 # Mmrz-Sync
 
-Sync server of [Mmrz](http://github.com/zhanglintc/Mmrz) project.
+访问地址: [http://zhanglintc.work](http://zhanglintc.work:2603/)
 
 ------
 
-[Mmrz](https://github.com/zhanglintc/Mmrz) 项目的同步服务器.
+## 简介:
 
-为 **Mmrz** 提供以下服务:
+Mmrz 是 Memorize 的缩写, 是一个旨在帮助大家记忆单词的网站. 利用艾宾浩斯遗忘曲线的特性, 定期提取出相应单词进入循环周期进行记忆.
+
+本项目叫 Mmrz-Sync 的原因是最初只是作为 Mmrz 项目的同步服务器存在, 后来才支持网页版访问, 不过名字已经无法修改了.
+
+关于 Mmrz 项目的相关内容以及背诵原理部分可以直接跳转到到这里查看: [Mmrz](https://github.com/zhanglintc/Mmrz).
+
+## 成员:
+
+1. [@zhanglintc](https://github.com/zhanglintc)
+2. [@smilebin818](https://github.com/smilebin818)
+
+## 特性:
+
+1. 后台使用 Python 语言, Bottle.py 框架.
+2. 数据库使用 Sqlite3.
+
+作为同步服务器, 为 Mmrz 提供:
 
 1. 最新版本号信息.
 2. 帐号注册服务.
 3. 背诵数据同步服务.
 
-~~使用 **Python** 的 **WSGI** 作为服务器.~~
+作为网页版:
 
-~~逐步改用 **Bottle** 框架作为服务器.~~
+1. 根据艾宾浩斯遗忘曲线进行背诵
+2. 支持手机电脑和手机访问
+3. 支持发音功能
+4. 支持单词的收藏
 
-已经正式启用 **Bottle** 框架进行开发.
+## 展示:
 
-除了同步服务意外, 本项目可能还要支持 Mmrz 网页版服务. 因为本来打算在 [Mmrz-Web](http://github.com/zhanglintc/Mmrz-Web) 中实现的 Mmrz 网页版无法单独实现, 只能合并在本项目中来. 未来将直接由本项目提供 Mmrz 网页版服务.
+1. 隐藏释义
 
-初步计划以后将两个项目合并, Mmrz-Web 直接指向本项目即可.
+![1](https://i.v2ex.co/32DnmDVfl.jpeg)
 
-Demo 展示页面请直接查看这里: http://zhanglintc.work:2603/
+2. 查看释义
 
-------
+![2](https://i.v2ex.co/8z6aP603l.jpeg)
 
-**仍在开发中...**
+3. 管理导入进度
+
+![3](https://i.v2ex.co/lp6ygY8gl.jpeg)
+
+4. 查看单词本
+
+![4](https://i.v2ex.co/028aUdVYl.jpeg)
+
+5. 查看收藏
+
+![5](https://i.v2ex.co/N03h0c7ml.jpeg)
+
