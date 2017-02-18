@@ -178,7 +178,7 @@ function show_word() {
     if(window.rows_from_DB.length == 0) {
 
         if(!window.null_when_open) {
-            alert("本次背诵完毕");
+            alert("恭喜完成本轮背诵");
             location.reload();
         }
 
