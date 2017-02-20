@@ -4,6 +4,8 @@ a:visited {color: blue; text-decoration: none;}
 a:hover {color: blue; text-decoration: none;}
 a:active {color: blue; text-decoration: none;}
 
+input{outline:none} 
+
 html, body {
     font-family: Ebrima;
     padding: 0;
