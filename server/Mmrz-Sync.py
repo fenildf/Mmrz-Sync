@@ -365,8 +365,11 @@ def ranking():
 
         dbMgr = MmrzSyncDBManager(username)
         words = dbMgr.getMaxWordID()
-        dbMgr.closeDB
-        db_info_list.append([username, os.path.getmtime(path), words])
+        dbMgr.closeDB()
+        tikMgr = TikTimeDBManager()
+        minutes = tikMgr.getMiniutes(username)
+        tikMgr.closeDB()
+        db_info_list.append([username, os.path.getmtime(path), words, minutes])
 
     db_info_list.sort(cmp = lambda u1, u2: cmp(u2[1], u1[1]))
 

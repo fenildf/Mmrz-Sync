@@ -34,6 +34,9 @@ class TikTimeDBManager:
 
         return uniqMinutes
 
+    def getMiniutes(self, username):
+        return len(self.c.execute("select uniqMinute from TIKTIME where username == '{0}'".format(username)).fetchall())
+
     def closeDB(self):
         self.db.commit()
         self.db.close()
