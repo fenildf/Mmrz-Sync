@@ -4,6 +4,40 @@
 import sqlite3
 import base64
 
+class TikTimeDBManager:
+    """
+        table TIKTIME:
+        [0]username      -- char[255] NOT NULL
+        [1]stampTime     -- largeint NOT NULL
+        [2]uniqMinute    -- largeint
+        [3]uniqHour      -- largeint
+        [4]uniqDate      -- largeint
+        [5]theYear       -- int
+        [6]theMonth      -- int
+        [7]theDate       -- int
+        [8]theHour       -- int
+        [9]theWeek       -- int
+        [10]theDay       -- int
+    """
+
+    def __init__(self):
+        self.db = sqlite3.connect("tikTime.db")
+        self.c = self.db.cursor()
+
+    def insertDB(self, tikInfo):
+        self.c.execute("insert into TIKTIME values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tikInfo)
+
+    def getUniqMinuteList(self, username):
+        uniqMinutes = self.c.execute("select uniqMinute from TIKTIME where username == '{0}'".format(username)).fetchall()
+        for i in range(len(uniqMinutes)):
+            uniqMinutes[i] = uniqMinutes[i][0]
+
+        return uniqMinutes
+
+    def closeDB(self):
+        self.db.commit()
+        self.db.close()
+
 class MmrzSyncDBManager:
     """
         table UNMMRZ:

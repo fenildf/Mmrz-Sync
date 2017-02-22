@@ -24,13 +24,26 @@ function logout() {
     location.href="/";
 }
 
+function tik_tik() {
+    params = {
+        username: $.cookie('username'),
+    }
+
+    $.ajax({
+        url: "/tik_tik",
+        type: "post",
+        data: params,
+        async: true,
+    });
+}
+
 function get_tts_url() {
     // 每次都清空相关内容
     document.getElementById("speaker").src = "";
     window.word_tts_url = "";
     window.word_tts_found = false;
 
-    key_word     = window.rows_from_DB[window.cursor_of_rows][0];
+    key_word = window.rows_from_DB[window.cursor_of_rows][0];
 
     params = {"job_id": window.rows_from_DB[window.cursor_of_rows][5]};
 
@@ -171,6 +184,7 @@ function move_cursor(need_move) {
 }
 
 function show_word() {
+    tik_tik();
     window.secret_is_hiding  = true;
     window.secret_is_showing = !window.secret_is_hiding;
 

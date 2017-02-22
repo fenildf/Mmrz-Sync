@@ -9,7 +9,7 @@
 from bottle import route, run, template, view, static_file
 from bottle import post, get, request, redirect
 from bs4 import BeautifulSoup
-from db import MmrzSyncDBManager
+from db import TikTimeDBManager, MmrzSyncDBManager
 import bottle
 import urllib, urllib2
 import gzip, StringIO
@@ -19,7 +19,7 @@ import socket
 import base64
 import pickle
 import random
-import time
+import datetime, time
 import re
 import os
 
@@ -688,7 +688,32 @@ def online_import():
 @post('/tik_tik/')
 @post('/tik_tik')
 def tik_tik():
-    return ""
+    username = request.forms.get('username', None)
+
+    if not username:
+        return "username is None"
+
+    localtime  = time.localtime()
+    timeStamp  = int(time.time()) # 唯一秒数: 
+    Year, Week, Day = datetime.date.fromtimestamp(timeStamp).isocalendar()
+    uniqMinute = timeStamp / 60  # 唯一分钟数: 
+    uniqHour   = uniqMinute / 60 # 唯一小时数: 
+    uniqDate   = uniqHour / 24   # 唯一天数: 
+    theYear    = localtime[0]    # 年: 2017年
+    theMonth   = localtime[1]    # 月份: 2 (2017年2月)
+    theDate    = localtime[2]    # 天数: 22 (2月22)
+    theHour    = localtime[3]    # 小时数: 17 (17点)
+    theWeek    = Week            # 周数: 8 (第八周)
+    theDay     = Day             # 周几: 3 (周3)
+
+
+    tikMgr = TikTimeDBManager()
+    tikInfo = [username, timeStamp, uniqMinute, uniqHour, uniqDate, theYear, theMonth, theDate, theHour, theWeek, theDay]
+    if uniqMinute not in tikMgr.getUniqMinuteList(username):
+        tikMgr.insertDB(tikInfo)
+    tikMgr.closeDB()
+
+    return "tik_tik: OK"
 
 ### gets
 @get('/version_info/')
@@ -832,6 +857,6 @@ print ""
 import gevent; from gevent import monkey; monkey.patch_all()
 
 # run server
-run(host='0.0.0.0', port=PORT)
+run(host='0.0.0.0', port=PORT, server='gevent')
 
 
