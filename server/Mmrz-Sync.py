@@ -10,6 +10,7 @@ from bottle import route, run, template, view, static_file
 from bottle import post, get, request, redirect
 from bs4 import BeautifulSoup
 from db import TikTimeDBManager, MmrzSyncDBManager
+from MmrzCode import *
 import bottle
 import urllib, urllib2
 import gzip, StringIO
@@ -95,6 +96,7 @@ CONFIG_PATH = sys.path[0] + '/version.ini'
 
 universal_POST_dict = {
     "verified": False,
+    "mmrz_code": MMRZ_CODE_Universal_Error,
     "message_str":  ""
 }
 
@@ -127,6 +129,21 @@ def is_username_available(username):
     dbMgr.closeDB()
 
     return not username in users
+
+def validate_username(username):
+    if not 3 <= len(username) <= 20:
+        return False
+
+    if re.search("[^A-Za-z0-9]", username):
+        return False
+
+    return True
+
+def validate_password(password):
+    if not 3 <= len(password) <= 255:
+        return False
+
+    return True
 
 def verify_login(username, password):
     dbMgr = MmrzSyncDBManager("USERS")
@@ -474,15 +491,28 @@ def sign_up():
     password = request.forms.get('password', None)
 
     dict_for_return = dict(universal_POST_dict)
-    if is_username_available(username):
+    if not is_username_available(username):
+        dict_for_return['verified'] = False
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Username_Not_Available_Error
+        dict_for_return['message_str'] = "Username not available"
+
+    elif not validate_username(username):
+        dict_for_return['verified'] = False
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Username_Not_Valid
+        dict_for_return['message_str'] = "Username not valid"
+
+    elif not validate_password(password):
+        dict_for_return['verified'] = False
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Password_Not_Valid
+        dict_for_return['message_str'] = "Password not valid"
+
+    else:
         dbMgr = MmrzSyncDBManager("USERS")
         dbMgr.insert_USERS_DB([username, password])
         dbMgr.closeDB()
         dict_for_return['verified'] = True
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Signup_OK
         dict_for_return['message_str'] = "Signed up"
-    else:
-        dict_for_return['verified'] = False
-        dict_for_return['message_str'] = "Username not available"
 
     json_for_return = json.dumps(dict_for_return)
     return json_for_return
