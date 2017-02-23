@@ -4,7 +4,13 @@ a:visited {color: blue; text-decoration: none;}
 a:hover {color: blue; text-decoration: none;}
 a:active {color: blue; text-decoration: none;}
 
-input{outline:none} 
+input {
+    outline:none;
+    border: 1px solid #000;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+} 
 
 html, body {
     font-family: Ebrima;
