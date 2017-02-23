@@ -184,7 +184,6 @@ function move_cursor(need_move) {
 }
 
 function show_word() {
-    tik_tik();
     window.secret_is_hiding  = true;
     window.secret_is_showing = !window.secret_is_hiding;
 
@@ -242,6 +241,8 @@ function show_secret() {
 }
 
 function hide_secret(remember, pass) {
+    tik_tik();
+
     if(window.rows_from_DB.length == 0) {
         alert("rows_from_DB is null when hide_secret() is called");
         return;
