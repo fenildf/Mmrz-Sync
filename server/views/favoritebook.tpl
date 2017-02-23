@@ -47,7 +47,7 @@
           %idx += 1
           <tr>
             <td>{{idx}}</td>
-            <td>{{word}}</td>
+            <td class="td_word" onclick="jump_to_hujiang({{idx}})">{{word}}</td>
             <td class="td_favourite" onclick="show_word_meaning({{idx}})">{{pronounce}}</td>
             <td><button class="favourite_btn" onclick="favourite_action({{idx}}, {{wordID}})"></button></td>
             <input name="favourite" type="hidden" value="{{favourite}}"/>

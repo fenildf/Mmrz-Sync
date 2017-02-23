@@ -45,8 +45,25 @@ function favourite_action(idx, word_id) {
     });
 }
 
+function jump_to_hujiang(idx) {
+    overlay = $(".td_word");
+
+    if(overlay.length <= 0) {
+        return;
+    }
+
+    key_word = overlay[idx - 1].innerHTML;
+
+    if($.cookie("username") == "quguihua") {
+        window.open("http://dict.hjenglish.com/w/" + key_word);
+    }
+    else {
+        window.open("http://dict.hjenglish.com/jp/jc/" + key_word);
+    }
+}
+
 function show_word_meaning(idx) {
-    var overlay = $(".td_favourite");
+    overlay = $(".td_favourite");
 
     if(overlay.length <= 0) {
         return;
