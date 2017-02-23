@@ -31,10 +31,10 @@
 
       <table align="center">
         <tr>
-          <th>用户名</th>
-          <th>最后活跃时间</th>
-          <th>单词总数</th>
-          <th>背诵分钟数</th>
+          <th>用户</th>
+          <th>最后活跃</th>
+          <th>单词</th>
+          <th>背诵时长</th>
         </tr>
         %for user in db_info_list:
           <tr>
