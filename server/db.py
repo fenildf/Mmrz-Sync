@@ -119,7 +119,7 @@ class MmrzSyncDBManager:
         self.c.execute("DELETE FROM favourite WHERE wordID = {0}".format(wordID))
 
     def selete_UNMMRZ_COUNT(self, times):
-        return self.c.execute("SELECT count(unm.word) FROM unmmrz unm WHERE CASE WHEN '{0}' = 'all' THEN unm.memTimes < 8 ELSE unm.memTimes = '{0}' END".format(times)).fetchall()[0][0]
+        return self.c.execute("SELECT count(unm.word) FROM unmmrz unm WHERE CASE WHEN '{0}' = 'all' THEN unm.memTimes <= 8 ELSE unm.memTimes = '{0}' END".format(times)).fetchall()[0][0]
 
     def selete_UNMMRZ_DATA_BY_PAGE(self, params):
         return self.c.execute("SELECT * FROM (SELECT unm.* FROM (select * from (SELECT tab1.* FROM unmmrz tab1 where tab1.memTimes < '8' order by tab1.remindTime) UNION ALL SELECT tab2.* FROM unmmrz tab2 where tab2.memTimes = '8') unm WHERE CASE WHEN '{0}' = 'all' THEN unm.memTimes <= 8 ELSE unm.memTimes = '{0}' END limit {1} offset {1}*{2}) LIMIT 200".format(params[0], params[1], params[2])).fetchall()

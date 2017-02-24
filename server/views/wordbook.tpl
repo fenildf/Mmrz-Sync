@@ -97,7 +97,7 @@
           }
         });
 
-        if (url_page == 1) {
+        if (url_page == 1 || url_page == null) {
           $('.first').toggleClass('disabled')
           $('.prev').toggleClass('disabled')
         } else if (url_page == page_max) {
