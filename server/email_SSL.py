@@ -2,6 +2,7 @@
 
 import os, sys
 import smtplib
+import json
 from smtplib import SMTP_SSL
 from email.header import Header
 from email.mime.text import MIMEText
@@ -17,6 +18,10 @@ mailInfo = {
     "mailtext": "邮件正文",
     "mailencoding": "utf-8",
 }
+
+fr = open("mailInfo.json", "rb")
+mailInfo = json.loads(fr.read())
+fr.close()
         
 if __name__ == '__main__':
     smtp = SMTP_SSL(mailInfo["hostname"])
