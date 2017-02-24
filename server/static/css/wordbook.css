@@ -10,3 +10,49 @@ table {
 th, td {
     border: solid #000 1px;
 }
+
+.pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin: auto;
+  border-radius: 4px;
+}
+
+.pagination > li {
+  display: inline;
+}
+
+.pagination > li > a {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  margin-left: -1px;
+  line-height: 1.428571429;
+  text-decoration: none;
+  background-color: rgb(173, 216, 230);
+  border: 1px solid #428bca;
+}
+
+.pagination > .active > a,
+.pagination > .active > a:hover,
+.pagination > .active > a:focus {
+  z-index: 2;
+  color: #ffffff;
+  cursor: default;
+  background-color: #428bca;
+  border-color: #428bca;
+}
+
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+  color: #999999;
+  cursor: not-allowed;
+  background-color: rgba(173, 216, 230, 0);
+  border-color: #dddddd;
+}
+
+.pagination-sm > li > a {
+  padding: 2px 8px;
+  font-size: 12px;
+}

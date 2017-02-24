@@ -12,6 +12,7 @@
 
     <script type="text/javascript" src="./js/jquery1.8.3.min.js"></script>
     <script type="text/javascript" src="./js/jquery1.4.1.cookie.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.twbsPagination.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
     <script type="text/javascript" src="./js/wordbook.js"></script>
 
@@ -26,18 +27,20 @@
 
   <body>
     <div id="center_board">
-
-      <h3 id="title">单词本</h3>
-
-      <h4>当前提取 {{len(rows)}} / {{word_quantity}} 个单词</h4>
-      <a id="show_all" href="javascript:location.href='/wordbook?username=' + $.cookie('username') + '&show_all=yes'">点击提取全部单词</a>
-
       <br/>
+      <h3 id="title" style="margin:auto;">单词本</h3>
       <br/>
+
+      <div style="margin:auto;">
+        <span style="font-size: 13px">当前提取 {{len(rows)}} / {{word_quantity}} 个单词</span>
+        <br/>
+
+        <ul id="pagination-demo" class="pagination-sm"></ul>
+      </div>
 
       <table style="font-size: 11px;" align="center">
         <tr>
-          <th width="35px">编号</th>
+          <th width="40px">编号</th>
           <th width="130px">时间</th>
           <th width="45px">次数</th>
           <th width="135px">单词</th>
@@ -74,6 +77,32 @@
 
         if(getQueryString('show_all') == "yes") {
           $("#show_all").text("");
+        }
+
+        page_max = {{page_max}};
+        visiblePages = page_max > 5 ? 5 : page_max;
+
+        url_page = getQueryString("page");
+        url_page = (url_page < 1 || url_page == null) ? 1 : url_page
+
+        $('#pagination-demo').twbsPagination({
+          totalPages: page_max,
+          visiblePages: visiblePages,
+          version: '1.1',
+          startPage: url_page,
+          onPageClick: function (event, page) {
+            if(url_page != page) {
+              location.href = "./wordbook?username=" + $.cookie("username") +"&page=" + page;
+            }
+          }
+        });
+
+        if (url_page == 1) {
+          $('.first').toggleClass('disabled')
+          $('.prev').toggleClass('disabled')
+        } else if (url_page == page_max) {
+          $('.next').toggleClass('disabled')
+          $('.last').toggleClass('disabled')
         }
       </script>
 

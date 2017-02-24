@@ -20,7 +20,7 @@ import socket
 import base64
 import pickle
 import random
-import datetime, time
+import datetime, time, math
 import re
 import os
 
@@ -399,12 +399,23 @@ def ranking():
 @view('wordbook')
 def show_wordbook():
     username = request.params.get('username', None)
-    show_all = request.params.get('show_all', None)
+    page = int(request.params.get('page', 1))
+    # show_all = request.params.get('show_all', None)
 
     # username not available means username exist, connect it
     if not is_username_available(username):
         dbMgr = MmrzSyncDBManager(username)
-        rows = dbMgr.readAllDB() if show_all == "yes" else dbMgr.readDB()
+
+        # times TODO
+        times = 'all'
+        page_size = 200
+
+        count = dbMgr.selete_UNMMRZ_COUNT(times)
+        page_max = int(math.ceil(count/float(page_size)))
+
+        params = [times, page_size, page - 1]
+        rows = dbMgr.selete_UNMMRZ_DATA_BY_PAGE(params)
+
         word_quantity = len(dbMgr.readAllDB())
         dbMgr.closeDB()
     # else user name not exist, redirect to /
@@ -412,8 +423,6 @@ def show_wordbook():
         redirect('/') 
 
     rows_for_return = []
-    tail_of_8_times = []
-    rows = sorted(rows, key=lambda row: row[3]) # from small to big
     for row in rows:
         row = list(row)
 
@@ -429,14 +438,9 @@ def show_wordbook():
         remindTimeStr = "{0}d-{1}h-{2}m".format(days, hours, mins)
         row[4] = remindTimeStr
 
-        if memTimes >= 8:
-            tail_of_8_times.append(row)
-        else:
-            rows_for_return.append(row)
+        rows_for_return.append(row)
 
-    rows_for_return += tail_of_8_times
-
-    return dict(rows=rows_for_return, word_quantity=word_quantity)
+    return dict(rows=rows_for_return, page_max=page_max, word_quantity=word_quantity)
 
 @route('/favoritebook')
 @view('favoritebook')
