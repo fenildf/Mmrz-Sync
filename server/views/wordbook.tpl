@@ -82,8 +82,8 @@
         page_max = {{page_max}};
         visiblePages = page_max > 5 ? 5 : page_max;
 
-        url_page = getQueryString("page");
-        url_page = (url_page < 1 || url_page == null) ? 1 : url_page
+        url_page = Number(getQueryString("page"));
+        url_page = url_page <= 1 ? 1 : url_page;
 
         $('#pagination-demo').twbsPagination({
           totalPages: page_max,
@@ -94,13 +94,23 @@
             if(url_page != page) {
               location.href = "./wordbook?username=" + $.cookie("username") +"&page=" + page;
             }
+
+            if(url_page <= 1) {
+              $('.first').toggleClass('disabled')
+              $('.prev').toggleClass('disabled')
+            }
+            else if (url_page == page_max) {
+              $('.next').toggleClass('disabled')
+              $('.last').toggleClass('disabled')
+            }
           }
         });
 
-        if (url_page == 1 || url_page == null) {
+        if(url_page <= 1) {
           $('.first').toggleClass('disabled')
           $('.prev').toggleClass('disabled')
-        } else if (url_page == page_max) {
+        }
+        else if (url_page == page_max) {
           $('.next').toggleClass('disabled')
           $('.last').toggleClass('disabled')
         }
