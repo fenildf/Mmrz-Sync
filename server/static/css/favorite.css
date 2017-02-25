@@ -20,26 +20,16 @@ th, td {
 }
 
 .td_favourite{
-    text-transform:capitalize;
-    letter-spacing:2px;
-    opacity:0;
-    -webkit-transform:scale3d(0,0,0);
-    -moz-transform:scale3d(0,0,0);
-    -ms-transform:scale3d(0,0,0);
-    -o-transform:scale3d(0,0,0);
-    transform:scale3d(0,0,0);
-    -webkit-transition:1s;
-    -moz-transition:1s;
-    -ms-transition:1s;
-    -o-transition:1s;
-    transition:1s;
-    }
+    text-transform: capitalize;
+    letter-spacing: 2px;
+    opacity: 0;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+    transition: 1s;
+}
 
 .td_favourite_color {
     opacity:1;
-    -webkit-transform:scale3d(1,1,1);
-    -moz-transform:scale3d(1,1,1);
-    -o-transform:scale3d(1,1,1);
-    -ms-transform:scale3d(1,1,1);
-    transform:scale3d(1,1,1);
-    }
+}
