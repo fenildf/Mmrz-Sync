@@ -101,7 +101,7 @@ function verify_user(username, password) {
 }
 
 function cal_remind_time(memTimes, type) {
-    curTime = parseInt(new Date().getTime() / 1000);
+    curTime = Math.floor(new Date().getTime() / 1000);
 
     switch(memTimes) {
     case 0:
