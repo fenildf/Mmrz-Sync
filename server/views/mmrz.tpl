@@ -187,14 +187,14 @@
       </script>
 
       <script type="text/javascript">
-          function individual() {
-            if($.cookie('username') == "zhanglin" || $.cookie('username') == "smile") {
-              window.open("/individual?username=" + $.cookie('username'));
-            }
-            else {
-              window.open("/individual?username=" + $.cookie('username'));
-            }
+        function individual() {
+          if($.cookie('username') == "zhanglin" || $.cookie('username') == "smile") {
+            window.open("/individual?username=" + $.cookie('username'));
           }
+          else {
+            window.open("/individual?username=" + $.cookie('username'));
+          }
+        }
       </script>
 
       <script type="text/javascript">
