@@ -90,6 +90,10 @@
           visiblePages: visiblePages,
           version: '1.1',
           startPage: url_page,
+          first: '<<',
+          prev: '',
+          next: '',
+          last: '>>',
           onPageClick: function (event, page) {
             if(url_page != page) {
               location.href = "./wordbook?username=" + $.cookie("username") +"&page=" + page;
