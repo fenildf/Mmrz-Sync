@@ -55,12 +55,8 @@ function get_tts_url() {
         data: params,
         async: true,
         success: function(rec) {
-            // 手机上, 此处如果点击刷新, 将无法发音; 如果是输入地址回车则可以.
-            // 如果在此 ajax 前 alert, 则也能获取正常返回值.
-            // 此处如果点击刷新, 谁™也不知道为什么有会返回一个 undefined (后台没有问题, 正常返回了的)
-            // 当然也有可能是测试环境的问题.
-            // 这里没有办法, 临时处理. (估计会永远临时下去了)
-            // 2017.02.14 zhanglintc
+            // 在服务器端启用了 gevent 的情况下, 此处经常会出现 undefined, 所以需要有个特殊处理
+            // 2017.03.02 zhanglintc
             if(typeof(rec) == "undefined") {
                 $("#speak_btn").css("background", 'url(/img/novoice.png)').css("background-size", 'cover');
                 return;
