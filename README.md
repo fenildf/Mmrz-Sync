@@ -35,6 +35,9 @@ Mmrz 是 Memorize 的缩写, 是一个旨在帮助大家记忆单词的网站. �
 3. 支持发音功能
 4. 支持单词的收藏
 
+## 规约:
+本项目编码需要遵守的编码规约: [Programming-specification.md](https://github.com/zhanglintc/Mmrz-Sync/blob/master/doc/Programming-specification.md)
+
 ## 展示:
 
 1. 隐藏释义
