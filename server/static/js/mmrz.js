@@ -1,16 +1,17 @@
 // functions for mmrz.tpl
 
 function search_word_id(target, arr, low, high) {
-    if (low <= high) {
-        if (arr[low][5] == target) return low;
-        if (arr[high][5] == target) return high;
-        var mid = Math.ceil((high + low) / 2);
-        if (arr[mid][5] == target) {
+    if(low <= high) {
+        if(arr[low][5] == target) return low;
+        if(arr[high][5] == target) return high;
+        mid = Math.ceil((high + low) / 2);
+        if(arr[mid][5] == target) {
             return mid;
         }
         else if(arr[mid][5] > target) {
             return binarySearch(target, arr, low, mid - 1);
-        } else {
+        }
+        else {
             return binarySearch(target, arr, mid + 1, high);
         }
     }
@@ -77,7 +78,8 @@ function get_tts_url() {
 
             if(!window.word_tts_found) {
                 $("#speak_btn").css("background", 'url(/img/novoice.png)').css("background-size", 'cover');
-            } else {
+            }
+            else {
                 $("#speak_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
             }
         }
@@ -113,10 +115,10 @@ function update_row(row) {
     }
 
     $.ajax({
-        url:"/update_row",
-        type:"post",
-        data:params,
-        async:true,
+        url: "/update_row",
+        type: "post",
+        data: params,
+        async: true,
     });
 }
 
@@ -128,11 +130,11 @@ function get_shortest_remind() {
     }
 
     $.ajax({
-        url:"/get_shortest_remind",
-        type:"get",
-        data:params,
-        async:false,
-        success:function(rec) {
+        url: "/get_shortest_remind",
+        type: "get",
+        data: params,
+        async: false,
+        success: function(rec) {
             shortest_remind = rec;
         }
     });
