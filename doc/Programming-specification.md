@@ -22,7 +22,7 @@ function() {
 if(condition1) {
     // process1
 }
-else if(condition2){
+else if(condition2) {
     // process2
 }
 else {
