@@ -3,6 +3,7 @@
 
 import sqlite3
 import base64
+import datetime, time
 
 class TikTimeDBManager:
     """
@@ -35,7 +36,11 @@ class TikTimeDBManager:
         return uniqMinutes
 
     def getMiniutes(self, username):
-        return len(self.c.execute("select uniqMinute from TIKTIME where username == '{0}'".format(username)).fetchall())
+        return self.c.execute("select count(uniqMinute) from TIKTIME where username == '{0}'".format(username)).fetchall()[0][0]
+
+    def getMiniutesByWeek(self, username, timeStamp):
+        Year, Week, Day = datetime.date.fromtimestamp(timeStamp).isocalendar()
+        return self.c.execute("select count(uniqMinute) from TIKTIME where username == '{0}' and theYear == {1} and theWeek == {2}".format(username, Year, Week)).fetchall()[0][0]
 
     def closeDB(self):
         self.db.commit()

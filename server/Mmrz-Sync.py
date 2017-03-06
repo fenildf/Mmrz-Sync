@@ -384,7 +384,7 @@ def ranking():
         words = dbMgr.getMaxWordID()
         dbMgr.closeDB()
         tikMgr = TikTimeDBManager()
-        minutes = tikMgr.getMiniutes(username)
+        minutes = tikMgr.getMiniutesByWeek(username, time.time())
         tikMgr.closeDB()
         db_info_list.append([username, os.path.getmtime(path), words, minutes])
 

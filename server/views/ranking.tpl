@@ -34,7 +34,7 @@
           <th>用户</th>
           <th>最后活跃</th>
           <th>单词</th>
-          <th>背诵时长</th>
+          <th>本周背诵</th>
         </tr>
         %for user in db_info_list:
           <tr>
