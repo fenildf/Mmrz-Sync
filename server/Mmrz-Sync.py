@@ -894,6 +894,6 @@ print ""
 import gevent; from gevent import monkey; monkey.patch_all()
 
 # run server
-run(host='0.0.0.0', port=PORT, server='gevent')
+run(host='0.0.0.0', port=PORT)
 
 
