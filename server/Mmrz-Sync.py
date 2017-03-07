@@ -318,6 +318,11 @@ def signup():
 def mmrz():
     return {}
 
+@route('/setting')
+@view('setting')
+def setting():
+    return {}
+
 @route('/individual')
 @view('individual')
 def individual():

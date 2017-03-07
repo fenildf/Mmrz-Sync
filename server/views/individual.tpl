@@ -44,39 +44,9 @@
       导入数量(1-200): <input id="quantity" type="tel" onafterpaste="limit_import_number(this)" onkeyup="limit_import_number(this)" value="100" style="width: 30px">
       <p><a href="javascript:if(confirm('立即从远端单词本中导入' + $('#quantity').val() + '个单词?'))online_import()">立即导入</a></p>
 
-      <button id="show_setting_btn" onclick="alert('设置功能尚未开放')"></button>
+      <button id="show_setting_btn" onclick="show_setting()"></button>
       <button id="show_favourite_btn" onclick="show_favoritebook()"></button>
       <button id="show_wordbook_btn" onclick="show_wordbook()"></button>
-
-      <br/>
-      <h3>修改密码:</h3>
-      <table border="0" align="center">
-        <tbody>
-          <tr>
-            <td align="right">当前密码:</td>
-            <td align="left"><input id="password_current" type="password" style="width: 135px"></td>
-          </tr>
-          <tr>
-            <td align="right">新密码:</td>
-            <td align="left"><input id="password_new" type="password" style="width: 135px"></td>
-          </tr>
-          <tr>
-            <td align="right">确认新密码:</td>
-            <td align="left"><input id="password_again" type="password" style="width: 135px"></td>
-          </tr>
-
-          <tr>
-            <td>
-              <div id="#prompt"></div>
-            </td>
-            <td align="right">
-              <div>
-                <button class="btn" onclick="update_password()" style="margin-top: 5px; font-size: 14px">更改密码</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
 
       <div id="copyright"></div>
 
