@@ -28,7 +28,7 @@
 
       <h2 id="title">个人设定</h2>
 
-      <div align="center" style="margin-bottom: 10px"><b style="font-size:18px;">密码修正</b></div>
+      <div align="center" style="margin-bottom: 10px"><b style="font-size:18px;">修改密码</b></div>
       <table border="0" align="center">
         <tbody>
           <tr>
