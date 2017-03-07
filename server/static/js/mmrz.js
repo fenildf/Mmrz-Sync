@@ -224,6 +224,11 @@ function show_word() {
 }
 
 function show_secret() {
+    if(window.rows_from_DB.length == 0) {
+        console.log("rows_from_DB is null when show_secret() is called");
+        return;
+    }
+
     window.secret_is_hiding  = false;
     window.secret_is_showing = !window.secret_is_hiding;
 
@@ -239,12 +244,12 @@ function show_secret() {
 }
 
 function hide_secret(remember, pass) {
-    tik_tik();
-
     if(window.rows_from_DB.length == 0) {
-        alert("rows_from_DB is null when hide_secret() is called");
+        console.log("rows_from_DB is null when hide_secret() is called");
         return;
     }
+
+    tik_tik();
 
     if(remember || pass) {
         row = window.rows_from_DB[window.cursor_of_rows];
