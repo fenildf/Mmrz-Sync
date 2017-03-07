@@ -33,7 +33,7 @@
         <tr>
           <th width="45px" >编号</th>
           <th width="150px">单词</th>
-          <th width="400px" onclick="show_word_meaning('all')">词意<span style="font-size:8px">※点击空白显示词意</span></th>
+          <th width="400px" onclick="show_word_meaning('all')">词意<span id="word_meaning_title" style="font-size:8px">※点击显示全部</span></th>
           <th width="45px">收藏</th>
         </tr>
 
@@ -54,6 +54,7 @@
           </tr>
         %end
       </table>
+      <input name="show_word" type="hidden" value="0"/>
 
       <div id="copyright"></div>
 

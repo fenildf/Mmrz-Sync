@@ -64,6 +64,7 @@ function jump_to_hujiang(idx) {
 
 function show_word_meaning(idx) {
     overlay = $(".td_favourite");
+    all_show_word = $('input[name="show_word"]')[0].value;
 
     if(overlay.length <= 0) {
         return;
@@ -71,9 +72,19 @@ function show_word_meaning(idx) {
 
     if(idx != 'all') {
         overlay[idx - 1].classList.toggle("td_favourite_color");
-    } else {
-        for(var i=0; i < overlay.length; i++) {
-            overlay[i].classList.toggle("td_favourite_color");
+    }
+    else if (all_show_word == 0) {
+        for(i = 0; i < overlay.length; i++) {
+            overlay[i].classList.add("td_favourite_color");
         }
+        $('input[name="show_word"]').eq(0).val("1");
+        $("#word_meaning_title").text("※点击隐藏全部");
+    }
+    else {
+        for(i = 0; i < overlay.length; i++) {
+            overlay[i].classList.remove("td_favourite_color");
+        }
+        $('input[name="show_word"]').eq(0).val("0");
+        $("#word_meaning_title").text("※点击显示全部");
     }
 }
