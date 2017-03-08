@@ -204,6 +204,13 @@ function make_weekly_chart(canvas_id, weekly_data) {
         legend: {
             display: false
         },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
     };
     myBarChart = new Chart(ctx, {
         type: 'bar',
