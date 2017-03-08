@@ -26,7 +26,7 @@
 
   <body>
     <div id="center_board">
-      <h2 id="title">图表展示(假数据)</h2>
+      <h2 id="title">背诵时间</h2>
       <div style="width: 300px; margin: auto;">
         <canvas id="weekly_chart"></canvas>
       </div>
@@ -34,12 +34,14 @@
       <div id="copyright"></div>
 
       <script type="text/javascript">
-      make_weekly_chart($("#weekly_chart"), [12,12,33,12,12,12,12])
+        make_weekly_chart($("#weekly_chart"), get_weekly_mmrz_time(getQueryString("username")))
       </script>
       <script type="text/javascript">
+        $("#title").text("背诵时间 -- " + getQueryString("username"));
+
         domain = document.domain;
         if(domain == "localhost" || domain == "127.0.0.1") {
-          $("#title").text("图表展示 -- Debug");
+          $("#title").text("背诵时间 -- " + getQueryString("username") + " -- Debug");
         }
       </script>
 

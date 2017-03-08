@@ -38,7 +38,7 @@
         </tr>
         %for user in db_info_list:
           <tr>
-            <td>{{user[0]}}</td>
+            <td><a style="color: black;" target="_blank" href="/chart?&username={{user[0]}}">{{user[0]}}</a></td>
             <td>{{user[1]}}</td>
             <td>{{user[2]}}</td>
             <td>{{user[3]}}</td>
