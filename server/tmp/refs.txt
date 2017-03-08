@@ -1,0 +1,85 @@
+var data = {
+    labels: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"],
+    datasets: [
+        {
+            label: "背诵时长",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(0,0,0,1)",
+            borderColor: "rgba(0,0,0,1)",
+            borderCapStyle: 'butt',
+            borderWidth: 1,
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(0,0,0,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(0,0,0,1)",
+            pointHoverBorderColor: "rgba(0,0,0,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [33, 59, 80, 81, 56, 55, 40],
+            spanGaps: false,
+        },
+        {
+            label: "单词量",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(22,22,220,1)",
+            borderColor: "rgba(22,22,220,1)",
+            borderCapStyle: 'butt',
+            borderWidth: 1,
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(0,0,0,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(0,0,0,1)",
+            pointHoverBorderColor: "rgba(0,0,0,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [44, 11, 22, 81, 99, 55, 45],
+            spanGaps: false,
+        }
+    ],
+
+};
+var myLineChart = Chart.Line(ctx, {
+    data: data,
+    options: {
+        title: {
+            display: true,
+            text: '本周背诵时长统计',
+            fontColor: '#000',
+            fontSize: 40,
+        },
+        legend: {
+            display: true,
+            labels: {
+                fontColor: 'rgb(0, 0, 0)',
+                fontSize: 22,
+            }
+        },
+        scales: {
+            fontColor: 'rgb(0, 0, 0)',
+            yAxes: [{
+                ticks: {
+                    fontSize: 20,
+                    fontColor: 'rgb(0, 0, 0)',
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontSize: 30,
+                    fontColor: 'rgb(0, 0, 0)',
+                }
+            }]
+        }
+    }
+});
