@@ -91,10 +91,10 @@ function get_wordbooks() {
     }
 
     $.ajax({
-        url:"/unmemorized_words",
-        type:"post",
-        data:params,
-        async:false,
+        url: "/unmemorized_words",
+        type: "post",
+        data: params,
+        async: false,
         success:function(rec) {
             wordbook = JSON.parse(rec);
         }

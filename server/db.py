@@ -42,6 +42,15 @@ class TikTimeDBManager:
         Year, Week, Day = datetime.date.fromtimestamp(timeStamp).isocalendar()
         return self.c.execute("select count(uniqMinute) from TIKTIME where username == '{0}' and theYear == {1} and theWeek == {2}".format(username, Year, Week)).fetchall()[0][0]
 
+    def getMiniutesDetailsByWeek(self, username, timeStamp):
+        Year, Week, Day = datetime.date.fromtimestamp(timeStamp).isocalendar()
+
+        weekly = []
+        for day in range(1, 8):
+            weekly.append(self.c.execute("select count(uniqMinute) from TIKTIME where username == '{0}' and theYear == {1} and theWeek == {2} and theDay == {3}".format(username, Year, Week, day)).fetchall()[0][0])
+
+        return weekly
+
     def closeDB(self):
         self.db.commit()
         self.db.close()

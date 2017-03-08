@@ -323,6 +323,11 @@ def mmrz():
 def setting():
     return {}
 
+@route('/chart')
+@view('chart')
+def chart():
+    return {}
+
 @route('/individual')
 @view('individual')
 def individual():
@@ -860,6 +865,17 @@ def get_hujiang_tts():
     ret_info["message_str"] = "tts_url is found"
     ret_info["tts_url"] = tts_url
     return json.dumps(ret_info)
+
+@get('/get_weekly_mmrz_time/')
+@get('/get_weekly_mmrz_time')
+def get_weekly_mmrz_time():
+    username  = request.params.get('username', None)
+
+    tikMgr = TikTimeDBManager()
+    weekly_data = tikMgr.getMiniutesDetailsByWeek(username, int(time.time()))
+    tikMgr.closeDB()
+
+    return json.dumps(weekly_data)
 
 @get('/download_wordbook/')
 @get('/download_wordbook')

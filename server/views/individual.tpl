@@ -12,6 +12,7 @@
 
     <script type="text/javascript" src="./js/jquery1.8.3.min.js"></script>
     <script type="text/javascript" src="./js/jquery1.4.1.cookie.min.js"></script>
+    <script type="text/javascript" src="./js/chart.min.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
     <script type="text/javascript" src="./js/individual.js"></script>
 
@@ -43,6 +44,13 @@
       <p>离上次导入已有: {{time_elapsed}}</p>
       导入数量(1-200): <input id="quantity" type="tel" onafterpaste="limit_import_number(this)" onkeyup="limit_import_number(this)" value="100" style="width: 30px">
       <p><a href="javascript:if(confirm('立即从远端单词本中导入' + $('#quantity').val() + '个单词?'))online_import()">立即导入</a></p>
+      
+      <hr>
+
+      <h3>本周背诵统计:</h3>
+      <div style="width: 300px; margin: auto;">
+        <canvas id="weekly_chart"></canvas>
+      </div>
 
       <button id="show_setting_btn" onclick="show_setting()"></button>
       <button id="show_favourite_btn" onclick="show_favoritebook()"></button>
@@ -51,6 +59,8 @@
       <div id="copyright"></div>
 
       <script type="text/javascript">
+        make_weekly_chart($("#weekly_chart"), get_weekly_mmrz_time($.cookie('username')));
+
         domain = document.domain;
         if(domain == "localhost" || domain == "127.0.0.1") {
           $("#title").text("个人信息 -- Debug");

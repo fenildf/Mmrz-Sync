@@ -151,6 +151,67 @@ function getRadioValue(radio) {
     }
 }
 
+function get_weekly_mmrz_time(username) {
+    weekly_data = [];
+
+    params = {
+        username: username,
+    }
+
+    $.ajax({
+        url: "/get_weekly_mmrz_time",
+        type: "get",
+        data: params,
+        async: false,
+        success:function(rec) {
+            weekly_data = JSON.parse(rec);
+        }
+    });
+
+    return weekly_data;
+}
+
+function make_weekly_chart(canvas_id, weekly_data) {
+    ctx = canvas_id;
+    data = {
+        labels: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+        xAxisID: "123",
+        datasets: [{
+            label: "背诵时长",
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(133, 187, 86, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(133, 187, 86, 1)',
+            ],
+            borderWidth: 1,
+            data: weekly_data,
+        }]
+    };
+    options = {
+        legend: {
+            display: false
+        },
+    };
+    myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options,
+    });
+}
+
 function setParking_DeckPlaceholder() {
     if(getRadioValue("area") == "A") {
         parking_deck.placeholder = "A区范围: 001 - " + SERIAL_INFO.data[0].length;
