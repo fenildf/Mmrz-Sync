@@ -47,7 +47,7 @@
           <th width="300px">词意</th>
         </tr>
 
-        %idx = 0
+        %idx = rows_start
         %for row in rows:
           %word          = row[0]
           %pronounce     = row[1]
@@ -73,10 +73,6 @@
         domain = document.domain;
         if(domain == "localhost" || domain == "127.0.0.1") {
           $("#title").text("单词本 -- Debug");
-        }
-
-        if(getQueryString('show_all') == "yes") {
-          $("#show_all").text("");
         }
 
         page_max = {{page_max}};

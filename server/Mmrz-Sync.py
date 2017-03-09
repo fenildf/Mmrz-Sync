@@ -450,7 +450,9 @@ def show_wordbook():
 
         rows_for_return.append(row)
 
-    return dict(rows=rows_for_return, page_max=page_max, word_quantity=word_quantity)
+    rows_start = (page - 1) * 200
+
+    return dict(rows=rows_for_return, page_max=page_max, word_quantity=word_quantity, rows_start=rows_start)
 
 @route('/favoritebook')
 @view('favoritebook')
