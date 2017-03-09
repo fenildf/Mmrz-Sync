@@ -54,11 +54,14 @@ function jump_to_hujiang(idx) {
 
     key_word = overlay[idx - 1].innerHTML;
 
-    if($.cookie("username") == "quguihua") {
+    if(is_word_EN(key_word)) {
         window.open("http://dict.hjenglish.com/w/" + key_word);
     }
-    else {
+    else if(is_word_JA(key_word)) {
         window.open("http://dict.hjenglish.com/jp/jc/" + key_word);
+    }
+    else {
+        console.log("can't recognize");
     }
 }
 
