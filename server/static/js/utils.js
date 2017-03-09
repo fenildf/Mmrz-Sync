@@ -29,6 +29,18 @@ function is_cellphone() {
     return flag;
 }
 
+function is_word_EN(key_word) {
+    regx = /^[a-zA-Z]+$/;
+
+    return regx.test(key_word);
+}
+
+function is_word_JA(key_word) {
+    regx = /^[\u30a1-\u30f6\u3041-\u3093\uFF00-\uFFFF\u4e00-\u9fa5|ー]+$/;
+
+    return regx.test(key_word);
+}
+
 function getQueryString(name) { 
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);

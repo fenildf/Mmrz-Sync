@@ -134,36 +134,33 @@
 
           key_word = window.rows_from_DB[window.cursor_of_rows][0];
 
-          if($.cookie("username") == "quguihua") {
+          if(is_word_JA(key_word)) {
+            window.open("http://dict.hjenglish.com/jp/jc/" + key_word);
+          }
+          else if(is_word_EN(key_word)) {
             window.open("http://dict.hjenglish.com/w/" + key_word);
           }
           else {
-            window.open("http://dict.hjenglish.com/jp/jc/" + key_word);
+            console.log("can't recognize");
           }
         }
 
         function speak_word() {
           speaker = document.getElementById("speaker");
 
-          // 如果全局 window.word_tts_url 为空, 则不发音
-          // if(window.word_tts_url == "") {
-          //   return;
-          // }
-
           // 如果 speaker.src 尚未赋值, 则设置为全局 window.word_tts_url (此时会有网络访问)
           if(speaker.src == window.location.href) {
             key_word = window.rows_from_DB[window.cursor_of_rows][0];
 
-            if($.cookie("username") == "quguihua") {
+            if(is_word_JA(key_word)) {
+              speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
+            }
+            else if(is_word_EN(key_word)) {
               speaker.src = "http://tts.yeshj.com/s/" + key_word;
             }
             else {
-              speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
+              console.log("can't recognize");
             }
-          }
-
-          if($.cookie("username") == "zhanglin") {
-            speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
           }
 
           speaker.play();
