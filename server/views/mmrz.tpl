@@ -151,8 +151,13 @@
           // 如果 speaker.src 尚未赋值, 则设置为全局 window.word_tts_url (此时会有网络访问)
           if(speaker.src == window.location.href) {
             key_word = window.rows_from_DB[window.cursor_of_rows][0];
+            secret_info = window.rows_from_DB[window.cursor_of_rows][1];
 
             if(is_word_JA(key_word)) {
+              if(secret_info.indexOf("--") > 0) {
+                key_word = secret_info.split("-")[0];
+              }
+
               speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
             }
             else if(is_word_EN(key_word)) {
