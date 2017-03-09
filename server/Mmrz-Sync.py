@@ -356,7 +356,7 @@ def individual():
 
     if not pkl["book_name"] == "--":
         fr = open("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), "rb")
-        lq = len(fr.read().split("\n"))
+        lq = len(filter(lambda x: x not in ['', '\r', '\n', '\r\n'], fr.read().split("\n")))
         fr.close()
 
         pkl["remained_words"] = lq
