@@ -758,8 +758,10 @@ def tik_tik():
 
     tikMgr = TikTimeDBManager()
     tikInfo = [username, timeStamp, uniqMinute, uniqHour, uniqDate, theYear, theMonth, theDate, theHour, theWeek, theDay]
-    if uniqMinute not in tikMgr.getUniqMinuteList(username):
+    if uniqMinute != tikMgr.getMaxUniqMinute(username):
         tikMgr.insertDB(tikInfo)
+    else:
+        pass
     tikMgr.closeDB()
 
     return "tik_tik: OK"

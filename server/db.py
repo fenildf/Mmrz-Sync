@@ -28,12 +28,9 @@ class TikTimeDBManager:
     def insertDB(self, tikInfo):
         self.c.execute("insert into TIKTIME values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tikInfo)
 
-    def getUniqMinuteList(self, username):
-        uniqMinutes = self.c.execute("select uniqMinute from TIKTIME where username == '{0}'".format(username)).fetchall()
-        for i in range(len(uniqMinutes)):
-            uniqMinutes[i] = uniqMinutes[i][0]
-
-        return uniqMinutes
+    def getMaxUniqMinute(self, username):
+        MaxUniqMinute = self.c.execute("select max(uniqMinute) from TIKTIME where username == '{0}'".format(username)).fetchall()[0][0]
+        return MaxUniqMinute
 
     def getMiniutes(self, username):
         return self.c.execute("select count(uniqMinute) from TIKTIME where username == '{0}'".format(username)).fetchall()[0][0]
