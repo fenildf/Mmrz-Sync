@@ -121,7 +121,7 @@ def get_file_lines(path):
     content = fr.read()
     fr.close()
 
-    return len(content.split("\n"))
+    return len(filter(lambda x: x not in ['', '\r', '\n', '\r\n'], content.split("\n")))
 
 def is_username_available(username):
     dbMgr = MmrzSyncDBManager("USERS")
@@ -217,16 +217,17 @@ def smart_import(path, username, quantity=100):
     fr = open(path, "rb")
     content = fr.read()
     fr.close()
-    content_list = content.split("\n")
+
+    content_list = filter(lambda x: x not in ['', '\r', '\n', '\r\n'], content.split("\n"))
     line_quantity = len(content_list)
 
     # get rand indexes & extract lines
-    idx_range = line_quantity
-    idx_amount = min(line_quantity, IMPORT_QUANTITY)
+    idx_range = line_quantity # 随机数取值范围
+    idx_amount = min(idx_range, IMPORT_QUANTITY) # 需要导入的数量
     rand_idxes = []
     extracted = []
     while len(rand_idxes) != idx_amount:
-        rand_num = random.randint(1, line_quantity)
+        rand_num = random.randint(1, idx_range)
         if rand_num not in rand_idxes:
             extracted.append(content_list[rand_num - 1] + "\n")
             content_list[rand_num - 1] = ""
@@ -240,6 +241,7 @@ def smart_import(path, username, quantity=100):
 
     dbMgr = MmrzSyncDBManager(username)
 
+    added = 0
     for line in extracted:
         line = line.strip()
 
@@ -262,6 +264,7 @@ def smart_import(path, username, quantity=100):
                     wordInfo = [mc.group(1), mc.group(2), mc.group(3)]
             else:
                 print "load err"
+                continue
 
         word          = wordInfo[0].decode("utf8")
         pronounce     = wordInfo[1].decode("utf8") if len(wordInfo) == 2 else "{0} -- {1}".format(wordInfo[1], wordInfo[2]).decode("utf8")
@@ -272,10 +275,11 @@ def smart_import(path, username, quantity=100):
 
         row = [word, pronounce, memTimes, remindTime, remindTimeStr, wordID]
         dbMgr.insertDB(row)
+        added += 1
 
     dbMgr.closeDB()
 
-    return True
+    return added
 
 ### static files
 @route('/<filename>')
@@ -356,8 +360,10 @@ def individual():
 
     if not pkl["book_name"] == "--":
         fr = open("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), "rb")
-        lq = len(filter(lambda x: x not in ['', '\r', '\n', '\r\n'], fr.read().split("\n")))
+        content = fr.read()
         fr.close()
+
+        lq = len(filter(lambda x: x not in ['', '\r', '\n', '\r\n'], content.split("\n")))
 
         pkl["remained_words"] = lq
         pkl["import_rate"]    = (1 - round(float(lq) / float(pkl["total_lines"]), 4)) * 100
@@ -726,12 +732,14 @@ def online_import():
     else:
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "Online import success"
-        json_for_return = json.dumps(dict_for_return)
 
         fr = open("./WORDBOOK/{0}/data.pkl".format(username), "rb")
         pkl = pickle.load(fr)
         fr.close()
-        smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username, quantity)
+        added = smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username, quantity)
+        dict_for_return['added'] = added
+
+        json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
 @post('/tik_tik/')

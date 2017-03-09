@@ -80,7 +80,9 @@ function online_import() {
     }
 
     $.post('/online_import', params, function(rec) {
-        alert("本次成功导入" + Number($("#quantity").val()) + "个单词");
+        rec = JSON.parse(rec);
+        added = rec['added'];
+        alert("本次成功导入" + Number(added) + "个单词");
         location.reload(true);
     });
 }
