@@ -42,9 +42,9 @@ function is_word_JA(key_word) {
 }
 
 function getQueryString(name) { 
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]); return null;
+    reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    r = window.location.search.substr(1).match(reg);
+    if(r != null) return unescape(r[2]); return null;
 }
 
 // 二分查找法，查找并返回字符在数组中的下标
@@ -52,13 +52,15 @@ function binarySearch(target, arr, low, high) {
     if (low <= high) {
         if (arr[low] == target) return low;
         if (arr[high] == target) return high;
-        var mid = Math.ceil((high + low) / 2);
+        mid = Math.ceil((high + low) / 2);
+
         if (arr[mid] == target) {
             return mid;
         }
         else if(arr[mid] > target) {
             return binarySearch(target, arr, low, mid - 1);
-        } else {
+        }
+        else {
             return binarySearch(target, arr, mid + 1, high);
         }
     }
@@ -66,14 +68,14 @@ function binarySearch(target, arr, low, high) {
 }
 
 function post(url, params) {
-    var form = document.createElement("form");
+    form = document.createElement("form");
 
     form.action = url;
     form.method = "post";
     form.style.display = "none";
 
     for(var x in params) {
-        var opt = document.createElement("input");
+        opt = document.createElement("input");
         opt.name = x;
         opt.value = params[x];
         form.appendChild(opt);
@@ -253,14 +255,4 @@ function make_weekly_chart(canvas_id, weekly_data) {
     });
 }
 
-function setParking_DeckPlaceholder() {
-    if(getRadioValue("area") == "A") {
-        parking_deck.placeholder = "A区范围: 001 - " + SERIAL_INFO.data[0].length;
-    }
-    else if(getRadioValue("area") == "B") {
-        parking_deck.placeholder = "B区范围: 001 - " + SERIAL_INFO.data[1].length;
-    }
-    else {
-        parking_deck.placeholder = "C区范围: 001 - " + SERIAL_INFO.data[2].length;
-    }
-}
+
