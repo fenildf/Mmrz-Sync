@@ -154,6 +154,7 @@
           if(is_word_JA(key_word)) {
             if(secret_info.indexOf("--") > 0) {
               key_word = secret_info.split("-")[0];
+              key_word = key_word.replace(/\d/g, "");
             }
 
             speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
