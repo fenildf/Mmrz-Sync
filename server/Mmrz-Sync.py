@@ -898,13 +898,13 @@ def get_ranking_info():
     tikMgr = TikTimeDBManager()
 
     if period == "day":
-        rank_info = tikMgr.getDailyRanking(time.time())
+        rank_info = tikMgr.getDailyRanking(int(time.time()))
     elif period == "week":
-        rank_info = tikMgr.getWeeklyRanking(time.time())
+        rank_info = tikMgr.getWeeklyRanking(int(time.time()))
     elif period == "month":
-        rank_info = tikMgr.getMonthlyRanking(time.time())
+        rank_info = tikMgr.getMonthlyRanking(int(time.time()))
     elif period == "year":
-        rank_info = tikMgr.getYearlyRanking(time.time())
+        rank_info = tikMgr.getYearlyRanking(int(time.time()))
     else:
         rank_info = []
 
@@ -948,7 +948,7 @@ print "Serving IP: " + myaddr
 print ""
 
 # user gevent
-import gevent; from gevent import monkey; monkey.patch_all()
+# import gevent; from gevent import monkey; monkey.patch_all()
 
 # run server
 run(host='0.0.0.0', port=PORT, server='paste')
