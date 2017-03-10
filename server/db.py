@@ -39,6 +39,31 @@ class TikTimeDBManager:
         Year, Week, Day = datetime.date.fromtimestamp(timeStamp).isocalendar()
         return self.c.execute("select count(uniqMinute) from TIKTIME where username == '{0}' and theYear == {1} and theWeek == {2}".format(username, Year, Week)).fetchall()[0][0]
 
+    def getDailyRanking(self, timeStamp):
+        uniqMinute = timeStamp / 60  # 唯一分钟数
+        uniqHour   = uniqMinute / 60 # 唯一小时数
+        uniqDate   = uniqHour / 24   # 唯一天数
+
+        return self.c.execute("select username, count(uniqMinute) from TIKTIME where uniqDate == {0} group by username order by count(uniqMinute) desc limit 5".format(uniqDate)).fetchall()
+
+    def getWeeklyRanking(self, timeStamp):
+        Year, Week, Day = datetime.date.fromtimestamp(timeStamp).isocalendar()
+
+        return self.c.execute("select username, count(uniqMinute) from TIKTIME where theYear == {0} and theWeek == {1} group by username order by count(uniqMinute) desc limit 5".format(Year, Week)).fetchall()
+
+    def getMonthlyRanking(self, timeStamp):
+        localtime  = time.localtime()
+        theYear    = localtime[0]    # 年: 2017年
+        theMonth   = localtime[1]    # 月份: 2 (2017年2月)
+
+        return self.c.execute("select username, count(uniqMinute) from TIKTIME where theYear == {0} and theMonth == {1} group by username order by count(uniqMinute) desc limit 5".format(theYear, theMonth)).fetchall()
+
+    def getYearlyRanking(self, timeStamp):
+        localtime  = time.localtime()
+        theYear    = localtime[0]    # 年: 2017年
+
+        return self.c.execute("select username, count(uniqMinute) from TIKTIME where theYear == {0} group by username order by count(uniqMinute) desc limit 5".format(theYear)).fetchall()
+
     def getMiniutesDetailsByWeek(self, username, timeStamp):
         Year, Week, Day = datetime.date.fromtimestamp(timeStamp).isocalendar()
 

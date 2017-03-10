@@ -165,6 +165,26 @@ function getRadioValue(radio) {
     }
 }
 
+function get_ranking_info(period) {
+    ranking_data = [];
+
+    params = {
+        period: period,
+    }
+
+    $.ajax({
+        url: "/get_ranking_info",
+        type: "get",
+        data: params,
+        async: false,
+        success:function(rec) {
+            ranking_data = JSON.parse(rec);
+        }
+    });
+
+    return ranking_data;
+}
+
 function get_weekly_mmrz_time(username) {
     weekly_data = [];
 
@@ -183,6 +203,70 @@ function get_weekly_mmrz_time(username) {
     });
 
     return weekly_data;
+}
+
+function make_ranking_chart(canvas_id, ranking_data) {
+    // ranking_data[i][0]: username
+    // ranking_data[i][1]: memorized minutes
+    ctx = canvas_id;
+    random_string_list = [
+        'rgba(' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255),
+        'rgba(' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255),
+        'rgba(' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255),
+        'rgba(' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255),
+        'rgba(' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255),
+    ]
+    data = {
+        labels: [
+            ranking_data[0][0],
+            ranking_data[1][0],
+            ranking_data[2][0],
+            ranking_data[3][0],
+            ranking_data[4][0],
+        ],
+        datasets: [{
+            label: "背诵时长",
+            backgroundColor: [
+                random_string_list[0] + ',0.2)',
+                random_string_list[1] + ',0.2)',
+                random_string_list[2] + ',0.2)',
+                random_string_list[3] + ',0.2)',
+                random_string_list[4] + ',0.2)',
+            ],
+            borderColor: [
+                random_string_list[0] + ',1)',
+                random_string_list[1] + ',1)',
+                random_string_list[2] + ',1)',
+                random_string_list[3] + ',1)',
+                random_string_list[4] + ',1)',
+            ],
+            borderWidth: 1,
+            data: [
+                ranking_data[0][1],
+                ranking_data[1][1],
+                ranking_data[2][1],
+                ranking_data[3][1],
+                ranking_data[4][1],
+            ],
+        }]
+    };
+    options = {
+        legend: {
+            display: false
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+    myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options,
+    });
 }
 
 function make_weekly_chart(canvas_id, weekly_data) {

@@ -12,8 +12,8 @@
 
     <script type="text/javascript" src="./js/jquery1.8.3.min.js"></script>
     <script type="text/javascript" src="./js/jquery1.4.1.cookie.min.js"></script>
+    <script type="text/javascript" src="./js/chart.min.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
-    <script type="text/javascript" src="./js/ranking.js"></script>
 
     <link rel="stylesheet" type="text/css" href="./css/common.css">
     <link rel="stylesheet" type="text/css" href="./css/ranking.css">
@@ -46,6 +46,26 @@
         %end
       </table>
 
+      <h3>日榜</h3>
+      <div style="width: 300px; margin: auto;">
+        <canvas id="daily_ranking"></canvas>
+      </div>
+
+      <h3>周榜</h3>
+      <div style="width: 300px; margin: auto;">
+        <canvas id="weekly_ranking"></canvas>
+      </div>
+
+      <h3>月榜</h3>
+      <div style="width: 300px; margin: auto;">
+        <canvas id="monthly_ranking"></canvas>
+      </div>
+
+      <h3>年榜</h3>
+      <div style="width: 300px; margin: auto;">
+        <canvas id="yearly_ranking"></canvas>
+      </div>
+
       <div id="copyright"></div>
 
       <script>
@@ -53,6 +73,11 @@
         if(domain == "localhost" || domain == "127.0.0.1") {
           $("#title").text("用户信息汇总 -- Debug");
         }
+
+        make_ranking_chart($("#daily_ranking"),   get_ranking_info("day"));
+        make_ranking_chart($("#weekly_ranking"),  get_ranking_info("week"));
+        make_ranking_chart($("#monthly_ranking"), get_ranking_info("month"));
+        make_ranking_chart($("#yearly_ranking"),  get_ranking_info("year"));
       </script>
 
       <script type="text/javascript">

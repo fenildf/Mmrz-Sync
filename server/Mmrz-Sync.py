@@ -751,11 +751,11 @@ def tik_tik():
         return "username is None"
 
     localtime  = time.localtime()
-    timeStamp  = int(time.time()) # 唯一秒数: 
+    timeStamp  = int(time.time()) # 唯一秒数
     Year, Week, Day = datetime.date.fromtimestamp(timeStamp).isocalendar()
-    uniqMinute = timeStamp / 60  # 唯一分钟数: 
-    uniqHour   = uniqMinute / 60 # 唯一小时数: 
-    uniqDate   = uniqHour / 24   # 唯一天数: 
+    uniqMinute = timeStamp / 60  # 唯一分钟数
+    uniqHour   = uniqMinute / 60 # 唯一小时数
+    uniqDate   = uniqHour / 24   # 唯一天数
     theYear    = localtime[0]    # 年: 2017年
     theMonth   = localtime[1]    # 月份: 2 (2017年2月)
     theDate    = localtime[2]    # 天数: 22 (2月22)
@@ -888,6 +888,30 @@ def get_weekly_mmrz_time():
     tikMgr.closeDB()
 
     return json.dumps(weekly_data)
+
+@get('/get_ranking_info/')
+@get('/get_ranking_info')
+def get_ranking_info():
+    period  = request.params.get('period', None)
+
+    rank_info = []
+    tikMgr = TikTimeDBManager()
+
+    if period == "day":
+        rank_info = tikMgr.getDailyRanking(time.time())
+    elif period == "week":
+        rank_info = tikMgr.getWeeklyRanking(time.time())
+    elif period == "month":
+        rank_info = tikMgr.getMonthlyRanking(time.time())
+    elif period == "year":
+        rank_info = tikMgr.getYearlyRanking(time.time())
+    else:
+        rank_info = []
+
+    # append 5 users in the end
+    rank_info += [("None", 0) for i in range(5)]
+
+    return json.dumps(rank_info)
 
 @get('/download_wordbook/')
 @get('/download_wordbook')
