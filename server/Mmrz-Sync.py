@@ -409,7 +409,14 @@ def ranking():
     for user in db_info_list:
         user[1] = time.strftime('%Y-%m-%d %H:%M', time.localtime(user[1]))
 
-    return dict(db_info_list = db_info_list)
+    Year, Week, Day = datetime.date.fromtimestamp(int(time.time())).isocalendar()
+    date  = time.strftime('%Y年%m月%d日', time.localtime())
+    week  = "第{1}周".format(Year, Week)
+    month = "{0}月".format(time.localtime()[1])
+    year  = "{0}年".format(Year)
+
+
+    return dict(db_info_list = db_info_list, date = date, week = week, month = month, year = year)
 
 @route('/wordbook')
 @view('wordbook')

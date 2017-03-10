@@ -46,22 +46,26 @@
         %end
       </table>
 
-      <h3>日榜</h3>
+      <h3>奋斗日榜(单位: 分钟)</h3>
+      <p>{{date}}</p>
       <div style="width: 300px; margin: auto;">
         <canvas id="daily_ranking"></canvas>
       </div>
 
-      <h3>周榜</h3>
+      <h3>奋斗周榜(单位: 分钟)</h3>
+      <p>{{week}}</p>
       <div style="width: 300px; margin: auto;">
         <canvas id="weekly_ranking"></canvas>
       </div>
 
-      <h3>月榜</h3>
+      <h3>奋斗月榜(单位: 分钟)</h3>
+      <p>{{month}}</p>
       <div style="width: 300px; margin: auto;">
         <canvas id="monthly_ranking"></canvas>
       </div>
 
-      <h3>年榜</h3>
+      <h3>奋斗年榜(单位: 分钟)</h3>
+      <p>{{year}}</p>
       <div style="width: 300px; margin: auto;">
         <canvas id="yearly_ranking"></canvas>
       </div>
