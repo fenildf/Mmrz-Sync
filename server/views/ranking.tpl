@@ -46,6 +46,9 @@
         %end
       </table>
 
+      <br/>
+      <hr>
+
       <h3>奋斗日榜(单位: 分钟)</h3>
       <p>{{date}}</p>
       <div style="width: 300px; margin: auto;">
