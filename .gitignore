@@ -74,6 +74,7 @@ client/wordbook.db
 /server/version.ini
 /WORDBOOK
 /USERDB
+USERDB
 admin.rb
 
 
