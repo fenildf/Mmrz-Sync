@@ -918,7 +918,7 @@ def get_ranking_info():
     tikMgr.closeDB()
 
     # append 5 users in the end
-    rank_info += [("虚位以待", 0) for i in range(5)]
+    rank_info += [("None", 0) for i in range(5)]
 
     return json.dumps(rank_info)
 
