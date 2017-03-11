@@ -185,11 +185,20 @@ function show_word() {
     window.secret_is_hiding  = true;
     window.secret_is_showing = !window.secret_is_hiding;
 
+    inspire_words = [
+        "每天都要坚持背诵哦",
+        "做的很好, 继续保持",
+        "每天100, 一年就是3w个单词",
+        "加油, 加油, 你是最棒的",
+        "今日奋斗榜上有你的名字吗",
+        "常来看看有没有新单词需要背诵",
+    ]
+
     // 单词背诵完毕
     if(window.rows_from_DB.length == 0) {
 
         if(!window.null_when_open) {
-            alert("恭喜完成本轮背诵");
+            alert( "恭喜完成本轮背诵\n\n" + inspire_words[Math.round(Math.random() * (inspire_words.length - 1))] );
             location.reload();
         }
 
