@@ -11,7 +11,9 @@ Array.prototype.contains = function (obj) {
 }
 
 function Copyright() {
-    copyright.innerHTML = "<a style='color: black;' target='_blank' href='/ranking'>&copy </a>" + "2016-" + (new Date()).getFullYear() + " by <a style='color: black;' target='_blank' href='http://github.com/zhanglintc/Mmrz-Sync'>zhanglintc</a>";
+    copyright.innerHTML =  "<a style='color: black;' target='_blank' href='/ranking'>&copy </a>" + "2016-" + (new Date()).getFullYear() + " by <a style='color: black;' target='_blank' href='http://github.com/zhanglintc/Mmrz-Sync'>zhanglintc</a>";
+    copyright.innerHTML += "<br>";
+    copyright.innerHTML += "<a style='color: black; font-size: 10px;' target='_blank' href='http://www.miitbeian.gov.cn'>渝ICP备17002936号</a>";
 }
 
 function is_cellphone() {
