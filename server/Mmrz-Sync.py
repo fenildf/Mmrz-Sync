@@ -810,11 +810,12 @@ def get_shortest_remind():
 
     if not is_username_available(username):
         dbMgr = MmrzSyncDBManager(username)
-        rows = dbMgr.readDB()
+        rows = dbMgr.getNearestRemindRow()
+        maxID = dbMgr.getMaxWordID()
         dbMgr.closeDB()
 
-        if len(rows) == 0:
-            return "单词本中没有数据"
+        if maxID == 0:
+            return "新用户请先导入单词"
 
         rows = sorted(rows, key=lambda row: row[3]) # from small to big
         word          = rows[0][0]

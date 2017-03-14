@@ -139,6 +139,9 @@ class MmrzSyncDBManager:
         self.c.execute("delete from UNMMRZ")
         self.c.execute("VACUUM")
 
+    def getNearestRemindRow(self):
+        return self.c.execute("select * from UNMMRZ as tab1, (select min(remindTime) as rem from UNMMRZ  where memTimes < 8) as tab2 where tab1.memTimes < 8 and tab1.remindTime = tab2.rem").fetchall()
+
     def getMaxWordID(self):
         # format of maxWordID is like: maxWordID = [[33]], thus use maxWordID[0][0] to access it
         return self.c.execute("select max(wordID) from UNMMRZ").fetchall()[0][0] or 0
