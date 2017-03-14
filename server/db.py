@@ -129,7 +129,8 @@ class MmrzSyncDBManager:
         self.c.execute("update UNMMRZ set memTimes = {0}, remindTime = {1}, remindTimeStr = '{2}' where wordID = '{3}'".format(row[2], row[3], row[4], row[5]))
 
     def readDB(self):
-        return self.c.execute("select * from UNMMRZ where memTimes < 8").fetchall()
+        timeStamp = int(time.time())
+        return self.c.execute("select * from UNMMRZ where memTimes < 8 and remindTime < {0}".format(timeStamp)).fetchall()
 
     def readAllDB(self):
         return self.c.execute("select * from UNMMRZ").fetchall()
