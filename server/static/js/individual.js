@@ -82,8 +82,12 @@ function online_import() {
     $.post('/online_import', params, function(rec) {
         rec = JSON.parse(rec);
         added = rec['added'];
-        alert("本次成功导入" + Number(added) + "个单词");
-        location.reload(true);
+        if(confirm("本次成功导入 " + Number(added) + " 个单词\n\n立即进行背诵?")) {
+            location.href = "./memorize";
+        }
+        else {
+            location.reload(true);
+        }
     });
 }
 
