@@ -128,8 +128,7 @@ class MmrzSyncDBManager:
     def updateDB(self, row):
         self.c.execute("update UNMMRZ set memTimes = {0}, remindTime = {1}, remindTimeStr = '{2}' where wordID = '{3}'".format(row[2], row[3], row[4], row[5]))
 
-    def readDB(self):
-        timeStamp = int(time.time())
+    def readDB(self, timeStamp):
         return self.c.execute("select * from UNMMRZ where memTimes < 8 and remindTime < {0}".format(timeStamp)).fetchall()
 
     def readAllDB(self):
@@ -146,8 +145,8 @@ class MmrzSyncDBManager:
         # format of maxWordID is like: maxWordID = [[33]], thus use maxWordID[0][0] to access it
         return self.c.execute("select max(wordID) from UNMMRZ").fetchall()[0][0] or 0
 
-    def read_WORD_FAVOURITE_DB(self):
-        return self.c.execute("select fav.wordID, fav.favourite from UNMMRZ mmrz LEFT JOIN FAVOURITE fav ON mmrz.wordID = fav.wordID where mmrz.memTimes < 8").fetchall()
+    def read_WORD_FAVOURITE_DB(self, timeStamp):
+        return self.c.execute("select fav.wordID, fav.favourite from UNMMRZ mmrz LEFT JOIN FAVOURITE fav ON mmrz.wordID = fav.wordID where mmrz.memTimes < 8 and mmrz.remindTime < {0}".format(timeStamp)).fetchall()
 
     def read_FAVOURITE_DB(self):
         return self.c.execute("select fav.wordID, mmrz.word, mmrz.pronounce, fav.favourite from FAVOURITE fav LEFT JOIN UNMMRZ mmrz ON mmrz.wordID = fav.wordID").fetchall()

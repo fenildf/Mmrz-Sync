@@ -655,10 +655,12 @@ def unmemorized_words():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
     else:
+        timeStamp = int(time.time())
+
         dbMgr = MmrzSyncDBManager(username)
         dbMgr.createDB()
-        rows = dbMgr.readDB()
-        fav  = dbMgr.read_WORD_FAVOURITE_DB()
+        rows = dbMgr.readDB(timeStamp)
+        fav  = dbMgr.read_WORD_FAVOURITE_DB(timeStamp)
         dbMgr.closeDB()
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "Download success"
