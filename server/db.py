@@ -40,11 +40,9 @@ class TikTimeDBManager:
         return self.c.execute("select count(uniqMinute) from TIKTIME where username == '{0}' and theYear == {1} and theWeek == {2}".format(username, Year, Week)).fetchall()[0][0]
 
     def getDailyRanking(self, timeStamp):
-        uniqMinute = timeStamp / 60  # 唯一分钟数
-        uniqHour   = uniqMinute / 60 # 唯一小时数
-        uniqDate   = uniqHour / 24   # 唯一天数
-
-        uniqDate += 8 # 尝试解决时区问题
+        uniqMinute = timeStamp / 60        # 唯一分钟数
+        uniqHour   = (uniqMinute / 60) - 8 # 唯一小时数
+        uniqDate   = uniqHour / 24         # 唯一天数
 
         return self.c.execute("select username, count(uniqMinute) from TIKTIME where uniqDate == {0} group by username order by count(uniqMinute) desc limit 5".format(uniqDate)).fetchall()
 
