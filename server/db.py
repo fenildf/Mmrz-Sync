@@ -44,7 +44,7 @@ class TikTimeDBManager:
         uniqHour   = uniqMinute / 60 # 唯一小时数
         uniqDate   = uniqHour / 24   # 唯一天数
 
-        uniqDate -= 8 # 尝试解决时区问题
+        uniqDate += 8 # 尝试解决时区问题
 
         return self.c.execute("select username, count(uniqMinute) from TIKTIME where uniqDate == {0} group by username order by count(uniqMinute) desc limit 5".format(uniqDate)).fetchall()
 
