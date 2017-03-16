@@ -134,14 +134,11 @@
 
           key_word = window.rows_from_DB[window.cursor_of_rows][0];
 
-          if(is_word_JA(key_word)) {
-            window.open("http://dict.hjenglish.com/jp/jc/" + key_word);
-          }
-          else if(is_word_EN(key_word)) {
+          if(is_word_EN(key_word)) {
             window.open("http://dict.hjenglish.com/w/" + key_word);
           }
           else {
-            console.log("can't recognize");
+            window.open("http://dict.hjenglish.com/jp/jc/" + key_word);
           }
         }
 
@@ -151,19 +148,16 @@
           key_word = window.rows_from_DB[window.cursor_of_rows][0];
           secret_info = window.rows_from_DB[window.cursor_of_rows][1];
 
-          if(is_word_JA(key_word)) {
+          if(is_word_EN(key_word)) {
+            speaker.src = "http://tts.yeshj.com/s/" + key_word;
+          }
+          else {
             if(secret_info.indexOf("--") > 0) {
               key_word = secret_info.split("-")[0];
               key_word = key_word.replace(/\d/g, "");
             }
 
             speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
-          }
-          else if(is_word_EN(key_word)) {
-            speaker.src = "http://tts.yeshj.com/s/" + key_word;
-          }
-          else {
-            console.log("can't recognize");
           }
 
           speaker.play();
