@@ -396,6 +396,9 @@ def ranking():
         if basename == "USERS.db":
             continue
 
+        if "journal.db" in basename:
+            continue
+
         dbMgr = MmrzSyncDBManager(username)
         words = dbMgr.getMaxWordID()
         dbMgr.closeDB()
