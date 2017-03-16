@@ -134,11 +134,23 @@
 
           key_word = window.rows_from_DB[window.cursor_of_rows][0];
 
+          // EN
           if(is_word_EN(key_word)) {
-            window.open("http://dict.hjenglish.com/w/" + key_word);
+            if(is_cellphone()) {
+              window.open("http://m.hujiang.com/d/" + key_word);
+            }
+            else {
+              window.open("http://dict.hjenglish.com/w/" + key_word);
+            }
           }
+          // JA
           else {
-            window.open("http://dict.hjenglish.com/jp/jc/" + key_word);
+            if(is_cellphone()) {
+              window.open("http://m.hujiang.com/d/jp/" + key_word);
+            }
+            else {
+              window.open("http://dict.hjenglish.com/jp/jc/" + key_word);
+            }
           }
         }
 
