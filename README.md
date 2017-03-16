@@ -1,6 +1,6 @@
 # Mmrz-Sync
 
-一个随时随地背诵单词的网站, 访问地址: [http://zhanglintc.work](http://zhanglintc.work:2603/)
+一个随时随地背诵单词的网站, 访问地址: [https://mmrz.zhanglintc.co](https://mmrz.zhanglintc.co)
 
 ------
 
