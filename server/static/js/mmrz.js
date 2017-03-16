@@ -294,12 +294,41 @@ function hide_secret(remember, pass) {
     }
 }
 
-(function() {
-    if(!verify_user($.cookie('username'), $.cookie('password'))) {
-        location.href="/";
+function view_hujiang() {
+    if(window.rows_from_DB.length <= 0) {
+        return;
     }
-    init_rows_from_DB();
-}());
+
+    key_word = window.rows_from_DB[window.cursor_of_rows][0];
+
+    url = get_hujiang_url(key_word);
+    window.open(url);
+}
+
+function speak_word() {
+    speaker = document.getElementById("speaker");
+
+    key_word = window.rows_from_DB[window.cursor_of_rows][0];
+    secret_info = window.rows_from_DB[window.cursor_of_rows][1];
+
+    if(is_word_EN(key_word)) {
+        speaker.src = "http://tts.yeshj.com/s/" + key_word;
+    }
+    else {
+        if(secret_info.indexOf("--") > 0) {
+            key_word = secret_info.split("-")[0];
+            key_word = key_word.replace(/\d/g, "");
+        }
+        speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
+    }
+
+    speaker.play();
+    $("#speak_btn").css("background", 'url(/img/speaker.gif)').css("background-size", 'cover');
+
+    speaker.addEventListener('ended', function () {  
+        $("#speak_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
+    }, false);
+}
 
 // 单词收藏 事件处理 （画面收藏小图片触发事件）
 function favourite_action() {
@@ -350,3 +379,12 @@ function favourite_action() {
         }
     });
 }
+
+(function() {
+    if(!verify_user($.cookie('username'), $.cookie('password'))) {
+        location.href="/";
+    }
+    init_rows_from_DB();
+}());
+
+

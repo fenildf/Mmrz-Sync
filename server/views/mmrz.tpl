@@ -126,43 +126,6 @@
             show_word();
           }
         );
-
-        function view_hujiang() {
-          if(window.rows_from_DB.length <= 0) {
-            return;
-          }
-
-          key_word = window.rows_from_DB[window.cursor_of_rows][0];
-
-          url = get_hujiang_url(key_word);
-          window.open(url);
-        }
-
-        function speak_word() {
-          speaker = document.getElementById("speaker");
-
-          key_word = window.rows_from_DB[window.cursor_of_rows][0];
-          secret_info = window.rows_from_DB[window.cursor_of_rows][1];
-
-          if(is_word_EN(key_word)) {
-            speaker.src = "http://tts.yeshj.com/s/" + key_word;
-          }
-          else {
-            if(secret_info.indexOf("--") > 0) {
-              key_word = secret_info.split("-")[0];
-              key_word = key_word.replace(/\d/g, "");
-            }
-
-            speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
-          }
-
-          speaker.play();
-          $("#speak_btn").css("background", 'url(/img/speaker.gif)').css("background-size", 'cover');
-
-          speaker.addEventListener('ended', function () {  
-            $("#speak_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
-          }, false);
-        }
       </script>
 
       <script type="text/javascript">
