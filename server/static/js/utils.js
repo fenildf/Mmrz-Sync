@@ -56,6 +56,31 @@ function getQueryString(name) {
     if(r != null) return unescape(r[2]); return null;
 }
 
+function get_hujiang_url(key_word) {
+    url = "";
+
+    // EN
+    if(is_word_EN(key_word)) {
+        if(is_cellphone()) {
+            url = "http://m.hujiang.com/d/" + key_word;
+        }
+        else {
+            url = "http://dict.hjenglish.com/w/" + key_word;
+        }
+    }
+    // JA
+    else {
+        if(is_cellphone()) {
+            url = "http://m.hujiang.com/d/jp/" + key_word;
+        }
+        else {
+            url = "http://dict.hjenglish.com/jp/jc/" + key_word;
+        }
+    }
+
+    return url;
+}
+
 // 二分查找法，查找并返回字符在数组中的下标
 function binarySearch(target, arr, low, high) {
     if (low <= high) {

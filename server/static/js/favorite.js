@@ -54,15 +54,8 @@ function jump_to_hujiang(idx) {
 
     key_word = overlay[idx - 1].innerHTML;
 
-    if(is_word_EN(key_word)) {
-        window.open("http://dict.hjenglish.com/w/" + key_word);
-    }
-    else if(is_word_JA(key_word)) {
-        window.open("http://dict.hjenglish.com/jp/jc/" + key_word);
-    }
-    else {
-        console.log("can't recognize");
-    }
+    url = get_hujiang_url(key_word);
+    window.open(url);
 }
 
 function show_word_meaning(idx) {
