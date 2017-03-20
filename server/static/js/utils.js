@@ -373,4 +373,10 @@ function make_weekly_chart(canvas_id, weekly_data) {
     });
 }
 
+(function() {
+    if(document.domain.search("zhanglintc.work") != -1) {
+        location.href="https://mmrz.zhanglintc.co";
+    }
+}());
+
 

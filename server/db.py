@@ -41,7 +41,7 @@ class TikTimeDBManager:
 
     def getDailyRanking(self, timeStamp):
         uniqMinute = timeStamp / 60        # 唯一分钟数
-        uniqHour   = (uniqMinute / 60) - 8 # 唯一小时数
+        uniqHour   = (uniqMinute / 60) - 0 # 唯一小时数
         uniqDate   = uniqHour / 24         # 唯一天数
 
         return self.c.execute("select username, count(uniqMinute) from TIKTIME where uniqDate == {0} group by username order by count(uniqMinute) desc limit 5".format(uniqDate)).fetchall()
