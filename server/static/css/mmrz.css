@@ -49,17 +49,6 @@
     text-align: center;
 }
 
-#speak_btn {
-    width: 30px;
-    height: 30px;
-    position: fixed;
-    right: 15px;
-    top: 125px;
-    border: 0;
-    background: url(/img/speaker.png);
-    background-size: cover;
-}
-
 #magnifier_btn {
     width: 30px;
     height: 30px;
@@ -71,7 +60,29 @@
     background-size: cover;
 }
 
-#favourite_btn {
+.speak_png_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 125px;
+    border: 0;
+    background: url(/img/speaker.png);
+    background-size: cover;
+}
+
+.speak_gif_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 125px;
+    border: 0;
+    background: url(/img/speaker.gif);
+    background-size: cover;
+}
+
+.favourite_outline_btn {
     width: 30px;
     height: 30px;
     position: fixed;
@@ -79,5 +90,16 @@
     top: 55px;
     border: 0;
     background: url(/img/outline_star.png);
+    background-size: cover;
+}
+
+.favourite_christmas_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 55px;
+    border: 0;
+    background: url(/img/christmas_star.png);
     background-size: cover;
 }

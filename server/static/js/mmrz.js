@@ -220,16 +220,20 @@ function show_word() {
         $("#btn_view").css("display", "");
 
         if(is_favourite == 1) {
-            $("#favourite_btn").css("background", 'url(/img/christmas_star.png)').css("background-size", 'cover');
+            $("#favourite_btn").removeClass("favourite_christmas_btn");
+            $("#favourite_btn").removeClass("favourite_outline_btn");
+            $("#favourite_btn").attr("class","favourite_christmas_btn");
         } else {
-            $("#favourite_btn").css("background", 'url(/img/outline_star.png)').css("background-size", 'cover');
+            $("#favourite_btn").removeClass("favourite_christmas_btn");
+            $("#favourite_btn").removeClass("favourite_outline_btn");
+            $("#favourite_btn").attr("class","favourite_outline_btn");
         }
     }
 
     $("#btn_yes").css("display", "none");
     $("#btn_no").css("display", "none");
     $("#label_meaning").text("");
-    $("#speak_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
+    $("#speak_btn").attr("class","speak_png_btn");
 }
 
 function show_secret() {
@@ -323,10 +327,13 @@ function speak_word() {
     }
 
     speaker.play();
-    $("#speak_btn").css("background", 'url(/img/speaker.gif)').css("background-size", 'cover');
+
+    $("#speak_btn").removeClass("speak_png_btn");
+    $("#speak_btn").attr("class","speak_gif_btn");
 
     speaker.addEventListener('ended', function () {  
-        $("#speak_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
+        $("#speak_btn").removeClass("speak_gif_btn");
+        $("#speak_btn").attr("class","speak_png_btn");
     }, false);
 }
 
@@ -364,9 +371,13 @@ function favourite_action() {
             if(remote_word_id == local_word_id) {
 
                 if(remote_is_favourite == 1) {
-                    $("#favourite_btn").css("background", 'url(/img/christmas_star.png)').css("background-size", 'cover');
+                    $("#favourite_btn").removeClass("favourite_christmas_btn");
+                    $("#favourite_btn").removeClass("favourite_outline_btn");
+                    $("#favourite_btn").attr("class","favourite_christmas_btn");
                 } else {
-                    $("#favourite_btn").css("background", 'url(/img/outline_star.png)').css("background-size", 'cover');
+                    $("#favourite_btn").removeClass("favourite_christmas_btn");
+                    $("#favourite_btn").removeClass("favourite_outline_btn");
+                    $("#favourite_btn").attr("class","favourite_outline_btn");
                 }
                 window.rows_from_DB[window.cursor_of_rows][7] = remote_is_favourite;
 

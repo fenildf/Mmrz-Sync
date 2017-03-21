@@ -11,7 +11,15 @@ th, td {
     border: solid #000 1px;
 }
 
-.favourite_btn {
+.favourite_outline_btn {
+    width: 20px;
+    height: 20px;
+    border: 0;
+    background: url(/img/outline_star.png);
+    background-size: cover;
+}
+
+.favourite_christmas_btn {
     width: 20px;
     height: 20px;
     border: 0;

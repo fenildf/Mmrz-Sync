@@ -29,6 +29,9 @@
 
       <h2 id="title">我的收藏</h2>
 
+      <!-- 小图片进行预加载 -->
+      <span class="favourite_outline_btn favourite_christmas_btn" style="display:none"></span>
+
       <table style="font-size: 12px;" align="center">
         <tr>
           <th width="45px" >编号</th>
@@ -49,7 +52,7 @@
             <td>{{idx}}</td>
             <td class="td_word" onclick="jump_to_hujiang({{idx}})">{{word}}</td>
             <td class="td_favourite" onclick="show_word_meaning({{idx}})">{{pronounce}}</td>
-            <td><button class="favourite_btn" onclick="favourite_action({{idx}}, {{wordID}})"></button></td>
+            <td><button class="favourite_christmas_btn" onclick="favourite_action({{idx}}, {{wordID}})"></button></td>
             <input name="favourite" type="hidden" value="{{favourite}}"/>
           </tr>
         %end

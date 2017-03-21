@@ -34,10 +34,14 @@ function favourite_action(idx, word_id) {
             rec = JSON.parse(rec);
 
             // 异步处理回来后，改变收藏小图片的样式
+            button_row_obj = $(":button").eq(idx - 1);
+
             if(favourite == 1) {
-                $('.favourite_btn').eq(idx - 1).css("background", 'url(/img/outline_star.png)').css("background-size", 'cover');
+                button_row_obj.removeClass("favourite_christmas_btn");
+                button_row_obj.attr("class","favourite_outline_btn");
             } else {
-                $('.favourite_btn').eq(idx - 1).css("background", 'url(/img/christmas_star.png)').css("background-size", 'cover');
+                button_row_obj.removeClass("favourite_outline_btn");
+                button_row_obj.attr("class","favourite_christmas_btn");
             }
 
             $('input[name="favourite"]').eq(idx - 1).val(favourite ^ 1);
