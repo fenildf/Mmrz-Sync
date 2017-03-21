@@ -25,6 +25,7 @@
   </head>
 
   <body>
+    <script type="text/javascript" src="./js/notie.js"></script>
     <div id="center_board">
       <h2 id="title">背诵模式</h2>
 

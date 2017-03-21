@@ -693,12 +693,17 @@ def update_word_favourite():
         is_favourite = row[1]
         if is_favourite == 0:
             dbMgr.delete_FAVOURITE_DB(row[0])
+            dict_for_return['message_str'] = "取消收藏成功！"
         else:
-            dbMgr.insert_FAVOURITE_DB(row)
+            count = dbMgr.insert_CHECK_FAVOURITE_DB(row[0])
+            if count == 0 :
+                dbMgr.insert_FAVOURITE_DB(row)
+                dict_for_return['message_str'] = "收藏成功！"
+            else:
+                dict_for_return['message_str'] = "已在别处进行过收藏！"
 
         dbMgr.closeDB()
         dict_for_return['verified'] = True
-        dict_for_return['message_str'] = "Update row success"
         dict_for_return['verified_info'] = row
         json_for_return = json.dumps(dict_for_return)
         return json_for_return

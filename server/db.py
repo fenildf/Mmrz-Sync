@@ -145,16 +145,19 @@ class MmrzSyncDBManager:
 
     def getMaxWordID(self):
         # format of maxWordID is like: maxWordID = [[33]], thus use maxWordID[0][0] to access it
-        return self.c.execute("select max(wordID) from UNMMRZ").fetchall()[0][0] or 0
+        return self.c.execute("SELECT max(wordID) from UNMMRZ").fetchall()[0][0] or 0
 
     def read_WORD_FAVOURITE_DB(self, timeStamp):
-        return self.c.execute("select fav.wordID, fav.favourite from UNMMRZ mmrz LEFT JOIN FAVOURITE fav ON mmrz.wordID = fav.wordID where mmrz.memTimes < 8 and mmrz.remindTime < {0}".format(timeStamp)).fetchall()
+        return self.c.execute("SELECT fav.wordID, fav.favourite from UNMMRZ mmrz LEFT JOIN FAVOURITE fav ON mmrz.wordID = fav.wordID where mmrz.memTimes < 8 and mmrz.remindTime < {0}".format(timeStamp)).fetchall()
 
     def read_FAVOURITE_DB(self):
-        return self.c.execute("select fav.wordID, mmrz.word, mmrz.pronounce, fav.favourite from FAVOURITE fav LEFT JOIN UNMMRZ mmrz ON mmrz.wordID = fav.wordID").fetchall()
+        return self.c.execute("SELECT fav.wordID, mmrz.word, mmrz.pronounce, fav.favourite from FAVOURITE fav LEFT JOIN UNMMRZ mmrz ON mmrz.wordID = fav.wordID").fetchall()
+
+    def insert_CHECK_FAVOURITE_DB(self, wordID):
+        return self.c.execute("SELECT count(wordID) FROM FAVOURITE WHERE wordID = {0}".format(wordID)).fetchall()[0][0]
 
     def insert_FAVOURITE_DB(self, row):
-        self.c.execute("insert into FAVOURITE values(?, ?, ?)", row)
+        self.c.execute("INSERT into FAVOURITE values(?, ?, ?)", row)
 
     def delete_FAVOURITE_DB(self, wordID):
         self.c.execute("DELETE FROM favourite WHERE wordID = {0}".format(wordID))

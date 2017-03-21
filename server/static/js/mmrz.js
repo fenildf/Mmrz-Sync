@@ -366,15 +366,20 @@ function favourite_action() {
             local_word_id  = window.rows_from_DB[window.cursor_of_rows][5];
             remote_word_id = rec['verified_info'][0];
             remote_is_favourite = rec['verified_info'][1];
+            message_str = rec['message_str'];
 
             // 异步处理回来后，改变收藏小图片的样式
             if(remote_word_id == local_word_id) {
 
                 if(remote_is_favourite == 1) {
+                    notie.alert(1, message_str, 2);
+
                     $("#favourite_btn").removeClass("favourite_christmas_btn");
                     $("#favourite_btn").removeClass("favourite_outline_btn");
                     $("#favourite_btn").attr("class","favourite_christmas_btn");
                 } else {
+                    notie.alert(1, message_str, 2);
+
                     $("#favourite_btn").removeClass("favourite_christmas_btn");
                     $("#favourite_btn").removeClass("favourite_outline_btn");
                     $("#favourite_btn").attr("class","favourite_outline_btn");
