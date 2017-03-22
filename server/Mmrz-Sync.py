@@ -11,6 +11,7 @@ from bottle import post, get, request, redirect
 from bs4 import BeautifulSoup
 from db import TikTimeDBManager, MmrzSyncDBManager
 from MmrzCode import *
+import chardet
 import bottle
 import urllib, urllib2
 import gzip, StringIO
@@ -638,8 +639,15 @@ def upload_lexicon():
         pklMgr.set_last_import_time_int()
         pklMgr.dump_pkl()
 
+        fr = open(wordfile_path, "rb")
+        content = fr.read()
+        fr.close()
+
+        encoding = chardet.detect(content)['encoding']
+
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "upload done"
+        dict_for_return['encoding'] = encoding
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 

@@ -47,10 +47,16 @@ function upload_file() {
 
         oReq.onload = function(oEvent) {
             if (oReq.status == 200) {
-                alert("上传成功");
+                response = JSON.parse(oReq.response);
+                if(response['encoding'] == "utf-8") {
+                    alert("上传成功!");
+                }
+                else {
+                    alert("上传成功!\n\n警告: 经检测该词典编码格式可能不是 utf-8 编码格式,\n若误报请忽略, 否则请转码为 utf-8 后重新上传.");
+                }
             }
             else {
-                alert("上传失败");
+                alert("上传失败!");
             }
             location.reload(true);
         };
