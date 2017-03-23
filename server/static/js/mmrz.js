@@ -106,7 +106,7 @@ function get_wordbooks() {
 function update_row(row) {
     params = {
         username: $.cookie('username'),
-        password: window.btoa($.cookie('password')),
+        password: $.cookie('password'),
         row: JSON.stringify(row),
     }
 
