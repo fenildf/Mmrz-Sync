@@ -37,8 +37,8 @@ function update_password() {
     $.post('/update_password', params, function(rec) {
         rec = JSON.parse(rec);
         if(rec['verified'] == true) {
-            $.cookie('username', username, {path: '/', expires: 365});
-            $.cookie('password', new_pass, {path: '/', expires: 365});
+            $.cookie('username', username,              {path: '/', expires: 365});
+            $.cookie('password', window.btoa(new_pass), {path: '/', expires: 365});
 
             alert("密码修改成功");
         }

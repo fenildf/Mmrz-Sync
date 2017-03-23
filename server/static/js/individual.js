@@ -19,7 +19,7 @@ function upload_file() {
     }
 
     $("#username").val($.cookie("username"));
-    $("#password").val(window.btoa($.cookie("password")));
+    $("#password").val($.cookie("password"));
 
     file_input = document.getElementById("file_input");
     file_input.click();
@@ -81,7 +81,7 @@ function online_import() {
 
     params = {
         username: $.cookie('username'),
-        password: window.btoa($.cookie('password')),
+        password: $.cookie('password'),
         quantity: Number($("#quantity").val()),
     }
 

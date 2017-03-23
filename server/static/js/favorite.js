@@ -21,7 +21,7 @@ function favourite_action(idx, word_id) {
     row[2] = 0;
     params = {
         username: $.cookie('username'),
-        password: window.btoa($.cookie('password')),
+        password: $.cookie('password'),
         row: JSON.stringify(row),
     }
 

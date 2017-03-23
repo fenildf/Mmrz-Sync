@@ -43,8 +43,8 @@ function login() {
     $.post('/log_in', params, function(rec) {
         rec = JSON.parse(rec);
         if(rec['verified'] == true) {
-            $.cookie('username', username, {path: '/', expires: 365});
-            $.cookie('password', password, {path: '/', expires: 365});
+            $.cookie('username', username,              {path: '/', expires: 365});
+            $.cookie('password', window.btoa(password), {path: '/', expires: 365});
 
             location.href="/memorize";
         }

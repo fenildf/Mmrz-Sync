@@ -126,7 +126,7 @@ function verify_user(username, password) {
 
     params = {
         username: username,
-        password: window.btoa(password),
+        password: password,
     }
 
     $.ajax({

@@ -87,7 +87,7 @@ function get_wordbooks() {
 
     params = {
         username: $.cookie('username'),
-        password: window.btoa($.cookie('password')),
+        password: $.cookie('password'),
     }
 
     $.ajax({
@@ -351,7 +351,7 @@ function favourite_action() {
 
     params = {
         username: $.cookie('username'),
-        password: window.btoa($.cookie('password')),
+        password: $.cookie('password'),
         row: JSON.stringify(row),
     }
 
