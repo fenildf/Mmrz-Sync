@@ -639,9 +639,14 @@ def upload_lexicon():
         pklMgr.set_last_import_time_int()
         pklMgr.dump_pkl()
 
-        fr = open(wordfile_path, "rb")
-        content = fr.read()
-        fr.close()
+        with open(wordfile_path, "rb") as fr:
+            content = ""; idx = 0
+            for line in fr:
+                idx += 1
+                content += line
+
+                if idx == 50:
+                    break
 
         encoding = chardet.detect(content)['encoding'].lower()
 
