@@ -643,7 +643,7 @@ def upload_lexicon():
         content = fr.read()
         fr.close()
 
-        encoding = chardet.detect(content)['encoding']
+        encoding = chardet.detect(content)['encoding'].lower()
 
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "upload done"
