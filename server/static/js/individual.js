@@ -48,7 +48,7 @@ function upload_file() {
         oReq.onload = function(oEvent) {
             if (oReq.status == 200) {
                 response = JSON.parse(oReq.response);
-                if(response['encoding'] == "utf-8") {
+                if(response['encoding'].search("utf-8") != -1) {
                     alert("上传成功!");
                 }
                 else {
