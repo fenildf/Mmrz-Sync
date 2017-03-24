@@ -63,19 +63,24 @@
 
         <div id="copyright"></div>
       </div>
+
+      <script type="text/javascript">
+        $("#username").focus();
+        $("#signup").click(signup);
+
+        domain = document.domain;
+        if(domain == "localhost" || domain == "127.0.0.1") {
+          $("#title").text("注册 -- Debug");
+        }
+      </script>
+
+      <script type="text/javascript">
+        Copyright();
+      </script>
+
+      <div style="display: none;">
+        <script src="https://s11.cnzz.com/z_stat.php?id=1261540749&web_id=1261540749" language="JavaScript"></script>
+      </div>
     </div>
-
-    <script type="text/javascript">
-      $("#username").focus();
-      $("#signup").click(signup);
-
-      domain = document.domain;
-      if(domain == "localhost" || domain == "127.0.0.1") {
-        $("#title").text("注册 -- Debug");
-      }
-    </script>
-
-    <script type="text/javascript">
-      Copyright();
   </body>
 </html>
