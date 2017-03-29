@@ -126,7 +126,7 @@ def get_file_lines(path):
 
 def is_username_available(username):
     dbMgr = MmrzSyncDBManager("USERS")
-    users = dict(dbMgr.read_USERS_DB())
+    users = dict([row[:2] for row in dbMgr.read_USERS_DB()])
     dbMgr.closeDB()
 
     return not username in users
@@ -148,7 +148,7 @@ def validate_password(password):
 
 def verify_login(username, password):
     dbMgr = MmrzSyncDBManager("USERS")
-    users = dict(dbMgr.read_USERS_DB())
+    users = dict([row[:2] for row in dbMgr.read_USERS_DB()])
     dbMgr.closeDB()
 
     return username in users and password == users[username]
