@@ -97,18 +97,37 @@ class MmrzSyncDBManager:
         [0]wordID         -- int
         [1]favourite      -- boolean (true: 1, false: 0)
         [2]memTimes       -- int
+
+        table USERS:
+        [0]username       -- char[255]
+        [1]password       -- char[255]
+        [2]mailAddr       -- char[255]
+        [3]verified       -- bool
+        [4]veriCode       -- char[255]
+        [5]deadline       -- int
     """
 
     def __init__(self, dbName):
         self.db = sqlite3.connect("./USERDB/{0}.db".format(dbName))
         self.c = self.db.cursor()
 
+        if dbName == "USERS":
+            self.create_USERS_DB()
+
     def create_USERS_DB(self):
         try:
             self.c.execute("create table USERS(username char[255], password char[255])")
             self.db.commit()
-        except:
-            pass
+        except Exception, e:
+            print e
+
+        try:
+            self.c.execute("alter table USERS add column mailAddr char[255]")
+            self.c.execute("alter table USERS add column verified bool default false")
+            self.c.execute("alter table USERS add column veriCode char[255] default '000000'")
+            self.c.execute("alter table USERS add column deadline int default 0")
+        except Exception, e:
+            print e
 
     def insert_USERS_DB(self, userInfo):
         self.c.execute("insert into USERS values(?, ?)", userInfo)
