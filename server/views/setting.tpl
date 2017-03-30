@@ -28,6 +28,31 @@
 
       <h2 id="title">个人设定</h2>
 
+      <div align="center" style="margin-bottom: 10px"><b style="font-size:18px;">个人信息</b></div>
+      <table border="0" align="center">
+        <tbody>
+          <tr>
+            <td align="right">用户名: </td>
+            <td align="left"><span>{{username}}</span></td>
+          </tr>
+          <tr>
+            <td align="right">个人邮箱: </td>
+            <td align="left"><input id="email" type="text" value="{{mailAddr}}" style="width: 135px;"></td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td align="right">
+              <div>
+                <button class="btn" onclick="update_userinfo($('#email').val())" style="margin-top: 5px; font-size: 14px">修改信息</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br/>
+
       <div align="center" style="margin-bottom: 10px"><b style="font-size:18px;">修改密码</b></div>
       <table border="0" align="center">
         <tbody>
@@ -74,7 +99,7 @@
         Copyright();
       </script>
 
-      <div style="display: none;">
+      <div align="center" style="">
         <script src="https://s11.cnzz.com/z_stat.php?id=1261540749&web_id=1261540749" language="JavaScript"></script>
       </div>
     </div>

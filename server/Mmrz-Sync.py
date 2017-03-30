@@ -11,6 +11,7 @@ from bottle import post, get, request, redirect
 from bs4 import BeautifulSoup
 from db import TikTimeDBManager, MmrzSyncDBManager
 from MmrzCode import *
+import mail
 import chardet
 import bottle
 import urllib, urllib2
@@ -326,7 +327,13 @@ def mmrz():
 @route('/setting')
 @view('setting')
 def setting():
-    return {}
+    username = request.params.get('username', None)
+
+    dbMgr = MmrzSyncDBManager("USERS")
+    users = dbMgr.read_USERS_DB_DICT()
+    dbMgr.closeDB()
+
+    return {"username": username, "mailAddr": users[username]["mailAddr"] or "请输入邮箱"}
 
 @route('/chart')
 @view('chart')
@@ -803,6 +810,13 @@ def tik_tik():
     tikMgr.closeDB()
 
     return "tik_tik: OK"
+
+@post('/send_verification_mail/')
+@post('/send_verification_mail')
+def send_verification_mail():
+    mail.send_mail()
+
+    return ""
 
 ### gets
 @get('/version_info/')

@@ -138,6 +138,25 @@ class MmrzSyncDBManager:
     def read_USERS_DB(self):
         return self.c.execute("select * from USERS").fetchall()
 
+    def read_USERS_DB_DICT(self):
+        def dict_factory(cursor, row):
+            d = {}
+            for idx, col in enumerate(cursor.description):
+                d[col[0]] = row[idx]
+            return d
+
+        db = sqlite3.connect("./USERDB/{0}.db".format("USERS"))
+        db.row_factory = dict_factory
+        c = db.cursor()
+
+        rows = c.execute("select * from USERS").fetchall()
+        d = {}
+        for row in rows:
+            username_this_line = row.pop("username")
+            d[username_this_line] = row
+
+        return d
+
 
 
     def createDB(self):

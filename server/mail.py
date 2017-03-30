@@ -22,18 +22,21 @@ mailInfo = {
 fr = open("mailInfo.json", "rb")
 mailInfo = json.loads(fr.read())
 fr.close()
-        
-if __name__ == '__main__':
-    smtp = SMTP_SSL(mailInfo["hostname"])
-    smtp.set_debuglevel(1)
-    smtp.ehlo(mailInfo["hostname"])
-    smtp.login(mailInfo["username"],mailInfo["password"])
+
+def send_mail():
+    smtp = SMTP_SSL(mailInfo["hostname"].encode("utf-8"))
+    smtp.set_debuglevel(0)
+    smtp.ehlo(mailInfo["hostname"].encode("utf-8"))
+    smtp.login(mailInfo["username"].encode("utf-8"), mailInfo["password"].encode("utf-8"))
     
-    msg = MIMEText(mailInfo["mailtext"], "plain", mailInfo["mailencoding"])
-    msg["Subject"] = Header(mailInfo["mailsubject"], mailInfo["mailencoding"])
-    msg["from"] = mailInfo["from"]
-    msg["to"] = mailInfo["to"]
-    smtp.sendmail(mailInfo["from"], mailInfo["to"], msg.as_string())
+    msg = MIMEText(mailInfo["mailtext"], "plain", mailInfo["mailencoding"].encode("utf-8"))
+    msg["Subject"] = Header(mailInfo["mailsubject"].encode("utf-8"), mailInfo["mailencoding"].encode("utf-8"))
+    msg["from"] = mailInfo["from"].encode("utf-8")
+    msg["to"] = mailInfo["to"].encode("utf-8")
+    smtp.sendmail(mailInfo["from"].encode("utf-8"), mailInfo["to"].encode("utf-8"), msg.as_string())
     
     smtp.quit()
+        
+if __name__ == '__main__':
+    send_mail()
 
