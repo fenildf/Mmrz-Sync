@@ -859,8 +859,8 @@ def send_verification_mail():
     dbMgr = MmrzSyncDBManager("USERS")
     users = dbMgr.read_USERS_DB_DICT()
 
-    now = time.time()
-    last_change_time = users[username]["mailModTime"]
+    now = int(time.time())
+    last_change_time = int(users[username]["mailModTime"])
     mail_change_period = (now - last_change_time) / 60 / 60 / 24 # by day
 
     last_send_time = users[username]["mailSendTime"]
