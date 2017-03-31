@@ -43,7 +43,7 @@ def send_mail(
     p_mailencoding = p_mailencoding or mailInfo["mailencoding"].encode("utf-8")
 
     smtp = SMTP_SSL(p_hostname)
-    smtp.set_debuglevel(1)
+    smtp.set_debuglevel(0)
     smtp.ehlo(p_hostname)
     smtp.login(p_username, p_password)
     
@@ -57,5 +57,6 @@ def send_mail(
     smtp.quit()
         
 if __name__ == '__main__':
-    send_mail()
+    # send_mail()
+    pass
 

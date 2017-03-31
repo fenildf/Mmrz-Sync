@@ -814,9 +814,50 @@ def tik_tik():
 @post('/send_verification_mail/')
 @post('/send_verification_mail')
 def send_verification_mail():
-    MmrzMail.send_mail()
+    username = request.forms.get('username', None)
+    mailAddr = request.forms.get('mailAddr', None)
 
-    return ""
+    dict_for_return = dict(universal_POST_dict)
+
+    dbMgr = MmrzSyncDBManager("USERS")
+    users = dbMgr.read_USERS_DB_DICT()
+
+    now = time.time()
+    last_change_time = users[username]["mailModTime"]
+    mail_change_period = (now - last_change_time) / 60 / 60 / 24 # by day
+
+    last_send_time = users[username]["mailSendTime"]
+    mail_send_period = (now - last_send_time) / 60 / 60 # by minute
+
+    mailAddr_from_client = mailAddr
+    mailAddr_from_db = users[username]["mailAddr"]
+
+    # mail address remain the same
+    if mailAddr_from_client == mailAddr_from_db:
+        dict_for_return["mmrz_code"] = MMRZ_CODE_Email_Address_Not_Changed
+
+    # mail address changed
+    else:
+        # mail address can be changed every 7 days
+        if mail_change_period <= 7:
+            dict_for_return["mmrz_code"] = MMRZ_CODE_Email_Modification_Frequency_Limit_Error
+        # mail address not was changed 7 days ago or even longer
+        else:
+            # verification mail can be send every 5 minutes
+            if mail_send_period <= 5:
+                dict_for_return["mmrz_code"] = MMRZ_CODE_Email_Send_Frequency_Limit_Error
+            else:
+                dict_for_return["mmrz_code"] = MMRZ_CODE_Email_Send_OK
+                dbMgr.update_USERS_DB_mail_new(username, mailAddr_from_client)
+                dbMgr.update_USERS_DB_mailSendTime(username)
+
+                MmrzMail.send_mail(p_to = mailAddr)
+
+    json_for_return = json.dumps(dict_for_return)
+
+    dbMgr.closeDB()
+
+    return json_for_return
 
 ### gets
 @get('/version_info/')

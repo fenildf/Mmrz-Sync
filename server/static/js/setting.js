@@ -6,24 +6,57 @@
     }
 }());
 
-function send_verification_mail() {
-    params = {};
+function send_verification_mail(email) {
+    params = {
+        "username": $.cookie("username"),
+        "mailAddr": email
+    };
 
+    mmrz_code = 0;
     $.ajax({
         url: "/send_verification_mail",
         type: "post",
         data: params,
-        async: true,
+        async: false,
+        success:function(rec) {
+            rec = JSON.parse(rec);
+            mmrz_code = rec["mmrz_code"];
+        }
     });
+
+    return mmrz_code;
 }
 
 function update_userinfo(email) {
+    MMRZ_CODE_Universal_OK = 0;
+    MMRZ_CODE_Universal_Error = -40001;
+    MMRZ_CODE_Email_Verification_OK = MMRZ_CODE_Universal_OK;
+    MMRZ_CODE_Email_Send_OK = MMRZ_CODE_Universal_OK;
+    MMRZ_CODE_Email_Address_Not_Changed = -400101;
+    MMRZ_CODE_Email_Modification_Frequency_Limit_Error = -400102;
+    MMRZ_CODE_Email_Send_Frequency_Limit_Error = -400103;
+    MMRZ_CODE_Email_VeriCode_Out_Of_Date = -400104;
+
     regx = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
 
     is_email_valid = regx.test(email);
     if(is_email_valid) {
-        send_verification_mail();
-        alert("已向邮箱: " + email + " 发送验证邮件, 请登录相应邮箱进行验证");
+        mmrz_code = send_verification_mail(email);
+        if(mmrz_code == MMRZ_CODE_Email_Address_Not_Changed) {
+            console.log("个人邮件信息没有变化");
+        }
+        else if(mmrz_code == MMRZ_CODE_Email_Send_OK) {
+            alert("已向邮箱: " + email + " 发送验证邮件, 请登录相应邮箱进行验证\n\n若未收到邮件, 请检查垃圾邮件文件夹");
+        }
+        else if(mmrz_code == MMRZ_CODE_Email_Modification_Frequency_Limit_Error) {
+            alert("七天之内只能修改一次邮箱");
+        }
+        else if(mmrz_code == MMRZ_CODE_Email_Send_Frequency_Limit_Error) {
+            alert("每五分钟之内只能发送一次验证邮件");
+        }
+        else {
+            console.log("发送邮件的默认处理: 无处理");
+        }
     }
     else {
         alert("邮箱格式校验失败, 请确认后重新输入");

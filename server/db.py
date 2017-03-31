@@ -102,9 +102,11 @@ class MmrzSyncDBManager:
         [0]username       -- char[255]
         [1]password       -- char[255]
         [2]mailAddr       -- char[255]
-        [3]verified       -- bool
+        [3]mail_new       -- char[255]
         [4]veriCode       -- char[255]
         [5]deadline       -- int
+        [6]mailModTime    -- int
+        [7]mailSendTime   -- int
     """
 
     def __init__(self, dbName):
@@ -123,9 +125,11 @@ class MmrzSyncDBManager:
 
         try:
             self.c.execute("alter table USERS add column mailAddr char[255]")
-            self.c.execute("alter table USERS add column verified bool default false")
+            self.c.execute("alter table USERS add column mail_new char[255]")
             self.c.execute("alter table USERS add column veriCode char[255] default '000000'")
             self.c.execute("alter table USERS add column deadline int default 0")
+            self.c.execute("alter table USERS add column mailModTime int default 0")
+            self.c.execute("alter table USERS add column mailSendTime int default 0")
         except Exception, e:
             print e
 
@@ -156,6 +160,26 @@ class MmrzSyncDBManager:
             d[username_this_line] = row
 
         return d
+
+    def update_USERS_DB_mailAddr(self, username, mailAddr):
+        self.c.execute("update USERS set mailAddr = '{0}' where username = '{1}'".format(mailAddr, username))
+
+    def update_USERS_DB_mail_new(self, username, mail_new):
+        self.c.execute("update USERS set mail_new = '{0}' where username = '{1}'".format(mail_new, username))
+
+    def update_USERS_DB_veriCode(self, username, verified):
+        self.c.execute("update USERS set veriCode = '{0}' where username = '{1}'".format(veriCode, username))
+
+    def update_USERS_DB_deadline(self, username, verified):
+        self.c.execute("update USERS set deadline = {0} where username = '{1}'".format(deadline, username))
+
+    def update_USERS_DB_mailModTime(self, username):
+        now = int(time.time())
+        self.c.execute("update USERS set mailModTime = {0} where username = '{1}'".format(now, username))
+
+    def update_USERS_DB_mailSendTime(self, username):
+        now = int(time.time())
+        self.c.execute("update USERS set mailSendTime = {0} where username = '{1}'".format(now, username))
 
 
 
