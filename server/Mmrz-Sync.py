@@ -125,6 +125,15 @@ def get_file_lines(path):
 
     return len(filter(lambda x: x not in ['', '\r', '\n', '\r\n'], content.split("\n")))
 
+def generate_verify_code():
+    veryCode = ""
+
+    # 6 bit length
+    for i in range(6):
+        veryCode += str(random.randint(0, 9))
+
+    return veryCode
+
 def is_username_available(username):
     dbMgr = MmrzSyncDBManager("USERS")
     users = dict([row[:2] for row in dbMgr.read_USERS_DB()])
@@ -334,6 +343,34 @@ def setting():
     dbMgr.closeDB()
 
     return {"username": username, "mailAddr": users[username]["mailAddr"] or "请输入邮箱"}
+
+@route('/verify_email')
+def verify_email():
+    username = request.params.get('username', None)
+    veriCode = request.params.get('veriCode', None)
+
+    dbMgr = MmrzSyncDBManager("USERS")
+    users = dbMgr.read_USERS_DB_DICT()
+
+    now = int(time.time())
+    veriCode_from_client = veriCode
+    veriCode_from_db = users[username]["veriCode"]
+    deadline = users[username]["deadline"]
+    if veriCode_from_client == veriCode_from_db:
+        if now < deadline:
+            dbMgr.update_USERS_DB_mailAddr(username, users[username]["mail_new"])
+            dbMgr.update_USERS_DB_mail_new(username, "")
+            dbMgr.update_USERS_DB_mailModTime(username)
+
+            message = "恭喜, 邮箱验证成功"
+        else:
+            message = "验证码已过期, 请重新发送验证码"
+    else:
+        message = "验证码无效, 请重试"
+
+    dbMgr.closeDB()
+
+    return message
 
 @route('/chart')
 @view('chart')
@@ -827,7 +864,7 @@ def send_verification_mail():
     mail_change_period = (now - last_change_time) / 60 / 60 / 24 # by day
 
     last_send_time = users[username]["mailSendTime"]
-    mail_send_period = (now - last_send_time) / 60 / 60 # by minute
+    mail_send_period = (now - last_send_time) / 60 # by minute
 
     mailAddr_from_client = mailAddr
     mailAddr_from_db = users[username]["mailAddr"]
@@ -848,10 +885,14 @@ def send_verification_mail():
                 dict_for_return["mmrz_code"] = MMRZ_CODE_Email_Send_Frequency_Limit_Error
             else:
                 dict_for_return["mmrz_code"] = MMRZ_CODE_Email_Send_OK
+                veriCode = generate_verify_code()
+
                 dbMgr.update_USERS_DB_mail_new(username, mailAddr_from_client)
+                dbMgr.update_USERS_DB_veriCode(username, veriCode)
+                dbMgr.update_USERS_DB_deadline(username)
                 dbMgr.update_USERS_DB_mailSendTime(username)
 
-                MmrzMail.send_mail(p_to = mailAddr)
+                MmrzMail.send_mail(username = username, p_veriCode = veriCode, p_to = mailAddr)
 
     json_for_return = json.dumps(dict_for_return)
 

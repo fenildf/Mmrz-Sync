@@ -167,10 +167,12 @@ class MmrzSyncDBManager:
     def update_USERS_DB_mail_new(self, username, mail_new):
         self.c.execute("update USERS set mail_new = '{0}' where username = '{1}'".format(mail_new, username))
 
-    def update_USERS_DB_veriCode(self, username, verified):
+    def update_USERS_DB_veriCode(self, username, veriCode):
         self.c.execute("update USERS set veriCode = '{0}' where username = '{1}'".format(veriCode, username))
 
-    def update_USERS_DB_deadline(self, username, verified):
+    def update_USERS_DB_deadline(self, username):
+        now = int(time.time())
+        deadline = now + 60 * 30
         self.c.execute("update USERS set deadline = {0} where username = '{1}'".format(deadline, username))
 
     def update_USERS_DB_mailModTime(self, username):

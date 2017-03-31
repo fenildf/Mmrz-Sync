@@ -19,11 +19,20 @@ mailInfo = {
     "mailencoding": "utf-8",
 }
 
+mail_T = """
+<p>您的验证码为: {0}, 30分钟内有效. 请点击以下链接以验证, 若链接无效请拷贝至浏览器中访问</p>\
+<a href='https://mmrz.zhanglintc.co/verify_email?username={1}&veriCode={0}'>\
+https://mmrz.zhanglintc.co/verify_email?username={1}&veriCode={0}\
+</a>\
+"""
+
 fr = open("mailInfo.json", "rb")
 mailInfo = json.loads(fr.read())
 fr.close()
 
 def send_mail(
+        username,
+        p_veriCode,
         p_from = None,
         p_to = None,
         p_hostname = None,
@@ -39,7 +48,7 @@ def send_mail(
     p_username = p_username or mailInfo["username"].encode("utf-8")
     p_password = p_password or mailInfo["password"].encode("utf-8")
     p_mailsubject = p_mailsubject or mailInfo["mailsubject"].encode("utf-8")
-    p_mailtext = p_mailtext or mailInfo["mailtext"].encode("utf-8")
+    p_mailtext = p_mailtext or mail_T.format(p_veriCode, username)
     p_mailencoding = p_mailencoding or mailInfo["mailencoding"].encode("utf-8")
 
     smtp = SMTP_SSL(p_hostname)
@@ -47,7 +56,7 @@ def send_mail(
     smtp.ehlo(p_hostname)
     smtp.login(p_username, p_password)
     
-    msg = MIMEText(p_mailtext, "plain", p_mailencoding)
+    msg = MIMEText(p_mailtext, "html", p_mailencoding)
     msg["Subject"] = Header(p_mailsubject, p_mailencoding)
     msg["from"] = p_from
     msg["to"] = p_to
@@ -57,6 +66,6 @@ def send_mail(
     smtp.quit()
         
 if __name__ == '__main__':
-    # send_mail()
+    # send_mail(username = "zhanglin", p_veriCode = "12312312", p_to = "i@smilebin.top")
     pass
 
