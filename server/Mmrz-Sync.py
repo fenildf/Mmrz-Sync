@@ -870,7 +870,7 @@ def send_verification_mail():
     mailAddr_from_db = users[username]["mailAddr"]
 
     # mail address remain the same
-    if mailAddr_from_client == mailAddr_from_db:
+    if mailAddr_from_client == mailAddr_from_db or not mailAddr_from_client:
         dict_for_return["mmrz_code"] = MMRZ_CODE_Email_Address_Not_Changed
 
     # mail address changed
