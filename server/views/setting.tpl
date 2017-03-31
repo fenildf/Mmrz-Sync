@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td align="right">个人邮箱: </td>
-            <td align="left"><input id="email" type="text" value="{{mailAddr}}" style="width: 135px;"></td>
+            <td align="left"><input id="email" type="text" placeholder="请输入邮箱地址" value="{{mailAddr}}" style="width: 135px;"></td>
           </tr>
 
           <tr>

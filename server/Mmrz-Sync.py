@@ -342,7 +342,7 @@ def setting():
     users = dbMgr.read_USERS_DB_DICT()
     dbMgr.closeDB()
 
-    return {"username": username, "mailAddr": users[username]["mailAddr"] or "请输入邮箱"}
+    return {"username": username, "mailAddr": "" if users[username]["mailAddr"] == None else users[username]["mailAddr"]}
 
 @route('/verify_email')
 def verify_email():
