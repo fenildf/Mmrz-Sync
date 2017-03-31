@@ -11,7 +11,7 @@ from bottle import post, get, request, redirect
 from bs4 import BeautifulSoup
 from db import TikTimeDBManager, MmrzSyncDBManager
 from MmrzCode import *
-import mail
+import MmrzMail
 import chardet
 import bottle
 import urllib, urllib2
@@ -814,7 +814,7 @@ def tik_tik():
 @post('/send_verification_mail/')
 @post('/send_verification_mail')
 def send_verification_mail():
-    mail.send_mail()
+    MmrzMail.send_mail()
 
     return ""
 
