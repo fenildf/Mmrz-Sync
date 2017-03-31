@@ -97,18 +97,41 @@ class MmrzSyncDBManager:
         [0]wordID         -- int
         [1]favourite      -- boolean (true: 1, false: 0)
         [2]memTimes       -- int
+
+        table USERS:
+        [0]username       -- char[255]
+        [1]password       -- char[255]
+        [2]mailAddr       -- char[255]
+        [3]mail_new       -- char[255]
+        [4]veriCode       -- char[255]
+        [5]deadline       -- int
+        [6]mailModTime    -- int
+        [7]mailSendTime   -- int
     """
 
     def __init__(self, dbName):
         self.db = sqlite3.connect("./USERDB/{0}.db".format(dbName))
         self.c = self.db.cursor()
 
+        if dbName == "USERS":
+            self.create_USERS_DB()
+
     def create_USERS_DB(self):
         try:
             self.c.execute("create table USERS(username char[255], password char[255])")
             self.db.commit()
-        except:
-            pass
+        except Exception, e:
+            print e
+
+        try:
+            self.c.execute("alter table USERS add column mailAddr char[255]")
+            self.c.execute("alter table USERS add column mail_new char[255]")
+            self.c.execute("alter table USERS add column veriCode char[255] default '000000'")
+            self.c.execute("alter table USERS add column deadline int default 0")
+            self.c.execute("alter table USERS add column mailModTime int default 0")
+            self.c.execute("alter table USERS add column mailSendTime int default 0")
+        except Exception, e:
+            print e
 
     def insert_USERS_DB(self, userInfo):
         self.c.execute("insert into USERS values(?, ?)", userInfo)
@@ -118,6 +141,47 @@ class MmrzSyncDBManager:
 
     def read_USERS_DB(self):
         return self.c.execute("select * from USERS").fetchall()
+
+    def read_USERS_DB_DICT(self):
+        def dict_factory(cursor, row):
+            d = {}
+            for idx, col in enumerate(cursor.description):
+                d[col[0]] = row[idx]
+            return d
+
+        db = sqlite3.connect("./USERDB/{0}.db".format("USERS"))
+        db.row_factory = dict_factory
+        c = db.cursor()
+
+        rows = c.execute("select * from USERS").fetchall()
+        d = {}
+        for row in rows:
+            username_this_line = row.pop("username")
+            d[username_this_line] = row
+
+        return d
+
+    def update_USERS_DB_mailAddr(self, username, mailAddr):
+        self.c.execute("update USERS set mailAddr = '{0}' where username = '{1}'".format(mailAddr, username))
+
+    def update_USERS_DB_mail_new(self, username, mail_new):
+        self.c.execute("update USERS set mail_new = '{0}' where username = '{1}'".format(mail_new, username))
+
+    def update_USERS_DB_veriCode(self, username, veriCode):
+        self.c.execute("update USERS set veriCode = '{0}' where username = '{1}'".format(veriCode, username))
+
+    def update_USERS_DB_deadline(self, username):
+        now = int(time.time())
+        deadline = now + 60 * 30
+        self.c.execute("update USERS set deadline = {0} where username = '{1}'".format(deadline, username))
+
+    def update_USERS_DB_mailModTime(self, username):
+        now = int(time.time())
+        self.c.execute("update USERS set mailModTime = {0} where username = '{1}'".format(now, username))
+
+    def update_USERS_DB_mailSendTime(self, username):
+        now = int(time.time())
+        self.c.execute("update USERS set mailSendTime = {0} where username = '{1}'".format(now, username))
 
 
 

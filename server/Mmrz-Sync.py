@@ -11,6 +11,7 @@ from bottle import post, get, request, redirect
 from bs4 import BeautifulSoup
 from db import TikTimeDBManager, MmrzSyncDBManager
 from MmrzCode import *
+import MmrzMail
 import chardet
 import bottle
 import urllib, urllib2
@@ -123,6 +124,15 @@ def get_file_lines(path):
     fr.close()
 
     return len(filter(lambda x: x not in ['', '\r', '\n', '\r\n'], content.split("\n")))
+
+def generate_verify_code():
+    veryCode = ""
+
+    # 6 bit length
+    for i in range(6):
+        veryCode += str(random.randint(0, 9))
+
+    return veryCode
 
 def is_username_available(username):
     dbMgr = MmrzSyncDBManager("USERS")
@@ -326,7 +336,41 @@ def mmrz():
 @route('/setting')
 @view('setting')
 def setting():
-    return {}
+    username = request.params.get('username', None)
+
+    dbMgr = MmrzSyncDBManager("USERS")
+    users = dbMgr.read_USERS_DB_DICT()
+    dbMgr.closeDB()
+
+    return {"username": username, "mailAddr": users[username]["mailAddr"] or "请输入邮箱"}
+
+@route('/verify_email')
+def verify_email():
+    username = request.params.get('username', None)
+    veriCode = request.params.get('veriCode', None)
+
+    dbMgr = MmrzSyncDBManager("USERS")
+    users = dbMgr.read_USERS_DB_DICT()
+
+    now = int(time.time())
+    veriCode_from_client = veriCode
+    veriCode_from_db = users[username]["veriCode"]
+    deadline = users[username]["deadline"]
+    if veriCode_from_client == veriCode_from_db:
+        if now < deadline:
+            dbMgr.update_USERS_DB_mailAddr(username, users[username]["mail_new"])
+            dbMgr.update_USERS_DB_mail_new(username, "")
+            dbMgr.update_USERS_DB_mailModTime(username)
+
+            message = "恭喜, 邮箱验证成功"
+        else:
+            message = "验证码已过期, 请重新发送验证码"
+    else:
+        message = "验证码无效, 请重试"
+
+    dbMgr.closeDB()
+
+    return message
 
 @route('/chart')
 @view('chart')
@@ -803,6 +847,58 @@ def tik_tik():
     tikMgr.closeDB()
 
     return "tik_tik: OK"
+
+@post('/send_verification_mail/')
+@post('/send_verification_mail')
+def send_verification_mail():
+    username = request.forms.get('username', None)
+    mailAddr = request.forms.get('mailAddr', None)
+
+    dict_for_return = dict(universal_POST_dict)
+
+    dbMgr = MmrzSyncDBManager("USERS")
+    users = dbMgr.read_USERS_DB_DICT()
+
+    now = int(time.time())
+    last_change_time = int(users[username]["mailModTime"])
+    mail_change_period = (now - last_change_time) / 60 / 60 / 24 # by day
+
+    last_send_time = users[username]["mailSendTime"]
+    mail_send_period = (now - last_send_time) / 60 # by minute
+
+    mailAddr_from_client = mailAddr
+    mailAddr_from_db = users[username]["mailAddr"]
+
+    # mail address remain the same
+    if mailAddr_from_client == mailAddr_from_db:
+        dict_for_return["mmrz_code"] = MMRZ_CODE_Email_Address_Not_Changed
+
+    # mail address changed
+    else:
+        # mail address can be changed every 7 days
+        if mail_change_period <= 7:
+            dict_for_return["mmrz_code"] = MMRZ_CODE_Email_Modification_Frequency_Limit_Error
+        # mail address not was changed 7 days ago or even longer
+        else:
+            # verification mail can be send every 5 minutes
+            if mail_send_period <= 5:
+                dict_for_return["mmrz_code"] = MMRZ_CODE_Email_Send_Frequency_Limit_Error
+            else:
+                dict_for_return["mmrz_code"] = MMRZ_CODE_Email_Send_OK
+                veriCode = generate_verify_code()
+
+                dbMgr.update_USERS_DB_mail_new(username, mailAddr_from_client)
+                dbMgr.update_USERS_DB_veriCode(username, veriCode)
+                dbMgr.update_USERS_DB_deadline(username)
+                dbMgr.update_USERS_DB_mailSendTime(username)
+
+                MmrzMail.send_mail(username = username, p_veriCode = veriCode, p_to = mailAddr)
+
+    json_for_return = json.dumps(dict_for_return)
+
+    dbMgr.closeDB()
+
+    return json_for_return
 
 ### gets
 @get('/version_info/')
