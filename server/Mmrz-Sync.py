@@ -309,6 +309,10 @@ def server_static_js(filename):
 def server_static_img(filename):
     return static_file(filename, root='./static/img')
 
+@route('/layer/<filename:path>')
+def server_static_img(filename):
+    return static_file(filename, root='./static/layer')
+
 @route('/')
 def index():
     req_thing = request.params.get('req_thing', None)
@@ -542,6 +546,11 @@ def show_favoritebook():
         rows_for_return.append(row)
 
     return dict(rows=rows_for_return)
+
+@route('/layer_edit')
+@view('layer_edit')
+def layer_edit():
+    return {}
 
 ### posts
 @post('/log_in/')

@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery1.4.1.cookie.min.js?v=1000"></script>
     <script type="text/javascript" src="./js/utils.js?v=1000"></script>
     <script type="text/javascript" src="./js/mmrz.js?v=1000"></script>
+    <script type="text/javascript" src="./layer/layer.js?v=1000"></script>
 
     <link rel="stylesheet" type="text/css" href="./css/common.css">
     <link rel="stylesheet" type="text/css" href="./css/mmrz.css">
@@ -27,7 +28,7 @@
   <body>
     <script type="text/javascript" src="./js/notie.js?v=1000"></script>
     <div id="center_board">
-      <h2 id="title">背诵模式</h2>
+      <h2 id="title" onclick="make_new_layer()">背诵模式</h2>
 
       <div class="info">
         <span class="label" id="label_word"></span>
@@ -151,6 +152,20 @@
 
       <script type="text/javascript">
         Copyright();
+        make_new_layer = function() {
+          if(window.secret_is_hiding) {
+            return;
+          }
+          layer.open({
+            type: 2,
+            closeBtn: 0,
+            title: false,
+            shadeClose: true,
+            resize: false,
+            area: ['280px', '400px'],
+            content: './layer_edit'
+          });
+        }
       </script>
 
       <div style="display: none;">
