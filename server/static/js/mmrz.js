@@ -316,9 +316,12 @@ function view_hujiang() {
             moveEnd: function() {
                 layer.close(layer.index);
             },
-            shadeClose: false,
+            shadeClose: true,
             resize: false,
             area: ['280px', '400px'],
+            success: function(index){
+                layer.setTop(index);
+            }
             content: url
         });
     }
