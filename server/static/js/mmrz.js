@@ -318,6 +318,7 @@ function view_hujiang() {
             },
             shadeClose: true,
             resize: false,
+            scrollbar: false,
             area: ['280px', '400px'],
             success: function(index){
                 layer.setTop(index);
