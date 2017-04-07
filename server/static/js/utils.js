@@ -62,19 +62,19 @@ function get_hujiang_url(key_word) {
     // EN
     if(is_word_EN(key_word)) {
         if(is_cellphone()) {
-            url = "https://m.hujiang.com/d/" + key_word;
+            url = "http://m.hujiang.com/d/" + key_word;
         }
         else {
-            url = "https://dict.hjenglish.com/w/" + key_word;
+            url = "http://dict.hjenglish.com/w/" + key_word;
         }
     }
     // JA
     else {
         if(is_cellphone()) {
-            url = "https://m.hujiang.com/d/jp/" + key_word;
+            url = "http://m.hujiang.com/d/jp/" + key_word;
         }
         else {
-            url = "https://dict.hjenglish.com/jp/jc/" + key_word;
+            url = "http://dict.hjenglish.com/jp/jc/" + key_word;
         }
     }
 

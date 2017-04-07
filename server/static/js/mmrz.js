@@ -321,6 +321,7 @@ function view_hujiang() {
             area: ['280px', '400px'],
             success: function(index){
                 layer.setTop(index);
+                $("#iframe_hujiang").focus();
             },
             content: url
         });
