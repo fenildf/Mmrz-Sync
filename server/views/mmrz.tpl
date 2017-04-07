@@ -28,7 +28,7 @@
   <body>
     <script type="text/javascript" src="./js/notie.js?v=1000"></script>
     <div id="center_board">
-      <h2 id="title" onclick="make_new_layer()">背诵模式</h2>
+      <h2 id="title">背诵模式</h2>
 
       <div class="info">
         <span class="label" id="label_word"></span>
@@ -42,7 +42,7 @@
           <button class="btn" id="btn_view">查看</button>
         </div>
         <div>
-          <span class="label" id="label_meaning"></span>
+          <span class="label" id="label_meaning" onclick="make_new_layer()"></span>
         </div>
       </div>
 
@@ -158,8 +158,8 @@
           }
           layer.open({
             type: 2,
+            title: ["修改单词", 'font-size: 18px;'],
             closeBtn: 0,
-            title: false,
             shadeClose: true,
             resize: false,
             area: ['280px', '400px'],

@@ -25,15 +25,13 @@
 
   <body>
     <div id="center_board">
-      <h2 id="title">修改单词</h2>
-
       <div id="center_center">
         <div class="info">
           <span class="label">单词:</span>
         </div>
 
         <div class="info">
-          <input class="edit_area" type="text", id="word">
+          <textarea class="edit_area" wrap="physical" id="word"></textarea>
         </div>
 
         <div class="info">
@@ -41,7 +39,7 @@
         </div>
 
         <div class="info">
-          <input class="edit_area" type="text" id="pronounce">
+          <textarea class="edit_area" wrap="physical" id="pronounce"></textarea>
         </div>
 
         <div class="info">
@@ -49,11 +47,11 @@
         </div>
 
         <div class="info">
-          <input class="edit_area" type="text" id="meaning">
+          <textarea class="edit_area" wrap="physical" id="meaning"></textarea>
         </div>
 
         <div id="btn_board">
-          <button class="btn" id="confirm" onclick="alert('暂不可用, 点击空白处关闭')">确定</button>
+          <button class="btn" id="confirm" onclick="alert('暂不可用, 点击空白处关闭')">修改</button>
           <button class="btn" id="cancel" onclick="alert('暂不可用, 点击空白处关闭')">取消</button>
         </div>
 
@@ -61,10 +59,6 @@
       </div>
 
       <script type="text/javascript">
-        domain = document.domain;
-        if(domain == "localhost" || domain == "127.0.0.1") {
-          $("#title").text("修改单词 -- Debug");
-        }
       </script>
 
       <script type="text/javascript">
