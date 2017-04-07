@@ -306,8 +306,25 @@ function view_hujiang() {
 
     key_word = window.rows_from_DB[window.cursor_of_rows][0];
 
-    url = get_hujiang_url(key_word);
-    window.open(url);
+    url = get_hujiang_url(key_word);    
+    if(is_cellphone()) {
+        layer.open({
+            id: "iframe_hujiang",
+            type: 2,
+            title: ["沪江小D", 'font-size: 20px;'],
+            closeBtn: 0,
+            moveEnd: function() {
+                layer.close(layer.index);
+            },
+            shadeClose: false,
+            resize: false,
+            area: ['280px', '400px'],
+            content: url
+        });
+    }
+    else {
+        window.open(url);
+    }
 }
 
 function speak_word() {
