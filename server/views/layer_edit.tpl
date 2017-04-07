@@ -47,7 +47,7 @@
         </div>
 
         <div class="info">
-          <textarea class="edit_area" id="meaning" style="height: 80px;"></textarea>
+          <textarea class="edit_area_big" id="meaning"></textarea>
         </div>
 
         <div id="btn_board">
@@ -65,12 +65,26 @@
           meaning = $("#meaning").val();
           combine = pronounce + " -- " + meaning;
 
-          parent.window.rows_from_DB[parent.window.cursor_of_rows][0] = word;
-          parent.window.rows_from_DB[parent.window.cursor_of_rows][1] = combine;
-          parent.update_row(parent.window.rows_from_DB[parent.window.cursor_of_rows], true);
-          parent.show_word();
-          parent.show_secret();
-          parent.layer.close(parent.layer.index);
+          word_from_db = parent.window.rows_from_DB[parent.window.cursor_of_rows][0];
+          combine_from_db = parent.window.rows_from_DB[parent.window.cursor_of_rows][1];
+
+          modified = false;
+          if(word != word_from_db) modified = true;
+          if(combine != combine_from_db) modified = true;
+
+          if(modified) {
+            parent.window.rows_from_DB[parent.window.cursor_of_rows][0] = word;
+            parent.window.rows_from_DB[parent.window.cursor_of_rows][1] = combine;
+            parent.update_row(parent.window.rows_from_DB[parent.window.cursor_of_rows], true);
+            parent.show_word();
+            parent.show_secret();
+            parent.layer.close(parent.layer.index);
+            parent.layer.msg("修改单词信息成功!");
+          }
+          else {
+            parent.layer.close(parent.layer.index);
+            parent.layer.msg("未修改任何内容!");
+          }
         }
       </script>
 
