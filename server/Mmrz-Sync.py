@@ -234,7 +234,7 @@ def smart_import(path, username, quantity=100, is_smart=True):
     line_quantity = len(content_list)
 
     # get rand indexes & extract lines
-    idx_range = line_quantity # 随机数取值范围
+    idx_range = line_quantity if is_smart else IMPORT_QUANTITY # 随机数取值范围
     idx_amount = min(idx_range, IMPORT_QUANTITY) # 需要导入的数量
     rand_idxes = []
     extracted = []
@@ -847,7 +847,10 @@ def update_row():
 def online_import():
     username = request.forms.get('username', None)
     password = request.forms.get('password', None)
+
     is_smart = request.forms.get('is_smart', None)
+    is_smart = json.loads(is_smart)
+
     quantity = request.forms.get('quantity', None)
     quantity = int(quantity)
 
