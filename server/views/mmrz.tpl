@@ -159,8 +159,11 @@
           layer.open({
             id: "iframe_edit",
             type: 2,
-            title: ["修改单词", 'font-size: 18px;'],
+            title: ["修改单词", 'font-size: 20px;'],
             closeBtn: 0,
+            moveEnd: function() {
+              layer.close(layer.index);
+            },
             shadeClose: false,
             resize: false,
             area: ['280px', '400px'],
