@@ -103,11 +103,12 @@ function get_wordbooks() {
     return wordbook;
 }
 
-function update_row(row) {
+function update_row(row, update_whole_row) {
     params = {
         username: $.cookie('username'),
         password: $.cookie('password'),
         row: JSON.stringify(row),
+        update_whole_row: update_whole_row,
     }
 
     $.ajax({
@@ -287,7 +288,7 @@ function hide_secret(remember, pass) {
         }
 
         // operate DB here
-        update_row(row);
+        update_row(row, false);
 
         window.rows_from_DB.splice(window.cursor_of_rows, 1);
         move_cursor(false);

@@ -195,8 +195,11 @@ class MmrzSyncDBManager:
     def insertDB(self, row):
         self.c.execute("insert into UNMMRZ values(?, ?, ?, ?, ?, ?)", row)
 
-    def updateDB(self, row):
-        self.c.execute("update UNMMRZ set memTimes = {0}, remindTime = {1}, remindTimeStr = '{2}' where wordID = '{3}'".format(row[2], row[3], row[4], row[5]))
+    def updateDB(self, row, update_whole_row=False):
+        if update_whole_row:
+            self.c.execute(u"update UNMMRZ set word = '{0}', pronounce = '{1}', memTimes = {2}, remindTime = {3}, remindTimeStr = '{4}' where wordID = '{5}'".format(row[0], row[1], row[2], row[3], row[4], row[5]))
+        else:
+            self.c.execute("update UNMMRZ set memTimes = {0}, remindTime = {1}, remindTimeStr = '{2}' where wordID = '{3}'".format(row[2], row[3], row[4], row[5]))
 
     def readDB(self, timeStamp):
         return self.c.execute("select * from UNMMRZ where memTimes < 8 and remindTime < {0}".format(timeStamp)).fetchall()

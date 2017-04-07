@@ -47,23 +47,36 @@
         </div>
 
         <div class="info">
-          <textarea class="edit_area" wrap="physical" id="meaning"></textarea>
+          <textarea class="edit_area" id="meaning" style="height: 80px;"></textarea>
         </div>
 
         <div id="btn_board">
-          <button class="btn" id="confirm" onclick="alert('暂不可用, 点击空白处关闭')">修改</button>
-          <button class="btn" id="cancel" onclick="alert('暂不可用, 点击空白处关闭')">取消</button>
+          <button class="btn" id="confirm" onclick="update_word_info()">修改</button>
+          <button class="btn" id="cancel" onclick="parent.layer.close(parent.layer.index)">取消</button>
         </div>
 
         <div id="copyright"></div>
       </div>
 
       <script type="text/javascript">
+        function update_word_info() {
+          word = $("#word").val();
+          pronounce = $("#pronounce").val();
+          meaning = $("#meaning").val();
+          combine = pronounce + " -- " + meaning;
+
+          parent.window.rows_from_DB[parent.window.cursor_of_rows][0] = word;
+          parent.window.rows_from_DB[parent.window.cursor_of_rows][1] = combine;
+          parent.update_row(parent.window.rows_from_DB[parent.window.cursor_of_rows], true);
+          parent.show_word();
+          parent.show_secret();
+          parent.layer.close(parent.layer.index);
+        }
       </script>
 
       <script type="text/javascript">
-        word = parent.label_word.innerText;
-        combine = parent.label_meaning.innerText;
+        word = parent.window.rows_from_DB[parent.window.cursor_of_rows][0];
+        combine = parent.window.rows_from_DB[parent.window.cursor_of_rows][1];
         if(combine.search("--") > 0) {
           combine = combine.split("--");
           pronounce = combine[0].replace(" ", "");

@@ -788,10 +788,11 @@ def update_row():
         return json_for_return
     else:
         row = request.forms['row']
+        update_whole_row = request.forms.get('update_whole_row', False)
         row = json.loads(row)
         dbMgr = MmrzSyncDBManager(username)
         dbMgr.createDB()
-        dbMgr.updateDB(row)
+        dbMgr.updateDB(row, update_whole_row)
         dbMgr.closeDB()
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "Update row success"

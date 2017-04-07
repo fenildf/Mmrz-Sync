@@ -157,10 +157,11 @@
             return;
           }
           layer.open({
+            id: "iframe_edit",
             type: 2,
             title: ["修改单词", 'font-size: 18px;'],
             closeBtn: 0,
-            shadeClose: true,
+            shadeClose: false,
             resize: false,
             area: ['280px', '400px'],
             content: './layer_edit'
