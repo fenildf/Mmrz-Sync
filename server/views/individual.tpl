@@ -42,12 +42,12 @@
       <P>剩余单词数: {{remained_words}} / {{total_lines}}</P>
       <p>目前导入进度: {{import_rate}}%</p>
       <p>离上次导入已有: {{time_elapsed}}</p>
-      导入数量(1-200): <input id="quantity" type="tel" onafterpaste="limit_import_number(this)" onkeyup="limit_import_number(this)" value="50" style="width: 30px">
       <p>
-        <span>导入方式(无效):</span>
-        <input type="radio" name="import_type" value="is_smart" checked="checked">乱序
-        <input type="radio" name="import_type" value="is_not_smart">顺序
+        <span>导入方式:</span>
+        <input type="radio" name="import_type" id="smart_import"  onchange="import_type_change()" value="is_smart">智能
+        <input type="radio" name="import_type" id="normal_import" onchange="import_type_change()" value="is_not_smart">顺序
       </p>
+      导入数量(1-200): <input id="quantity" type="tel" onafterpaste="limit_import_number(this)" onkeyup="limit_import_number(this)" value="50" style="width: 30px">
       <p><a href="javascript:if(confirm('立即从远端单词本中 \'' + (getRadioValue('import_type') == 'is_smart' ? '乱序' : '顺序') + '\' 导入' + $('#quantity').val() + '个单词?'))online_import()">立即导入</a></p>
       
       <hr>
@@ -64,6 +64,7 @@
       <div id="copyright"></div>
 
       <script type="text/javascript">
+        read_and_set_import_type();
         make_weekly_chart($("#weekly_chart"), get_weekly_mmrz_time($.cookie('username')));
 
         domain = document.domain;

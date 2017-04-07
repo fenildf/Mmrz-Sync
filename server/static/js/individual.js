@@ -12,6 +12,34 @@ function show_setting() {
     window.open("/setting?username=" + $.cookie('username'));
 }
 
+function read_and_set_import_type() {
+    // if import_type cookie not set before, default is smart
+    if(!$.cookie('import_type')) {
+        import_type = "smart";
+    }
+    else {
+        import_type = $.cookie('import_type');
+    }
+
+    if(import_type == "smart") {
+        document.getElementById("smart_import").checked = true;
+    }
+    if(import_type == "normal") {
+        document.getElementById("normal_import").checked = true;
+    }
+}
+
+function import_type_change() {
+    radios = window.document.getElementsByName("import_type");
+
+    if(radios[0].checked) {
+        $.cookie('import_type', "smart",  {path: '/', expires: 365});
+    }
+    if(radios[1].checked) {
+        $.cookie('import_type', "normal", {path: '/', expires: 365});
+    }
+}
+
 function upload_file() {
     if(is_cellphone()) {
         alert("不支持移动端上传词典, 请使用电脑上传");
