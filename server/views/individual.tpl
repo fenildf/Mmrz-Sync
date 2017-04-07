@@ -43,7 +43,12 @@
       <p>目前导入进度: {{import_rate}}%</p>
       <p>离上次导入已有: {{time_elapsed}}</p>
       导入数量(1-200): <input id="quantity" type="tel" onafterpaste="limit_import_number(this)" onkeyup="limit_import_number(this)" value="50" style="width: 30px">
-      <p><a href="javascript:if(confirm('立即从远端单词本中导入' + $('#quantity').val() + '个单词?'))online_import()">立即导入</a></p>
+      <p>
+        <span>导入方式(无效):</span>
+        <input type="radio" name="import_type" value="is_smart" checked="checked">乱序
+        <input type="radio" name="import_type" value="is_not_smart">顺序
+      </p>
+      <p><a href="javascript:if(confirm('立即从远端单词本中 \'' + (getRadioValue('import_type') == 'is_smart' ? '乱序' : '顺序') + '\' 导入' + $('#quantity').val() + '个单词?'))online_import()">立即导入</a></p>
       
       <hr>
 

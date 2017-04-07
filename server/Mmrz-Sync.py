@@ -199,7 +199,7 @@ def cal_remind_time(memTimes, types):
 
     return remindTime
 
-def smart_import(path, username, quantity=100):
+def smart_import(path, username, quantity=100, is_smart=True):
     if path == "":
         return
 
@@ -847,6 +847,7 @@ def update_row():
 def online_import():
     username = request.forms.get('username', None)
     password = request.forms.get('password', None)
+    is_smart = request.forms.get('is_smart', None)
     quantity = request.forms.get('quantity', None)
     quantity = int(quantity)
 
@@ -863,7 +864,7 @@ def online_import():
         fr = open("./WORDBOOK/{0}/data.pkl".format(username), "rb")
         pkl = pickle.load(fr)
         fr.close()
-        added = smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username, quantity)
+        added = smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username, quantity, is_smart)
         dict_for_return['added'] = added
 
         json_for_return = json.dumps(dict_for_return)

@@ -79,10 +79,18 @@ function online_import() {
         return;
     }
 
+    if(getRadioValue('import_type') == "is_smart") {
+        is_smart = true;
+    }
+    else {
+        is_smart = false;
+    }
+
     params = {
         username: $.cookie('username'),
         password: $.cookie('password'),
         quantity: Number($("#quantity").val()),
+        is_smart: is_smart,
     }
 
     $.post('/online_import', params, function(rec) {
