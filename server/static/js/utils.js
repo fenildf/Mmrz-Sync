@@ -53,7 +53,7 @@ function is_word_JA(key_word) {
 function getQueryString(name) { 
     reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     r = window.location.search.substr(1).match(reg);
-    if(r != null) return unescape(r[2]); return null;
+    if(r != null) return decodeURI(r[2]); return null; // unescape => decodeURI
 }
 
 function get_hujiang_url(key_word) {

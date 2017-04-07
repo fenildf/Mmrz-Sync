@@ -11,6 +11,7 @@ from bottle import post, get, request, redirect
 from bs4 import BeautifulSoup
 from db import TikTimeDBManager, MmrzSyncDBManager
 from MmrzCode import *
+import requests
 import MmrzMail
 import chardet
 import bottle
@@ -292,6 +293,38 @@ def smart_import(path, username, quantity=100):
 
     return added
 
+def query_hujiang(key_word):
+    if not key_word:
+        return []
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
+        'Accept-Encoding': 'gzip, deflate, sdch',
+        }
+
+    url = "http://m.hujiang.com/d/dict_jp_api.ashx?type=jc&w={0}".format(urllib.quote(key_word))
+
+    response = requests.get(url, headers=headers)
+    try:
+        defines = response.json()
+    except:
+        return []
+
+    for i in range(len(defines)):
+        Comment = defines[i]["Comment"]
+        comments = re.findall("<br/>([^a-zA-Z]+)<br/>", Comment)
+
+        tmp = ", ".join(comments)
+        tmp = re.sub(u"\（.+?\）",   "", tmp)
+        tmp = re.sub(u"\(.+?\)",  "", tmp)
+        tmp = re.sub(u"。+?",     "", tmp)
+
+        defines[i]["Comment"] = tmp
+
+        defines[i]["PronounceJp"] = re.sub("\[|\]", "", defines[i]["PronounceJp"])
+
+    return defines
+
 ### static files
 @route('/<filename>')
 def server_static(filename):
@@ -469,6 +502,16 @@ def ranking():
 
 
     return dict(db_info_list = db_info_list, date = date, week = week, month = month, year = year)
+
+@route('/dictionary')
+@view('dictionary')
+def dictionary():
+    username = request.params.get('username', None)
+    key_word = request.params.get('key_word', None)
+
+    defines = query_hujiang(key_word)
+
+    return dict(defines=defines, key_word=key_word)
 
 @route('/wordbook')
 @view('wordbook')
