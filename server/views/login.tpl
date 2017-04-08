@@ -54,10 +54,6 @@
           <button class="btn" id="signup">注册</button>
         </div>
 
-        <br/>
-        <p>Note: 近期调整了密码保存方法, 若有登录异常请及时反馈</p>
-        <p>另外: 请使用刷新功能刷新页面后使用(以便更新本地js文件)</p>
-
         <div id="copyright"></div>
       </div>
     </div>
