@@ -271,7 +271,7 @@ function hide_secret(remember, pass) {
 
         // 第一次背诵即成功, 背诵次数加1. 同时如果是pass, 直接置为8次
         if(!firstTimeFail) {
-            row[2] = pass ? 8 : row[2] + 1; // pass为8, 否则加1
+            row[2] = pass ? 8 : row[2] + 1; // pass为8, 否则次数加1
 
             // 正常计算下次提醒时间
             row[3] = cal_remind_time(row[2], "int");
@@ -279,7 +279,7 @@ function hide_secret(remember, pass) {
         }
         // 第一次背诵失败, 背诵次数减1. 同时下次背诵时间按照第0次计算(即5分钟后提醒)
         else {
-            row[2] -= 1; // 次数减1
+            row[2] = pass ? 8 : row[2] - 1; // pass为8, 否则次数减1
             row[2] = row[2] <= 0 ? 0 : row[2]; // 如果已经是负数了则调整为0次
 
             // 统一按照第0次计算下次提醒时间
