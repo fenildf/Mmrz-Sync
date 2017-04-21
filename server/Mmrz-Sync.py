@@ -368,7 +368,8 @@ def signup():
 @route('/memorize')
 @view('mmrz')
 def mmrz():
-    return {}
+    need_https = "https" in request.environ.get("HTTP_REFERER", None)
+    return dict(need_https=need_https)
 
 @route('/setting')
 @view('setting')
@@ -1137,6 +1138,6 @@ print ""
 # import gevent; from gevent import monkey; monkey.patch_all()
 
 # run server
-run(host='0.0.0.0', port=PORT, server='paste')
+run(host='0.0.0.0', port=PORT)#, server='paste')
 
 
