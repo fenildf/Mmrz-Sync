@@ -368,7 +368,7 @@ def signup():
 @route('/memorize')
 @view('mmrz')
 def mmrz():
-    need_https = "https" in request.environ.get("HTTP_REFERER", None)
+    need_https = "http" not in request.environ.get("HTTP_REFERER", "")
     return dict(need_https=need_https)
 
 @route('/setting')
