@@ -79,11 +79,11 @@
             parent.show_word();
             parent.show_secret();
             parent.layer.close(parent.layer.index);
-            parent.layer.msg("修改单词信息成功!");
+            parent.layer.msg("修改单词信息成功!", {'time': 1000});
           }
           else {
             parent.layer.close(parent.layer.index);
-            parent.layer.msg("未修改任何内容!");
+            parent.layer.msg("未修改任何内容!", {'time': 1000});
           }
         }
       </script>

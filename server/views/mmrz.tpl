@@ -162,16 +162,19 @@
 
         restore_last_word = function() {
           if(window.last_rows_from_DB != null) {
-            window.rows_from_DB = window.last_rows_from_DB.concat();
+            window.rows_from_DB = window.last_rows_from_DB;
             window.cursor_of_rows = window.last_cursor_of_rows;
 
             window.last_rows_from_DB = null;
             window.last_cursor_of_rows = null;
             $("#btn_undo").css("color", "gray");
 
+            row = window.rows_from_DB[window.cursor_of_rows];
+            update_row(row, false);
+
             show_word();
 
-            layer.msg("恢复上一个单词成功");
+            layer.msg("恢复上一个单词成功", {'time': 1000});
           }
           else {
             alert("无可恢复单词");
