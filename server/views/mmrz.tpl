@@ -170,6 +170,8 @@
             $("#btn_undo").css("color", "gray");
 
             show_word();
+
+            layer.msg("恢复上一个单词成功");
           }
           else {
             alert("无可恢复单词");
