@@ -60,7 +60,7 @@
       <div id="words_count">
         第 <span id="mem_times"></span> 次
         &nbsp;<a id="btn_pass" href="javascript:if(confirm('Pass 会标记该单词非常熟悉, 永远无需再次进入背诵序列.\n\n确定不再记忆此单词?')){hide_secret(true, true);show_word()}">Pass</a>
-        &nbsp;<a id="btn_undo" href="javascript:if(confirm('如果你手抖点错了记得住和记不住, 你可以使用本功能撤销.\n\n是否要回到上一个单词?')){restore_last_word()}">↺</a>
+        &nbsp;<a id="btn_undo" style="color: gray" href="javascript:if(confirm('如果你手抖点错了记得住和记不住, 你可以使用本功能撤销.\n\n是否要回到上一个单词?')){restore_last_word()}">↺</a>
         <br/>
         <span id="words_left"></span>
       </div>
@@ -161,7 +161,19 @@
         Copyright();
 
         restore_last_word = function() {
-          alert("暂不可用");
+          if(window.last_rows_from_DB != null) {
+            window.rows_from_DB = window.last_rows_from_DB.concat();
+            window.cursor_of_rows = window.last_cursor_of_rows;
+
+            window.last_rows_from_DB = null;
+            window.last_cursor_of_rows = null;
+            $("#btn_undo").css("color", "gray");
+
+            show_word();
+          }
+          else {
+            alert("无可恢复单词");
+          }
         }
 
         make_new_layer = function() {

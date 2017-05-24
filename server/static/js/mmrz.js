@@ -263,6 +263,10 @@ function hide_secret(remember, pass) {
         return;
     }
 
+    window.last_rows_from_DB   = window.rows_from_DB.concat();
+    window.last_cursor_of_rows = window.cursor_of_rows;
+    $("#btn_undo").css("color", "blue");
+
     tik_tik();
 
     if(remember || pass) {
@@ -424,6 +428,8 @@ function favourite_action() {
         location.href="/";
     }
     init_rows_from_DB();
+    window.last_rows_from_DB = null;
+    window.last_cursor_of_rows = null;
 }());
 
 
