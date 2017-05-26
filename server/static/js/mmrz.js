@@ -1,5 +1,42 @@
 // functions for mmrz.tpl
 
+// rows_from_DB:
+// [0]word           -- char[255]
+// [1]pronounce      -- char[255]
+// [2]memTimes       -- int
+// [3]remindTime     -- int
+// [4]remindTimeStr  -- char[255]
+// [5]wordID         -- int
+// [6]firstTimeFail  -- bool
+// [7]is_favourite   -- int => 1 as true, 0 as false
+
+
+// Global Variables:
+// window.rows_from_DB          -- 本次需要背诵单词的列表
+// window.cursor_of_rows        -- 当前背诵进度游标的位置
+// window.last_rows_from_DB     -- 缓存的上一次单词列表的状态(仅用于undo功能)
+// window.last_cursor_of_rows   -- 还窜的上一次游标的状态(仅用于undo功能)
+// window.word_tts_found        -- 是否从Mmrz-Sync服务器成功获取了发音(因为函数未使用, 所以该变量也未使用)
+// window.word_tts_url          -- 从Mmrz-Sync服务器获取的发音数据地址(因为函数未使用, 所以该变量也未使用)
+// window.null_when_open        -- 从服务器获取到的待背诵列表是否一开始就为空(若为空则直接显示相应提示给用户)
+// window.max_size_this_turn    -- 用于存储本次获取到的班次列表的大小(仅于显示, current/max中的max部分)
+// window.secret_is_hiding      -- 单词含义是否处于隐藏中(true为隐藏中, false为显示中)
+// window.secret_is_showing     -- 单词含义是否处于显示中, 总是为secret_is_hiding取反(true为显示中, false为隐藏中)
+
+function init() {
+    // jump to main path if not verified
+    if(!verify_user($.cookie('username'), $.cookie('password'))) {
+        location.href="/";
+    }
+
+    // init global variables
+    window.last_rows_from_DB = null;
+    window.last_cursor_of_rows = null;
+
+    // init rows
+    init_rows_from_DB();    
+}
+
 function search_word_id(target, arr, low, high) {
     if(low <= high) {
         if(arr[low][5] == target) return low;
@@ -17,7 +54,6 @@ function search_word_id(target, arr, low, high) {
     }
     return - 1;
 }
-
 
 function logout() {
     $.cookie('username', "", {path: '/', expires: 7});
@@ -38,6 +74,8 @@ function tik_tik() {
     });
 }
 
+// 该函数暂时没有使用, 因为每次从我自己的服务器取读音太慢了
+// 现已改用直接从沪江取读音, 客户自行获取
 function get_tts_url() {
     // 每次都清空相关内容
     document.getElementById("speaker").src = "";
@@ -424,12 +462,7 @@ function favourite_action() {
 }
 
 (function() {
-    if(!verify_user($.cookie('username'), $.cookie('password'))) {
-        location.href="/";
-    }
-    init_rows_from_DB();
-    window.last_rows_from_DB = null;
-    window.last_cursor_of_rows = null;
+    init();
 }());
 
 
