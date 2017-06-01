@@ -25,15 +25,14 @@
 }
 
 .edit_area {
-    font-size: 20px;
-    width: 90%;
+    font-size: 12px;
+    width: 70%;
     background: #fff;
     padding: 5px;
 }
 
 #query {
-    font-size: 20px;
-    width: 60px;
+    font-size: 12px;
 }
 
 #center_center {
