@@ -29,7 +29,18 @@
 
       <div id="center_center">
         <div class="info">
-          <input class="edit_area" type="text", id="dictionary_key_word" onkeypress='if(event.keyCode==13){query_hujiang()}'>
+          <table>
+            <tbody>
+              <tr>
+                <td align="right">
+                  <input class="edit_area" type="text", id="dictionary_key_word" onkeypress='if(event.keyCode==13){query_hujiang()}'>
+                </td>
+                <td align="left">
+                  <button id="query" onclick="query_hujiang()">查询</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         %if not defines:
