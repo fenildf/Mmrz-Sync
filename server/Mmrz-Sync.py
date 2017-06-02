@@ -368,7 +368,8 @@ def signup():
 @route('/memorize')
 @view('mmrz')
 def mmrz():
-    need_https = "localhost" not in request.url
+    # need_https = "localhost" not in request.url
+    need_https = False
     return dict(need_https=need_https)
 
 @route('/setting')
