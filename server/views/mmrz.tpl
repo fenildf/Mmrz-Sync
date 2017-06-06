@@ -143,6 +143,8 @@
       <script type="text/javascript">
         show_word();
 
+        setTimeout(period_state_check, 5 * 1000);
+
         $("#user_info").text($.cookie('username'));
 
         domain = document.domain;

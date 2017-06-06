@@ -22,6 +22,7 @@
 // window.max_size_this_turn    -- 用于存储本次获取到的班次列表的大小(仅于显示, current/max中的max部分)
 // window.secret_is_hiding      -- 单词含义是否处于隐藏中(true为隐藏中, false为显示中)
 // window.secret_is_showing     -- 单词含义是否处于显示中, 总是为secret_is_hiding取反(true为显示中, false为隐藏中)
+// window.last_save_timestamp   -- 上一次状态检查时间, 若本次距离上次超过一分钟, 则上传当前背诵进度
 
 function init() {
     // jump to main path if not verified
@@ -32,6 +33,7 @@ function init() {
     // init global variables
     window.last_rows_from_DB = null;
     window.last_cursor_of_rows = null;
+    window.last_save_timestamp = Date.parse(new Date()) / 1000;
 
     // init rows
     init_rows_from_DB();    
@@ -53,6 +55,17 @@ function search_word_id(target, arr, low, high) {
         }
     }
     return - 1;
+}
+
+function period_state_check() {
+    timestamp = Date.parse(new Date()) / 1000;
+
+    if(timestamp - window.last_save_timestamp >= 60) {
+        console.log("send current state to server");
+        window.last_save_timestamp = timestamp;
+    }
+
+    setTimeout(period_state_check, 5 * 1000);
 }
 
 function logout() {
