@@ -10,10 +10,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
 
-    <script type="text/javascript" src="./js/jquery1.8.3.min.js?v=1000"></script>
-    <script type="text/javascript" src="./js/jquery1.4.1.cookie.min.js?v=1000"></script>
-    <script type="text/javascript" src="./js/chart.min.js?v=1000"></script>
-    <script type="text/javascript" src="./js/utils.js?v=1000"></script>
+    <script type="text/javascript" src="./js/jquery1.8.3.min.js?{{static_file_version}}"></script>
+    <script type="text/javascript" src="./js/jquery1.4.1.cookie.min.js?{{static_file_version}}"></script>
+    <script type="text/javascript" src="./js/chart.min.js?{{static_file_version}}"></script>
+    <script type="text/javascript" src="./js/utils.js?{{static_file_version}}"></script>
 
     <link rel="stylesheet" type="text/css" href="./css/common.css">
     <link rel="stylesheet" type="text/css" href="./css/mmrz.css">
