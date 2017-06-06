@@ -109,6 +109,10 @@ universal_GET_dict = {
     'message_str': 'message from Mmrz-Sync server'
 }
 
+universal_ROUTE_dict = {
+    'static_file_version': 'v=1000'
+}
+
 ### universal functions
 def read_version():
     config = configparser.ConfigParser()
@@ -358,19 +362,22 @@ def index():
 @route('/login')
 @view('login')
 def login():
-    return {}
+    return dict(universal_ROUTE_dict)
 
 @route('/signup')
 @view('signup')
 def signup():
-    return {}
+    return dict(universal_ROUTE_dict)
 
 @route('/memorize')
 @view('mmrz')
 def mmrz():
     # need_https = "localhost" not in request.url
     need_https = False
-    return dict(need_https=need_https)
+
+    return_dict = dict(universal_ROUTE_dict)
+    return_dict.update(dict(need_https=need_https))
+    return return_dict
 
 @route('/setting')
 @view('setting')
@@ -381,7 +388,9 @@ def setting():
     users = dbMgr.read_USERS_DB_DICT()
     dbMgr.closeDB()
 
-    return {"username": username, "mailAddr": "" if users[username]["mailAddr"] == None else users[username]["mailAddr"]}
+    return_dict = dict(universal_ROUTE_dict)
+    return_dict.update({"username": username, "mailAddr": "" if users[username]["mailAddr"] == None else users[username]["mailAddr"]})
+    return return_dict
 
 @route('/verify_email')
 def verify_email():
@@ -414,7 +423,7 @@ def verify_email():
 @route('/chart')
 @view('chart')
 def chart():
-    return {}
+    return dict(universal_ROUTE_dict)
 
 @route('/individual')
 @view('individual')
@@ -463,8 +472,9 @@ def individual():
         pkl["import_rate"] = "--"
         pkl["time_elapsed"] = "--"
 
-
-    return pkl
+    return_dict = dict(universal_ROUTE_dict)
+    return_dict.update(pkl)
+    return return_dict
 
 @route('/ranking')
 @view('ranking')
@@ -502,8 +512,9 @@ def ranking():
     month = "{0}月".format(time.localtime()[1])
     year  = "{0}年".format(Year)
 
-
-    return dict(db_info_list = db_info_list, date = date, week = week, month = month, year = year)
+    return_dict = dict(universal_ROUTE_dict)
+    return_dict.update(dict(db_info_list = db_info_list, date = date, week = week, month = month, year = year))
+    return return_dict
 
 @route('/dictionary')
 @view('dictionary')
@@ -513,7 +524,9 @@ def dictionary():
 
     defines = query_hujiang(key_word)
 
-    return dict(defines=defines, key_word=key_word)
+    return_dict = dict(universal_ROUTE_dict)
+    return_dict.update(dict(defines=defines, key_word=key_word))
+    return return_dict
 
 @route('/wordbook')
 @view('wordbook')
@@ -562,7 +575,9 @@ def show_wordbook():
 
     rows_start = (page - 1) * 200
 
-    return dict(rows=rows_for_return, page_max=page_max, word_quantity=word_quantity, rows_start=rows_start)
+    return_dict = dict(universal_ROUTE_dict)
+    return_dict.update(dict(rows=rows_for_return, page_max=page_max, word_quantity=word_quantity, rows_start=rows_start))
+    return return_dict
 
 @route('/favoritebook')
 @view('favoritebook')
@@ -590,12 +605,14 @@ def show_favoritebook():
 
         rows_for_return.append(row)
 
-    return dict(rows=rows_for_return)
+    return_dict = dict(universal_ROUTE_dict)
+    return_dict.update(dict(rows=rows_for_return))
+    return return_dict
 
 @route('/layer_edit')
 @view('layer_edit')
 def layer_edit():
-    return {}
+    return dict(universal_ROUTE_dict)
 
 ### posts
 @post('/log_in/')
