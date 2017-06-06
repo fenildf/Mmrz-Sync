@@ -87,6 +87,24 @@ function tik_tik() {
     });
 }
 
+function save_current_state() {
+    params = {
+        username: $.cookie('username'),
+        password: $.cookie('password'),
+        "current_state": JSON.stringify(window.rows_from_DB),
+    };
+
+    $.ajax({
+        url: "/save_current_state",
+        type: "post",
+        data: params,
+        async: true,
+        success:function(rec) {
+            console.log(rec)
+        }
+    });
+}
+
 // 该函数暂时没有使用, 因为每次从我自己的服务器取读音太慢了
 // 现已改用直接从沪江取读音, 客户自行获取
 function get_tts_url() {
@@ -139,7 +157,7 @@ function get_wordbooks() {
     params = {
         username: $.cookie('username'),
         password: $.cookie('password'),
-    }
+    };
 
     $.ajax({
         url: "/unmemorized_words",
@@ -160,7 +178,7 @@ function update_row(row, update_whole_row) {
         password: $.cookie('password'),
         row: JSON.stringify(row),
         update_whole_row: update_whole_row,
-    }
+    };
 
     $.ajax({
         url: "/update_row",
@@ -175,7 +193,7 @@ function get_shortest_remind() {
 
     params = {
         username: $.cookie('username'),
-    }
+    };
 
     $.ajax({
         url: "/get_shortest_remind",
@@ -244,7 +262,7 @@ function show_word() {
         "加油, 加油, 你是最棒的",
         "今日奋斗榜上有你的名字吗",
         "常来看看有没有新单词需要背诵",
-    ]
+    ];
 
     // 单词背诵完毕
     if(window.rows_from_DB.length == 0) {

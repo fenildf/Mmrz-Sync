@@ -15,15 +15,16 @@ class MongoDBManager:
         self.db = self.client["Mmrz-Sync"]
 
     def update_memorize_state(self, document={}):
-        result = self.db.memorize_state.find(document["username"])
+        result = self.db.memorize_state.find(dict(username=document["username"]))
 
         # if not find, insert document
         if result.count() == 0:
-            self.db.memorize_state.insert(document)
+            self.db.memorize_state.insert_many(document)
         # if find, update codument
         else:
             self.db.memorize_state.update({"username": document["username"]}, {"$set": document})
 
-MDBManager = MongoDBManager()
+if __name__ == '__main__':
+    MDBManager = MongoDBManager()
 
 

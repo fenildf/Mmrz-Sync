@@ -10,6 +10,7 @@ from bottle import route, run, template, view, static_file
 from bottle import post, get, request, redirect
 from bs4 import BeautifulSoup
 from db import TikTimeDBManager, MmrzSyncDBManager
+from MongoDBManager import MongoDBManager
 from MmrzCode import *
 import requests
 import MmrzMail
@@ -110,7 +111,7 @@ universal_GET_dict = {
 }
 
 universal_ROUTE_dict = {
-    'static_file_version': 'v=1000'
+    'static_file_version': 'v=1001'
 }
 
 ### universal functions
@@ -833,6 +834,31 @@ def update_word_favourite():
         dbMgr.closeDB()
         dict_for_return['verified'] = True
         dict_for_return['verified_info'] = row
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
+@post('/save_current_state/')
+@post('/save_current_state')
+def save_current_state():
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        current_state = request.forms.get('current_state', None)
+        current_state = json.loads(current_state)
+
+        document = {"username": username, "data": current_state}
+        MDBManager = MongoDBManager()
+        MDBManager.update_memorize_state(document)
+
+        dict_for_return['verified'] = True
+        dict_for_return['message_str'] = "Save current state success"
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
