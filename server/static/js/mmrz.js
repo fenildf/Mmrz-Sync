@@ -87,10 +87,54 @@ function tik_tik() {
     });
 }
 
+function verify_eiginvalue() {
+    MMRZ_CODE_Universal_OK = 0;
+    MMRZ_CODE_Universal_Error = -40001;
+    MMRZ_CODE_Universal_Verification_Fail = -40002;
+    MMRZ_CODE_SaveState_Save_OK = MMRZ_CODE_Universal_OK;
+    MMRZ_CODE_SaveState_Same_Eigenvalue = -400201;
+    MMRZ_CODE_SaveState_Diff_Eigenvalue = -400202;
+
+    params = {
+        username: $.cookie('username'),
+        password: $.cookie('password'),
+        "rows_length": window.rows_from_DB.length,
+        "current_cursor": window.cursor_of_rows,
+    };
+
+    is_same_eiginvalue = true;
+    $.ajax({
+        url: "/verify_eiginvalue",
+        type: "post",
+        data: params,
+        async: false,
+        success:function(rec) {
+            rec = JSON.parse(rec);
+            if(rec["mmrz_code"] == MMRZ_CODE_SaveState_Same_Eigenvalue){
+                is_same_eiginvalue = true;
+            }
+            else if(rec["mmrz_code"] == MMRZ_CODE_SaveState_Diff_Eigenvalue) {
+                is_same_eiginvalue = false;
+            }
+            else {
+                is_same_eiginvalue = true;
+            }
+        }
+    });
+
+    return is_same_eiginvalue;
+}
+
 function save_current_state() {
     params = {
         username: $.cookie('username'),
         password: $.cookie('password'),
+
+        // 特征值
+        "rows_length": window.rows_from_DB.length,
+        "current_cursor": window.cursor_of_rows,
+
+        // 当前状态
         "current_state": JSON.stringify(window.rows_from_DB),
     };
 

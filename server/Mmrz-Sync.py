@@ -837,6 +837,39 @@ def update_word_favourite():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
+@post('/verify_eiginvalue/')
+@post('/verify_eiginvalue')
+def verify_eiginvalue():
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
+        json_for_return = json.dumps(dict_for_return)
+
+        return json_for_return
+
+    else:
+        dbMgr = MongoDBManager()
+        userData = dbMgr.query_memorize_state(username)
+        dbMgr.closeDB()
+
+        rows_length_fromDB = userData.get('rows_length', None)
+        current_cursor_fromDB = userData.get('current_cursor', None)
+        rows_length_from_client = request.forms.get('rows_length', None)
+        current_cursor_from_client = request.forms.get('current_cursor', None)
+
+        if rows_length_from_client == rows_length_fromDB and current_cursor_from_client == current_cursor_fromDB:
+            dict_for_return["mmrz_code"] = MMRZ_CODE_SaveState_Same_Eigenvalue
+        else:
+            dict_for_return["mmrz_code"] = MMRZ_CODE_SaveState_Diff_Eigenvalue
+
+        print 5, dict_for_return["mmrz_code"]
+
+        return json.dumps(dict_for_return)
+
+
 @post('/save_current_state/')
 @post('/save_current_state')
 def save_current_state():
@@ -845,20 +878,30 @@ def save_current_state():
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
-        dict_for_return['verified'] = False
-        dict_for_return['message_str'] = "login failed"
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
+
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
     else:
         current_state = request.forms.get('current_state', None)
         current_state = json.loads(current_state)
+        rows_length_from_client = request.forms.get('rows_length', None)
+        current_cursor_from_client = request.forms.get('current_cursor', None)
 
-        document = {"username": username, "data": current_state}
-        MDBManager = MongoDBManager()
-        MDBManager.update_memorize_state(document)
+        document = {
+            "username": username,
+            "state_cached": True,
+            "rows_length": rows_length_from_client,
+            "current_cursor": current_cursor_from_client,
+            "data": current_state,
+        }
 
-        dict_for_return['verified'] = True
-        dict_for_return['message_str'] = "Save current state success"
+        dbMgr = MongoDBManager()
+        dbMgr.update_memorize_state(document)
+        dbMgr.closeDB()
+
+        dict_for_return['mmrz_code'] = MMRZ_CODE_SaveState_Save_OK
+
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
@@ -1182,6 +1225,6 @@ print ""
 # import gevent; from gevent import monkey; monkey.patch_all()
 
 # run server
-run(host='0.0.0.0', port=PORT, server='paste')
+run(host='0.0.0.0', port=PORT)#, server='paste')
 
 
