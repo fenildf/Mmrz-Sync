@@ -22,6 +22,7 @@ window.MMRZ_CODE_Email_VeriCode_Out_Of_Date = -400104
 
 // save current state:
 window.MMRZ_CODE_SaveState_Save_OK = window.MMRZ_CODE_Universal_OK
+window.MMRZ_CODE_Restore_State_OK = window.MMRZ_CODE_Universal_OK
 window.MMRZ_CODE_SaveState_Same_Eigenvalue = -400201
 window.MMRZ_CODE_SaveState_Diff_Eigenvalue = -400202
 

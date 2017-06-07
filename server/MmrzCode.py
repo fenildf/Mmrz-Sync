@@ -20,8 +20,9 @@ MMRZ_CODE_Email_Modification_Frequency_Limit_Error = -400102
 MMRZ_CODE_Email_Send_Frequency_Limit_Error = -400103
 MMRZ_CODE_Email_VeriCode_Out_Of_Date = -400104
 
-# save current state:
+# save & restore current state:
 MMRZ_CODE_SaveState_Save_OK = MMRZ_CODE_Universal_OK
+MMRZ_CODE_Restore_State_OK = MMRZ_CODE_Universal_OK
 MMRZ_CODE_SaveState_Same_Eigenvalue = -400201
 MMRZ_CODE_SaveState_Diff_Eigenvalue = -400202
 

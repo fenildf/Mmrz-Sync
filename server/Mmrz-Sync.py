@@ -929,6 +929,31 @@ def save_current_state():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
+@post('/restore_remote_saved_state/')
+@post('/restore_remote_saved_state')
+def restore_remote_saved_state():
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
+
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        dbMgr = MongoDBManager()
+        userData = dbMgr.query_memorize_state(username)
+        dbMgr.closeDB()
+
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Restore_State_OK
+        dict_for_return['rows_length'] = userData['rows_length']
+        dict_for_return['current_cursor'] = userData['current_cursor']
+        dict_for_return['data'] = userData['data']
+        json_for_return = json.dumps(dict_for_return)
+
+        return json_for_return
+
 @post('/update_row/')
 @post('/update_row')
 def update_row():
