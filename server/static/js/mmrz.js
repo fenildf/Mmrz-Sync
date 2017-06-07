@@ -57,17 +57,6 @@ function search_word_id(target, arr, low, high) {
     return - 1;
 }
 
-function period_state_check() {
-    timestamp = Date.parse(new Date()) / 1000;
-
-    if(timestamp - window.last_save_timestamp >= 60) {
-        console.log("send current state to server");
-        window.last_save_timestamp = timestamp;
-    }
-
-    setTimeout(period_state_check, 5 * 1000);
-}
-
 function logout() {
     $.cookie('username', "", {path: '/', expires: 7});
     $.cookie('password', "", {path: '/', expires: 7});
@@ -85,6 +74,43 @@ function tik_tik() {
         data: params,
         async: true,
     });
+}
+
+function period_state_check() {
+    timestamp = Date.parse(new Date()) / 1000;
+
+    if(timestamp - window.last_save_timestamp >= 10) {
+        console.log("send current state to server");
+
+        // if not the same eiginvalue, then save current state
+        if(!verify_eiginvalue()) {
+            save_current_state();
+        }
+        window.last_save_timestamp = timestamp;
+    }
+
+    setTimeout(period_state_check, 5 * 1000);
+}
+
+function is_state_cache_available() {
+    params = {
+        username: $.cookie('username'),
+        password: $.cookie('password'),
+    };
+
+    state_cached = false;
+    $.ajax({
+        url: "/is_state_cache_available",
+        type: "post",
+        data: params,
+        async: false,
+        success:function(rec) {
+            rec = JSON.parse(rec);
+            state_cached = rec['state_cached'];
+        }
+    });
+
+    return state_cached;
 }
 
 function verify_eiginvalue() {
@@ -137,7 +163,29 @@ function save_current_state() {
         data: params,
         async: true,
         success:function(rec) {
-            console.log(rec)
+            console.log(rec);
+        }
+    });
+}
+
+function restore_remote_saved_state() {
+    params = {
+        username: $.cookie('username'),
+        password: $.cookie('password'),
+    };
+
+    $.ajax({
+        url: "/restore_remote_saved_state",
+        type: "post",
+        data: params,
+        async: false,
+        success:function(rec) {
+            rec = JSON.parse(rec);
+            window.cursor_of_rows = rec["current_cursor"];
+            window.rows_from_DB = rec["data"];
+            console.log("cursor: " + window.cursor_of_rows)
+            show_word();
+            layer.msg("恢复状态成功", {'time': 1000});
         }
     });
 }

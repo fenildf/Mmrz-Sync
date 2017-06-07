@@ -144,6 +144,11 @@
         show_word();
 
         setTimeout(period_state_check, 5 * 1000);
+        if(is_state_cache_available()) {
+          if(confirm("检测远端有未完成的背诵状态, 是否需要恢复?")) {
+            restore_remote_saved_state();
+          }
+        }
 
         $("#user_info").text($.cookie('username'));
 

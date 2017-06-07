@@ -889,10 +889,7 @@ def verify_eiginvalue():
         else:
             dict_for_return["mmrz_code"] = MMRZ_CODE_SaveState_Diff_Eigenvalue
 
-        print 5, dict_for_return["mmrz_code"]
-
         return json.dumps(dict_for_return)
-
 
 @post('/save_current_state/')
 @post('/save_current_state')
@@ -947,8 +944,7 @@ def restore_remote_saved_state():
         dbMgr.closeDB()
 
         dict_for_return['mmrz_code'] = MMRZ_CODE_Restore_State_OK
-        dict_for_return['rows_length'] = userData['rows_length']
-        dict_for_return['current_cursor'] = userData['current_cursor']
+        dict_for_return['current_cursor'] = int(userData['current_cursor'])
         dict_for_return['data'] = userData['data']
         json_for_return = json.dumps(dict_for_return)
 
