@@ -837,6 +837,30 @@ def update_word_favourite():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
+@post('/is_state_cache_available/')
+@post('/is_state_cache_available')
+def is_state_cache_available():
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
+        json_for_return = json.dumps(dict_for_return)
+
+        return json_for_return
+
+    else:
+        dbMgr = MongoDBManager()
+        userData = dbMgr.query_memorize_state(username)
+        dbMgr.closeDB()
+
+        state_cached = userData.get('state_cached', False)
+        dict_for_return['state_cached'] = state_cached
+        json_for_return = json.dumps(dict_for_return)
+
+        return json_for_return
+
 @post('/verify_eiginvalue/')
 @post('/verify_eiginvalue')
 def verify_eiginvalue():
