@@ -41,14 +41,14 @@ function password_check() {
 
 function signup() {
     // universal:
-    MMRZ_CODE_Universal_OK = 0
-    MMRZ_CODE_Universal_Error = -40001
+    window.MMRZ_CODE_Universal_OK = 0
+    window.MMRZ_CODE_Universal_Error = -40001
 
     // signup:
-    MMRZ_CODE_Signup_OK = MMRZ_CODE_Universal_OK
-    MMRZ_CODE_Username_Not_Available_Error = -400011
-    MMRZ_CODE_Username_Not_Valid = -400012
-    MMRZ_CODE_Password_Not_Valid = -400013
+    window.MMRZ_CODE_Signup_OK = window.MMRZ_CODE_Universal_OK
+    window.MMRZ_CODE_Username_Not_Available_Error = -400011
+    window.MMRZ_CODE_Username_Not_Valid = -400012
+    window.MMRZ_CODE_Password_Not_Valid = -400013
 
     username         = $("#username").val();
     password         = $("#password").val();
@@ -84,20 +84,20 @@ function signup() {
 
     $.post('/sign_up', params, function(rec) {
         rec = JSON.parse(rec);
-        if(rec['mmrz_code'] == MMRZ_CODE_Signup_OK) {
+        if(rec['mmrz_code'] == window.MMRZ_CODE_Signup_OK) {
             alert("帐号 " + username + " 注册成功, 请妥善保管");
 
             location.href="/";
         }
-        else if(rec['mmrz_code'] == MMRZ_CODE_Username_Not_Available_Error) {
+        else if(rec['mmrz_code'] == window.MMRZ_CODE_Username_Not_Available_Error) {
             $("#prompt").text("用户名已被占用, 请重试");
         }
 
-        else if(rec['mmrz_code'] == MMRZ_CODE_Username_Not_Valid) {
+        else if(rec['mmrz_code'] == window.MMRZ_CODE_Username_Not_Valid) {
             $("#prompt").text("用户名不合法, 请重试");
         }
 
-        else if(rec['mmrz_code'] == MMRZ_CODE_Password_Not_Valid) {
+        else if(rec['mmrz_code'] == window.MMRZ_CODE_Password_Not_Valid) {
             $("#prompt").text("密码不合法, 请重试");
         }
 

@@ -1,5 +1,32 @@
 // Provide tool functions
 
+// Mmrz Code below:
+// universal:
+window.MMRZ_CODE_Universal_OK = 0
+window.MMRZ_CODE_Universal_Error = -40001
+window.MMRZ_CODE_Universal_Verification_Fail = -40002
+
+// signup:
+window.MMRZ_CODE_Signup_OK = window.MMRZ_CODE_Universal_OK
+window.MMRZ_CODE_Username_Not_Available_Error = -400011
+window.MMRZ_CODE_Username_Not_Valid = -400012
+window.MMRZ_CODE_Password_Not_Valid = -400013
+
+// email
+window.MMRZ_CODE_Email_Verification_OK = window.MMRZ_CODE_Universal_OK
+window.MMRZ_CODE_Email_Send_OK = window.MMRZ_CODE_Universal_OK
+window.MMRZ_CODE_Email_Address_Not_Changed = -400101
+window.MMRZ_CODE_Email_Modification_Frequency_Limit_Error = -400102
+window.MMRZ_CODE_Email_Send_Frequency_Limit_Error = -400103
+window.MMRZ_CODE_Email_VeriCode_Out_Of_Date = -400104
+
+// save current state:
+window.MMRZ_CODE_SaveState_Save_OK = window.MMRZ_CODE_Universal_OK
+window.MMRZ_CODE_SaveState_Same_Eigenvalue = -400201
+window.MMRZ_CODE_SaveState_Diff_Eigenvalue = -400202
+
+
+
 Array.prototype.contains = function (obj) {
     var i = this.length;
     while (i--) {

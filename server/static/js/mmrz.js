@@ -88,13 +88,6 @@ function tik_tik() {
 }
 
 function verify_eiginvalue() {
-    MMRZ_CODE_Universal_OK = 0;
-    MMRZ_CODE_Universal_Error = -40001;
-    MMRZ_CODE_Universal_Verification_Fail = -40002;
-    MMRZ_CODE_SaveState_Save_OK = MMRZ_CODE_Universal_OK;
-    MMRZ_CODE_SaveState_Same_Eigenvalue = -400201;
-    MMRZ_CODE_SaveState_Diff_Eigenvalue = -400202;
-
     params = {
         username: $.cookie('username'),
         password: $.cookie('password'),
@@ -110,10 +103,10 @@ function verify_eiginvalue() {
         async: false,
         success:function(rec) {
             rec = JSON.parse(rec);
-            if(rec["mmrz_code"] == MMRZ_CODE_SaveState_Same_Eigenvalue){
+            if(rec["mmrz_code"] == window.MMRZ_CODE_SaveState_Same_Eigenvalue){
                 is_same_eiginvalue = true;
             }
-            else if(rec["mmrz_code"] == MMRZ_CODE_SaveState_Diff_Eigenvalue) {
+            else if(rec["mmrz_code"] == window.MMRZ_CODE_SaveState_Diff_Eigenvalue) {
                 is_same_eiginvalue = false;
             }
             else {
