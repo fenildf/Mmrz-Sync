@@ -82,10 +82,8 @@ function period_state_check() {
     if(timestamp - window.last_save_timestamp >= 10) {
         console.log("send current state to server");
 
-        // if not the same eiginvalue, then save current state
-        if(!verify_eiginvalue()) {
-            save_current_state();
-        }
+        // verify eiginvalue, if OK, call save_current_state() in verify_eiginvalue()
+        verify_eiginvalue();
         window.last_save_timestamp = timestamp;
     }
 
@@ -121,27 +119,18 @@ function verify_eiginvalue() {
         "current_cursor": window.cursor_of_rows,
     };
 
-    is_same_eiginvalue = true;
     $.ajax({
         url: "/verify_eiginvalue",
         type: "post",
         data: params,
-        async: false,
+        async: true,
         success:function(rec) {
             rec = JSON.parse(rec);
-            if(rec["mmrz_code"] == window.MMRZ_CODE_SaveState_Same_Eigenvalue){
-                is_same_eiginvalue = true;
-            }
-            else if(rec["mmrz_code"] == window.MMRZ_CODE_SaveState_Diff_Eigenvalue) {
-                is_same_eiginvalue = false;
-            }
-            else {
-                is_same_eiginvalue = true;
+            if(rec["mmrz_code"] == window.MMRZ_CODE_SaveState_Diff_Eigenvalue) {
+                save_current_state();
             }
         }
     });
-
-    return is_same_eiginvalue;
 }
 
 function save_current_state() {
@@ -183,11 +172,32 @@ function restore_remote_saved_state() {
             rec = JSON.parse(rec);
             window.cursor_of_rows = rec["current_cursor"];
             window.rows_from_DB = rec["data"];
-            console.log("cursor: " + window.cursor_of_rows)
+
             show_word();
             layer.msg("恢复状态成功", {'time': 1000});
         }
     });
+}
+
+function restore_last_word() {
+    if(window.last_rows_from_DB != null) {
+        window.rows_from_DB = window.last_rows_from_DB;
+        window.cursor_of_rows = window.last_cursor_of_rows;
+
+        window.last_rows_from_DB = null;
+        window.last_cursor_of_rows = null;
+        $("#btn_undo").css("color", "gray");
+
+        row = window.rows_from_DB[window.cursor_of_rows];
+        update_row(row, false);
+
+        show_word();
+
+        layer.msg("恢复上一个单词成功", {'time': 1000});
+    }
+    else {
+        alert("无可恢复单词");
+    }
 }
 
 // 该函数暂时没有使用, 因为每次从我自己的服务器取读音太慢了
