@@ -79,11 +79,12 @@ function tik_tik() {
 function period_state_check() {
     timestamp = Date.parse(new Date()) / 1000;
 
-    if(timestamp - window.last_save_timestamp >= 10) {
-        console.log("send current state to server");
-
-        // verify eiginvalue, if OK, call save_current_state() in verify_eiginvalue()
-        verify_eiginvalue();
+    if(timestamp - window.last_save_timestamp >= 60) {
+        // verify_eiginvalue() only if cursor_of_rows moved or rows_from_DB.length reduced
+        if(window.cursor_of_rows != 0 || window.rows_from_DB.length != window.max_size_this_turn) {
+            // verify eiginvalue, if OK, call save_current_state() in verify_eiginvalue()
+            verify_eiginvalue();
+        }
         window.last_save_timestamp = timestamp;
     }
 
@@ -176,6 +177,8 @@ function restore_remote_saved_state() {
             window.rows_from_DB = rec["data"];
 
             show_word();
+
+            clear_state_cached_flag();
             layer.msg("恢复状态成功", {'time': 1000});
         }
     });
@@ -200,6 +203,23 @@ function restore_last_word() {
     else {
         alert("无可恢复单词");
     }
+}
+
+function clear_state_cached_flag() {
+    params = {
+        username: $.cookie('username'),
+        password: $.cookie('password'),
+    };
+
+    $.ajax({
+        url: "/clear_state_cached_flag",
+        type: "post",
+        data: params,
+        async: true,
+        success:function(rec) {
+            console.log("clear_state_cached_flag OK");
+        }
+    });
 }
 
 // 该函数暂时没有使用, 因为每次从我自己的服务器取读音太慢了
@@ -365,6 +385,7 @@ function show_word() {
     if(window.rows_from_DB.length == 0) {
 
         if(!window.null_when_open) {
+            clear_state_cached_flag();
             alert( "恭喜完成本轮背诵\n\n" + inspire_words[Math.round(Math.random() * (inspire_words.length - 1))] );
             location.reload();
         }

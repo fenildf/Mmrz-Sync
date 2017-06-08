@@ -40,6 +40,18 @@ class MongoDBManager:
         else:
             self.db.memorize_state.update({"username": document["username"]}, {"$set": document})
 
+    def clear_state_cached_flag(self, username):
+        result = self.db.memorize_state.find(dict(username=username))
+
+        if result.count() == 0:
+            return False
+        else:
+            document = result[0]
+            document["state_cached"] = False
+            self.db.memorize_state.update({"username": document["username"]}, {"$set": document})
+
+            return True
+
     def closeDB(self):
         self.client.close()
 

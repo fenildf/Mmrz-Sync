@@ -953,6 +953,27 @@ def restore_remote_saved_state():
 
         return json_for_return
 
+@post('/clear_state_cached_flag/')
+@post('/clear_state_cached_flag')
+def clear_state_cached_flag():
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
+
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        dbMgr = MongoDBManager()
+        dbMgr.clear_state_cached_flag(username)
+
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
+
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
 @post('/update_row/')
 @post('/update_row')
 def update_row():
@@ -1273,6 +1294,6 @@ print ""
 # import gevent; from gevent import monkey; monkey.patch_all()
 
 # run server
-run(host='0.0.0.0', port=PORT)#, server='paste')
+run(host='0.0.0.0', port=PORT, server='paste')
 
 
