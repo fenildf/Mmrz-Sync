@@ -202,7 +202,7 @@ function restore_last_word() {
         layer.msg("恢复上一个单词成功", {'time': 1000});
     }
     else {
-        alert("无可恢复单词");
+        alert("然而并没有可供恢复的单词");
     }
 }
 
