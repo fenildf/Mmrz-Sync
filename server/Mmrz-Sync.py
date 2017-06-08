@@ -9,7 +9,7 @@
 from bottle import route, run, template, view, static_file
 from bottle import post, get, request, redirect
 from bs4 import BeautifulSoup
-from db import TikTimeDBManager, MmrzSyncDBManager
+from SQLiteDBManager import TikTimeDBManager, MmrzSyncDBManager
 from MongoDBManager import MongoDBManager
 from MmrzCode import *
 import requests
