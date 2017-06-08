@@ -111,7 +111,7 @@ universal_GET_dict = {
 }
 
 universal_ROUTE_dict = {
-    'static_file_version': 'v=1001'
+    'static_file_version': 'v=1003'
 }
 
 ### universal functions
@@ -968,6 +968,7 @@ def clear_state_cached_flag():
     else:
         dbMgr = MongoDBManager()
         dbMgr.clear_state_cached_flag(username)
+        dbMgr.closeDB()
 
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
 
