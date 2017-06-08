@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 import pymongo
+from ConfigManager import ConfigManager
 
 # Database: Mmrz-Sync
 # 
@@ -17,8 +18,13 @@ import pymongo
 
 class MongoDBManager:
     def __init__(self):
+        configMgr = ConfigManager()
+        config = configMgr.read_config_file()
+        mongo_username = config["mongo_username"]
+        mongo_password = config["mongo_password"]
+
         self.client = pymongo.MongoClient()
-        self.client.admin.authenticate("lane", "lane", mechanism="SCRAM-SHA-1")
+        self.client.admin.authenticate(mongo_username, mongo_password, mechanism="SCRAM-SHA-1")
         self.db = self.client["Mmrz-Sync"]
 
     def query_memorize_state(self, username):
