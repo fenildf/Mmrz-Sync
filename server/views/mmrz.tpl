@@ -166,25 +166,6 @@
 
       <script type="text/javascript">
         Copyright();
-
-        make_new_layer = function() {
-          if(window.secret_is_hiding) {
-            return;
-          }
-          layer.open({
-            id: "iframe_edit",
-            type: 2,
-            title: ["修改单词", 'font-size: 20px;'],
-            closeBtn: 0,
-            moveEnd: function() {
-              layer.close(layer.index);
-            },
-            shadeClose: false,
-            resize: false,
-            area: ['280px', '400px'],
-            content: './layer_edit'
-          });
-        }
       </script>
 
       <div style="display: none;">
