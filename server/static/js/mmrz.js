@@ -143,6 +143,7 @@ function save_current_state() {
         "current_cursor": window.cursor_of_rows,
 
         // 当前状态
+        "max_size_this_turn": window.max_size_this_turn,
         "current_state": JSON.stringify(window.rows_from_DB),
     };
 
@@ -171,6 +172,7 @@ function restore_remote_saved_state() {
         success:function(rec) {
             rec = JSON.parse(rec);
             window.cursor_of_rows = rec["current_cursor"];
+            window.max_size_this_turn = rec["max_size_this_turn"];
             window.rows_from_DB = rec["data"];
 
             show_word();

@@ -908,12 +908,14 @@ def save_current_state():
         current_state = json.loads(current_state)
         rows_length_from_client = request.forms.get('rows_length', None)
         current_cursor_from_client = request.forms.get('current_cursor', None)
+        max_size_this_turn_from_client = request.forms.get('max_size_this_turn', None)
 
         document = {
             "username": username,
             "state_cached": True,
             "rows_length": rows_length_from_client,
             "current_cursor": current_cursor_from_client,
+            "max_size_this_turn": max_size_this_turn_from_client,
             "data": current_state,
         }
 
@@ -945,6 +947,7 @@ def restore_remote_saved_state():
 
         dict_for_return['mmrz_code'] = MMRZ_CODE_Restore_State_OK
         dict_for_return['current_cursor'] = int(userData['current_cursor'])
+        dict_for_return['max_size_this_turn'] = int(userData['max_size_this_turn'])
         dict_for_return['data'] = userData['data']
         json_for_return = json.dumps(dict_for_return)
 
