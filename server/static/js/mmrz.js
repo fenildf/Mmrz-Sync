@@ -179,7 +179,7 @@ function restore_remote_saved_state() {
 
             show_word();
 
-            clear_state_cached_flag();
+            clear_state_cached_flag_and_eiginvalue();
             layer.msg("恢复状态成功", {'time': 1000});
         }
     });
@@ -206,19 +206,19 @@ function restore_last_word() {
     }
 }
 
-function clear_state_cached_flag() {
+function clear_state_cached_flag_and_eiginvalue() {
     params = {
         username: $.cookie('username'),
         password: $.cookie('password'),
     };
 
     $.ajax({
-        url: "/clear_state_cached_flag",
+        url: "/clear_state_cached_flag_and_eiginvalue",
         type: "post",
         data: params,
         async: true,
         success:function(rec) {
-            console.log("clear_state_cached_flag OK");
+            console.log("clear_state_cached_flag_and_eiginvalue OK");
         }
     });
 }
@@ -340,7 +340,7 @@ function show_word() {
     if(window.rows_from_DB.length == 0) {
 
         if(!window.null_when_open) {
-            clear_state_cached_flag();
+            clear_state_cached_flag_and_eiginvalue();
             alert( "恭喜完成本轮背诵\n\n" + inspire_words[Math.round(Math.random() * (inspire_words.length - 1))] );
             location.reload();
         }

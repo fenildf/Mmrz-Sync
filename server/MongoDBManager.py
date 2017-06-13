@@ -46,7 +46,7 @@ class MongoDBManager:
         else:
             self.db.memorize_state.update({"username": document["username"]}, {"$set": document})
 
-    def clear_state_cached_flag(self, username):
+    def clear_state_cached_flag_and_eiginvalue(self, username):
         result = self.db.memorize_state.find(dict(username=username))
 
         if result.count() == 0:
@@ -54,6 +54,8 @@ class MongoDBManager:
         else:
             document = result[0]
             document["state_cached"] = False
+            document["rows_length"] = None
+            document["current_cursor"] = None
             self.db.memorize_state.update({"username": document["username"]}, {"$set": document})
 
             return True

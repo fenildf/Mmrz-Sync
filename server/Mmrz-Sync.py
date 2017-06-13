@@ -953,9 +953,9 @@ def restore_remote_saved_state():
 
         return json_for_return
 
-@post('/clear_state_cached_flag/')
-@post('/clear_state_cached_flag')
-def clear_state_cached_flag():
+@post('/clear_state_cached_flag_and_eiginvalue/')
+@post('/clear_state_cached_flag_and_eiginvalue')
+def clear_state_cached_flag_and_eiginvalue():
     username = request.forms.get('username', None)
     password = request.forms.get('password', None)
 
@@ -967,7 +967,7 @@ def clear_state_cached_flag():
         return json_for_return
     else:
         dbMgr = MongoDBManager()
-        dbMgr.clear_state_cached_flag(username)
+        dbMgr.clear_state_cached_flag_and_eiginvalue(username)
         dbMgr.closeDB()
 
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
