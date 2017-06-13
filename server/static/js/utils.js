@@ -149,6 +149,46 @@ function post(url, params) {
     return form;
 }
 
+function set_speaker_icon(status) {
+    // png
+    if(status == "png") {
+        $("#speak_png_btn").css("display", "");
+        $("#speak_gif_btn").css("display", "none");
+    }
+
+    // gif
+    else if(status == "gif") {
+        $("#speak_png_btn").css("display", "none");
+        $("#speak_gif_btn").css("display", "");
+    }
+
+    // none
+    else {
+        $("#speak_png_btn").css("display", "none");
+        $("#speak_gif_btn").css("display", "none");
+    }
+}
+
+function set_favourite_icon(status) {
+    // white
+    if(status == "white") {
+        $("#favourite_star_white_btn").css("display", "");
+        $("#favourite_star_black_btn").css("display", "none");
+    }
+
+    // black
+    else if(status == "black") {
+        $("#favourite_star_white_btn").css("display", "none");
+        $("#favourite_star_black_btn").css("display", "");
+    }
+
+    // none
+    else {
+        $("#favourite_star_white_btn").css("display", "none");
+        $("#favourite_star_black_btn").css("display", "");
+    }
+}
+
 function verify_user(username, password) {
     verified = false;
 

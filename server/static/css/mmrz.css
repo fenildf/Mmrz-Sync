@@ -60,7 +60,7 @@
     background-size: cover;
 }
 
-.speak_png_btn {
+#speak_png_btn {
     width: 30px;
     height: 30px;
     position: fixed;
@@ -71,7 +71,7 @@
     background-size: cover;
 }
 
-.speak_gif_btn {
+#speak_gif_btn {
     width: 30px;
     height: 30px;
     position: fixed;
@@ -82,7 +82,7 @@
     background-size: cover;
 }
 
-.favourite_outline_btn {
+#favourite_star_white_btn {
     width: 30px;
     height: 30px;
     position: fixed;
@@ -93,7 +93,7 @@
     background-size: cover;
 }
 
-.favourite_christmas_btn {
+#favourite_star_black_btn {
     width: 30px;
     height: 30px;
     position: fixed;

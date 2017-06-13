@@ -347,9 +347,10 @@ function show_word() {
 
         $("#label_word").text(get_shortest_remind());
         $("#words_count").empty();
-        $("#speak_btn").css("display", "none");
+
+        set_speaker_icon("none");
         $("#magnifier_btn").css("display", "none");
-        $("#favourite_btn").css("display", "none");
+        set_favourite_icon("none");
     }
     // 尚未背诵完毕
     else {
@@ -363,20 +364,16 @@ function show_word() {
         $("#btn_view").css("display", "");
 
         if(is_favourite == 1) {
-            $("#favourite_btn").removeClass("favourite_christmas_btn");
-            $("#favourite_btn").removeClass("favourite_outline_btn");
-            $("#favourite_btn").attr("class","favourite_christmas_btn");
+            set_favourite_icon("black");
         } else {
-            $("#favourite_btn").removeClass("favourite_christmas_btn");
-            $("#favourite_btn").removeClass("favourite_outline_btn");
-            $("#favourite_btn").attr("class","favourite_outline_btn");
+            set_favourite_icon("white");
         }
     }
 
     $("#btn_yes").css("display", "none");
     $("#btn_no").css("display", "none");
     $("#label_meaning").text("");
-    $("#speak_btn").attr("class","speak_png_btn");
+    set_speaker_icon(png);
 }
 
 function show_secret() {
@@ -497,12 +494,10 @@ function speak_word() {
 
     speaker.play();
 
-    $("#speak_btn").removeClass("speak_png_btn");
-    $("#speak_btn").attr("class","speak_gif_btn");
+    set_speaker_icon("gif");
 
-    speaker.addEventListener('ended', function () {  
-        $("#speak_btn").removeClass("speak_gif_btn");
-        $("#speak_btn").attr("class","speak_png_btn");
+    speaker.addEventListener('ended', function () {
+        set_speaker_icon("png");
     }, false);
 }
 
@@ -542,16 +537,10 @@ function favourite_action() {
 
                 if(remote_is_favourite == 1) {
                     notie.alert(1, message_str, 2);
-
-                    $("#favourite_btn").removeClass("favourite_christmas_btn");
-                    $("#favourite_btn").removeClass("favourite_outline_btn");
-                    $("#favourite_btn").attr("class","favourite_christmas_btn");
+                    set_favourite_icon("black");
                 } else {
                     notie.alert(1, message_str, 2);
-
-                    $("#favourite_btn").removeClass("favourite_christmas_btn");
-                    $("#favourite_btn").removeClass("favourite_outline_btn");
-                    $("#favourite_btn").attr("class","favourite_outline_btn");
+                    set_favourite_icon("white");
                 }
                 window.rows_from_DB[window.cursor_of_rows][7] = remote_is_favourite;
 
