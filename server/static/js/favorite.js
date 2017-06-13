@@ -61,8 +61,30 @@ function jump_to_hujiang(idx) {
 
     key_word = overlay[idx - 1].innerHTML;
 
-    url = get_hujiang_url(key_word);
-    window.open(url);
+    url = get_hujiang_url(key_word);    
+    if(is_cellphone()) {
+        layer.open({
+            id: "iframe_hujiang",
+            type: 2,
+            title: ["沪江小D", 'font-size: 20px;'],
+            closeBtn: 0,
+            moveEnd: function() {
+                layer.close(layer.index);
+            },
+            shadeClose: true,
+            resize: false,
+            scrollbar: false,
+            area: ['280px', '400px'],
+            success: function(index){
+                layer.setTop(index);
+                $("#iframe_hujiang").focus();
+            },
+            content: url
+        });
+    }
+    else {
+        window.open(url);
+    }
 }
 
 function show_word_meaning(idx) {

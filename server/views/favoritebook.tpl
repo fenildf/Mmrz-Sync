@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery1.4.1.cookie.min.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./js/utils.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./js/favorite.js?{{static_file_version}}"></script>
+    <script type="text/javascript" src="./layer/layer.js?{{static_file_version}}"></script>
 
     <link rel="stylesheet" type="text/css" href="./css/common.css?{{static_file_version}}">
     <link rel="stylesheet" type="text/css" href="./css/favorite.css?{{static_file_version}}">
