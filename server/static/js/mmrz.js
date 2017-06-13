@@ -373,7 +373,6 @@ function show_word() {
     $("#btn_yes").css("display", "none");
     $("#btn_no").css("display", "none");
     $("#label_meaning").text("");
-    set_speaker_icon("png");
 }
 
 function show_secret() {
