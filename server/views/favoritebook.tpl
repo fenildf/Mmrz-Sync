@@ -52,7 +52,10 @@
             <td>{{idx}}</td>
             <td class="td_word" onclick="jump_to_hujiang({{idx}})">{{word}}</td>
             <td class="td_favourite" onclick="show_word_meaning({{idx}})">{{pronounce}}</td>
-            <td><button class="favourite_star_black_btn" onclick="favourite_action({{idx}}, {{wordID}})"></button></td>
+            <td>
+              <button class="favourite_star_black_btn" onclick="favourite_action({{idx}}, {{wordID}})"></button>
+              <button class="favourite_star_white_btn" onclick="favourite_action({{idx}}, {{wordID}})" style="display: none"></button>
+            </td>
             <input name="favourite" type="hidden" value="{{favourite}}"/>
           </tr>
         %end
