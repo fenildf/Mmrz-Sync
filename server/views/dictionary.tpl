@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+s<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -14,8 +14,8 @@
     <script type="text/javascript" src="./js/jquery1.4.1.cookie.min.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./js/utils.js?{{static_file_version}}"></script>
 
-    <link rel="stylesheet" type="text/css" href="./css/common.css">
-    <link rel="stylesheet" type="text/css" href="./css/dictionary.css">
+    <link rel="stylesheet" type="text/css" href="./css/common.css?{{static_file_version}}">
+    <link rel="stylesheet" type="text/css" href="./css/dictionary.css?{{static_file_version}}">
 
     <link rel="shortcut icon" href="./fav.ico"/>
     <link rel="bookmark" href="./fav.ico"/>

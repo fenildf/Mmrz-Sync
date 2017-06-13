@@ -22,8 +22,8 @@
     <script type="text/javascript" src="./js/mmrz.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./layer/layer.js?{{static_file_version}}"></script>
 
-    <link rel="stylesheet" type="text/css" href="./css/common.css">
-    <link rel="stylesheet" type="text/css" href="./css/mmrz.css">
+    <link rel="stylesheet" type="text/css" href="./css/common.css?{{static_file_version}}">
+    <link rel="stylesheet" type="text/css" href="./css/mmrz.css?{{static_file_version}}">
 
     <link rel="shortcut icon" href="./fav.ico"/>
     <link rel="bookmark" href="./fav.ico"/>

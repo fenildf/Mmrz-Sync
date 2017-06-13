@@ -15,8 +15,8 @@
     <script type="text/javascript" src="./js/utils.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./js/login.js?{{static_file_version}}"></script>
 
-    <link rel="stylesheet" type="text/css" href="./css/common.css">
-    <link rel="stylesheet" type="text/css" href="./css/login.css">
+    <link rel="stylesheet" type="text/css" href="./css/common.css?{{static_file_version}}">
+    <link rel="stylesheet" type="text/css" href="./css/login.css?{{static_file_version}}">
 
     <link rel="shortcut icon" href="./fav.ico"/>
     <link rel="bookmark" href="./fav.ico"/>
