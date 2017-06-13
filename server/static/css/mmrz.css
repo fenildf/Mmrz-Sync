@@ -89,7 +89,7 @@
     right: 15px;
     top: 55px;
     border: 0;
-    background: url(/img/outline_star.png);
+    background: url(/img/star_white.png);
     background-size: cover;
 }
 
@@ -100,6 +100,6 @@
     right: 15px;
     top: 55px;
     border: 0;
-    background: url(/img/christmas_star.png);
+    background: url(/img/star_black.png);
     background-size: cover;
 }

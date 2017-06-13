@@ -15,7 +15,7 @@ th, td {
     width: 20px;
     height: 20px;
     border: 0;
-    background: url(/img/outline_star.png);
+    background: url(/img/star_white.png);
     background-size: cover;
 }
 
@@ -23,7 +23,7 @@ th, td {
     width: 20px;
     height: 20px;
     border: 0;
-    background: url(/img/christmas_star.png);
+    background: url(/img/star_black.png);
     background-size: cover;
 }
 
