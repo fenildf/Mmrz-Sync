@@ -223,52 +223,6 @@ function clear_state_cached_flag() {
     });
 }
 
-// 该函数暂时没有使用, 因为每次从我自己的服务器取读音太慢了
-// 现已改用直接从沪江取读音, 客户自行获取
-function get_tts_url() {
-    // 每次都清空相关内容
-    document.getElementById("speaker").src = "";
-    window.word_tts_url = "";
-    window.word_tts_found = false;
-
-    key_word = window.rows_from_DB[window.cursor_of_rows][0];
-
-    params = {"job_id": window.rows_from_DB[window.cursor_of_rows][5]};
-
-    // 此时会有网络访问
-    $.ajax({
-        url: "/get_hujiang_tts/?key_word=" + key_word,
-        type: "get",
-        data: params,
-        async: true,
-        success: function(rec) {
-            // 在服务器端启用了 gevent 的情况下, 此处经常会出现 undefined, 所以需要有个特殊处理
-            // 2017.03.02 zhanglintc
-            if(typeof(rec) == "undefined") {
-                $("#speak_btn").css("background", 'url(/img/novoice.png)').css("background-size", 'cover');
-                return;
-            }
-
-            rec = JSON.parse(rec);
-
-            // 返回的单词相关的内容不是当前的单词，舍弃之
-            if(window.rows_from_DB[window.cursor_of_rows][5] != rec["job_id"]) {
-                return;
-            }
-
-            window.word_tts_found = rec["found"];
-            window.word_tts_url = rec["tts_url"];
-
-            if(!window.word_tts_found) {
-                $("#speak_btn").css("background", 'url(/img/novoice.png)').css("background-size", 'cover');
-            }
-            else {
-                $("#speak_btn").css("background", 'url(/img/speaker.png)').css("background-size", 'cover');
-            }
-        }
-    });
-}
-
 function get_wordbooks() {
     wordbook = []
 
