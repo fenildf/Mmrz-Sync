@@ -40,9 +40,6 @@
         <span class="label" id="label_word"></span>
       </div>
 
-      <!-- 小图片进行预加载 -->
-      <!-- <span class="favourite_outline_btn favourite_christmas_btn speak_png_btn speak_gif_btn" style="display:none"></span> -->
-
       <div class="info" id="view_board">
         <div>
           <button class="btn" id="btn_view">查看</button>

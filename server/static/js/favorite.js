@@ -37,11 +37,11 @@ function favourite_action(idx, word_id) {
             button_row_obj = $(":button").eq(idx - 1);
 
             if(favourite == 1) {
-                button_row_obj.removeClass("favourite_christmas_btn");
-                button_row_obj.attr("class","favourite_outline_btn");
+                button_row_obj.removeClass("favourite_star_black_btn");
+                button_row_obj.attr("class","favourite_star_white_btn");
             } else {
-                button_row_obj.removeClass("favourite_outline_btn");
-                button_row_obj.attr("class","favourite_christmas_btn");
+                button_row_obj.removeClass("favourite_star_white_btn");
+                button_row_obj.attr("class","favourite_star_black_btn");
             }
 
             $('input[name="favourite"]').eq(idx - 1).val(favourite ^ 1);

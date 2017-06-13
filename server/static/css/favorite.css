@@ -11,7 +11,7 @@ th, td {
     border: solid #000 1px;
 }
 
-.favourite_outline_btn {
+.favourite_star_white_btn {
     width: 20px;
     height: 20px;
     border: 0;
@@ -19,7 +19,7 @@ th, td {
     background-size: cover;
 }
 
-.favourite_christmas_btn {
+.favourite_star_black_btn {
     width: 20px;
     height: 20px;
     border: 0;
