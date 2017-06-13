@@ -23,7 +23,7 @@ class MongoDBManager:
         mongo_username = config["mongo_username"]
         mongo_password = config["mongo_password"]
 
-        self.client = pymongo.MongoClient()
+        self.client = pymongo.MongoClient(serverSelectionTimeoutMS=1000*1)
         self.client.admin.authenticate(mongo_username, mongo_password, mechanism="SCRAM-SHA-1")
         self.db = self.client["Mmrz-Sync"]
 
@@ -64,6 +64,6 @@ class MongoDBManager:
         self.client.close()
 
 if __name__ == '__main__':
-    MDBManager = MongoDBManager()
+    pass
 
 
