@@ -185,7 +185,7 @@ function set_favourite_icon(status) {
     // none
     else {
         $("#favourite_star_white_btn").css("display", "none");
-        $("#favourite_star_black_btn").css("display", "");
+        $("#favourite_star_black_btn").css("display", "none");
     }
 }
 
