@@ -518,6 +518,7 @@ def ranking():
     return return_dict
 
 @route('/dictionary')
+@route('/dict')
 @view('dictionary')
 def dictionary():
     username = request.params.get('username', None)
