@@ -658,7 +658,7 @@ def sign_up():
 
     else:
         dbMgr = MmrzSyncDBManager("USERS")
-        dbMgr.insert_USERS_DB([username, password])
+        dbMgr.insert_USERS_DB([username, password, "", "", "000000", 0, 0, 0])
         dbMgr.closeDB()
         dict_for_return['verified'] = True
         dict_for_return['mmrz_code'] = MMRZ_CODE_Signup_OK

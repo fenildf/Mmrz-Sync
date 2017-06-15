@@ -121,7 +121,7 @@ class MmrzSyncDBManager:
             self.c.execute("create table USERS(username char[255], password char[255])")
             self.db.commit()
         except Exception, e:
-            print e
+            pass
 
         try:
             self.c.execute("alter table USERS add column mailAddr char[255]")
@@ -131,10 +131,10 @@ class MmrzSyncDBManager:
             self.c.execute("alter table USERS add column mailModTime int default 0")
             self.c.execute("alter table USERS add column mailSendTime int default 0")
         except Exception, e:
-            print e
+            pass
 
     def insert_USERS_DB(self, userInfo):
-        self.c.execute("insert into USERS values(?, ?)", userInfo)
+        self.c.execute("insert into USERS values(?, ?, ?, ?, ?, ?, ?, ?)", userInfo)
 
     def update_USERS_DB(self, userInfo):
         self.c.execute("update USERS set password = '{0}' where username = '{1}'".format(userInfo[1], userInfo[0]))
@@ -244,13 +244,4 @@ class MmrzSyncDBManager:
     def closeDB(self):
         self.db.commit()
         self.db.close()
-
-# db = MmrzSyncDBManager("USERS")
-# # userdict = dict(db.read_USERS_DB())
-# # print userdict
-# db.create_USERS_DB()
-# db.insert_USERS_DB(["zhanglin", base64.b64encode("zhanglin")])
-# db.insert_USERS_DB(["wuhong", "wuhong"])
-# db.closeDB()
-
 
