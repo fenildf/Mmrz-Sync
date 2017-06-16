@@ -116,6 +116,7 @@ class MmrzSyncDBManager:
         if dbName == "USERS":
             self.create_USERS_DB()
 
+    # table USERS
     def create_USERS_DB(self):
         try:
             self.c.execute("create table USERS(username char[255], password char[255])")
@@ -184,7 +185,7 @@ class MmrzSyncDBManager:
         self.c.execute("update USERS set mailSendTime = {0} where username = '{1}'".format(now, username))
 
 
-
+    # table UNMMRZ & FAVOURITE
     def createDB(self):
         try:
             self.c.execute("create table FAVOURITE(wordID int NOT NULL, favourite boolean, memTimes int)")
@@ -240,6 +241,16 @@ class MmrzSyncDBManager:
 
     def selete_UNMMRZ_DATA_BY_PAGE(self, params):
         return self.c.execute("SELECT * FROM (SELECT unm.* FROM (select * from (SELECT tab1.* FROM unmmrz tab1 where tab1.memTimes < '8' order by tab1.remindTime) UNION ALL SELECT tab2.* FROM unmmrz tab2 where tab2.memTimes = '8') unm WHERE CASE WHEN '{0}' = 'all' THEN unm.memTimes <= 8 ELSE unm.memTimes = '{0}' END limit {1} offset {1}*{2}) LIMIT 200".format(params[0], params[1], params[2])).fetchall()
+
+    def is_word_exist(self, wordInfo):
+        word      = wordInfo[0]
+        pronounce = wordInfo[1]
+
+        result = self.c.execute("SELECT * FROM UNMMRZ WHERE word = '{0}' AND pronounce = '{1}'".format(word, pronounce))
+        if len(result) >= 1:
+            return True
+        else:
+            return False
 
     def closeDB(self):
         self.db.commit()

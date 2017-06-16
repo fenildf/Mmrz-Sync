@@ -976,6 +976,28 @@ def clear_state_cached_flag_and_eiginvalue():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
+@post('/is_word_exist/')
+@post('/is_word_exist')
+def is_word_exist():
+    username = request.forms.get('username', None)
+    password = request.forms.get('password', None)
+    wordInfo = request.forms.get('wordInfo', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
+
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        dbMgr = MmrzSyncDBManager(username)
+        exist = dbMgr.is_word_exist(wordInfo)
+
+        dict_for_return['exist'] = exist
+
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
 @post('/update_row/')
 @post('/update_row')
 def update_row():
