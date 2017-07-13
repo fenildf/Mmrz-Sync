@@ -319,10 +319,13 @@ def query_hujiang(key_word):
         Comment = defines[i]["Comment"]
         comments = re.findall("<br/>([^a-zA-Z]+)<br/>", Comment)
 
-        tmp = ", ".join(comments)
+        tmp = before_sub = ", ".join(comments)
+
         tmp = re.sub(u"\（.+?\）",   "", tmp)
         tmp = re.sub(u"\(.+?\)",  "", tmp)
         tmp = re.sub(u"。+?",     "", tmp)
+
+        tmp = tmp if tmp else before_sub
 
         defines[i]["Comment"] = tmp
 
