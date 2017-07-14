@@ -319,13 +319,19 @@ def query_hujiang(key_word):
         Comment = defines[i]["Comment"]
         comments = re.findall("<br/>([^a-zA-Z]+)<br/>", Comment)
 
-        tmp = before_sub = ", ".join(comments)
+        tmp = ", ".join(comments)
 
+        # 如果tmp为空, 则取出原有完整的样子
+        tmp = Comment if not tmp else tmp
+
+        # 取出包含【】的所有内容
+        mch = re.search(u"(【.+?】)", tmp)
+        tmp = mch.group(1) if mc else ""
+
+        # 常规清洗处理
         tmp = re.sub(u"\（.+?\）",   "", tmp)
         tmp = re.sub(u"\(.+?\)",  "", tmp)
         tmp = re.sub(u"。+?",     "", tmp)
-
-        tmp = tmp if tmp else before_sub
 
         defines[i]["Comment"] = tmp
 
