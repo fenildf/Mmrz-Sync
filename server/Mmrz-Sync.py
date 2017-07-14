@@ -326,7 +326,7 @@ def query_hujiang(key_word):
 
         # 取出包含【】的所有内容
         mch = re.search(u"(【.+?】)", tmp)
-        tmp = mch.group(1) if mch else ""
+        tmp = mch.group(1) if mch else tmp
 
         # 常规清洗处理
         tmp = re.sub(u"\（.+?\）",   "", tmp)
