@@ -1,0 +1,6 @@
+bs4
+pymongo
+requests
+chardet
+configparser
+paste
