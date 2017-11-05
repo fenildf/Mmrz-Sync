@@ -129,7 +129,6 @@ function verify_eiginvalue() {
             rec = JSON.parse(rec);
             if(rec["mmrz_code"] == window.MMRZ_CODE_SaveState_Diff_Eigenvalue) {
                 save_current_state();
-                notie.alert(1, "当前背诵状态已保存至远端", 1.5);
             }
         }
     });
@@ -154,7 +153,8 @@ function save_current_state() {
         type: "post",
         data: params,
         async: true,
-        success:function(rec) {
+        success: function(rec) {
+            notie.alert(1, "当前背诵状态已保存至远端", 1.5);
             console.log(rec);
         }
     });

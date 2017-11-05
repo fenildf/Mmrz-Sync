@@ -64,7 +64,7 @@
 
       <div id="uinfo_board">
         <a href="javascript:individual()" id="user_info"></a>
-        <a href="javascript:save_current_state();notie.alert(1, '当前背诵状态已保存至远端', 1.5);">同步</a>
+        <a href="javascript:save_current_state()">同步</a>
         <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
       </div>
 
