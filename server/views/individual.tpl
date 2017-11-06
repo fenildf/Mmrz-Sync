@@ -44,7 +44,7 @@
       <p>离上次导入已有: {{time_elapsed}}</p>
       <p>
         <span>导入方式:</span>
-        <input type="radio" name="import_type" id="smart_import"  onchange="import_type_change()" value="is_smart">智能
+        <input type="radio" name="import_type" id="smart_import"  onchange="import_type_change()" value="is_smart">乱序
         <input type="radio" name="import_type" id="normal_import" onchange="import_type_change()" value="is_not_smart">顺序
       </p>
       导入数量(1-200): <input id="quantity" type="tel" onafterpaste="limit_import_number(this)" onkeyup="limit_import_number(this)" value="50" style="width: 30px">
