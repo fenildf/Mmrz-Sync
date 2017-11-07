@@ -1,3 +1,7 @@
+:root {
+    --right-icon-pos: 40px;
+}
+
 #center_board {
     text-align: center;
 }
@@ -54,7 +58,7 @@
     height: 30px;
     position: fixed;
     right: 15px;
-    top: 55px;
+    top: var(--right-icon-pos);
     border: 0;
     background: url(/img/star_white.png);
     background-size: cover;
@@ -65,7 +69,7 @@
     height: 30px;
     position: fixed;
     right: 15px;
-    top: 55px;
+    top: var(--right-icon-pos);
     border: 0;
     background: url(/img/star_black.png);
     background-size: cover;
@@ -76,7 +80,7 @@
     height: 30px;
     position: fixed;
     right: 15px;
-    top: 90px;
+    top: calc(var(--right-icon-pos) + 35px);
     border: 0;
     background: url(/img/magnifier.png);
     background-size: cover;
@@ -87,7 +91,7 @@
     height: 30px;
     position: fixed;
     right: 15px;
-    top: 125px;
+    top: calc(var(--right-icon-pos) + 70px);
     border: 0;
     background: url(/img/speaker.png);
     background-size: cover;
@@ -98,7 +102,7 @@
     height: 30px;
     position: fixed;
     right: 15px;
-    top: 125px;
+    top: calc(var(--right-icon-pos) + 70px);
     border: 0;
     background: url(/img/speaker.gif);
     background-size: cover;
