@@ -49,6 +49,28 @@
     text-align: center;
 }
 
+#favourite_star_white_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 55px;
+    border: 0;
+    background: url(/img/star_white.png);
+    background-size: cover;
+}
+
+#favourite_star_black_btn {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 55px;
+    border: 0;
+    background: url(/img/star_black.png);
+    background-size: cover;
+}
+
 #magnifier_btn {
     width: 30px;
     height: 30px;
@@ -82,24 +104,4 @@
     background-size: cover;
 }
 
-#favourite_star_white_btn {
-    width: 30px;
-    height: 30px;
-    position: fixed;
-    right: 15px;
-    top: 55px;
-    border: 0;
-    background: url(/img/star_white.png);
-    background-size: cover;
-}
 
-#favourite_star_black_btn {
-    width: 30px;
-    height: 30px;
-    position: fixed;
-    right: 15px;
-    top: 55px;
-    border: 0;
-    background: url(/img/star_black.png);
-    background-size: cover;
-}
