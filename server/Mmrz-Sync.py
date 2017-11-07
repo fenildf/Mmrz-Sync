@@ -111,7 +111,7 @@ universal_GET_dict = {
 }
 
 universal_ROUTE_dict = {
-    'static_file_version': 'v=1007'
+    'static_file_version': 'v=1008'
 }
 
 ### universal functions
