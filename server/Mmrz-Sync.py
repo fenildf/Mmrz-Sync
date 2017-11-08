@@ -363,18 +363,20 @@ def server_static_img(filename):
     return static_file(filename, root='./static/layer')
 
 @route('/')
-def index():
-    req_thing = request.params.get('req_thing', None)
-    if req_thing == "version_info":
-        return version_info()
-
-    else:
-        redirect('/welcome')
-
-@route('/welcome')
 @view('welcome')
 def welcome():
-    return dict(universal_ROUTE_dict)
+    if request.params.get('req_thing') == "version_info":
+        return version_info()
+
+    username = request.get_cookie('username')
+    password = request.get_cookie('password')
+    password = urllib.unquote(password)
+
+    if verify_login(username, password):
+        redirect('/memorize')
+
+    else:
+        return dict(universal_ROUTE_dict)
 
 @route('/login')
 @view('login')
@@ -1365,6 +1367,7 @@ print ""
 # import gevent; from gevent import monkey; monkey.patch_all()
 
 # run server
+# run(host='0.0.0.0', port=PORT)
 run(host='0.0.0.0', port=PORT, server='paste')
 
 
