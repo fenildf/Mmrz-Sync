@@ -370,7 +370,7 @@ def welcome():
 
     username = request.get_cookie('username')
     password = request.get_cookie('password')
-    password = urllib.unquote(password)
+    password = urllib.unquote(password) if password else None
 
     if verify_login(username, password):
         redirect('/memorize')
