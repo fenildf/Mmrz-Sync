@@ -205,6 +205,9 @@ class MmrzSyncDBManager:
     def readDB(self, timeStamp):
         return self.c.execute("select * from UNMMRZ where memTimes < 8 and remindTime < {0}".format(timeStamp)).fetchall()
 
+    def readUnMemDB(self):
+        return self.c.execute("select * from UNMMRZ where memTimes < 8").fetchall()
+
     def readAllDB(self):
         return self.c.execute("select * from UNMMRZ").fetchall()
 

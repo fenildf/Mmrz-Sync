@@ -1209,7 +1209,7 @@ def get_next_approximate_words_count():
 
     if not is_username_available(username):
         dbMgr = MmrzSyncDBManager(username)
-        rows = dbMgr.readAllDB()
+        rows = dbMgr.readUnMemDB()
         dbMgr.closeDB()
 
         if not rows:
