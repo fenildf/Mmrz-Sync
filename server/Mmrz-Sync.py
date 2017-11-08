@@ -391,6 +391,13 @@ def signup():
 @route('/memorize')
 @view('mmrz')
 def mmrz():
+    username = request.get_cookie('username')
+    password = request.get_cookie('password')
+    password = urllib.unquote(password) if password else None
+
+    if not verify_login(username, password):
+        redirect('/')
+
     # need_https = "localhost" not in request.url
     need_https = False
 

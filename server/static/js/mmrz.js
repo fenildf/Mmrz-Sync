@@ -26,9 +26,9 @@
 
 function init() {
     // jump to main path if not verified
-    if(!verify_user($.cookie('username'), $.cookie('password'))) {
-        location.href="/";
-    }
+    // if(!verify_user($.cookie('username'), $.cookie('password'))) {
+    //     location.href="/";
+    // }
 
     // init global variables
     window.last_rows_from_DB = null;
@@ -594,8 +594,8 @@ function make_new_layer() {
     });
 }
 
-(function() {
-    // init();
-}());
+// (function() {
+//     init();
+// }());
 
 
