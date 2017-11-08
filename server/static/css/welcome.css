@@ -1,0 +1,53 @@
+#center_board {
+    width: 300px;
+}
+
+.line {
+    margin-top: 5px;
+}
+
+.info {
+    margin-top: 10px;
+}
+
+#prompt_board {
+    height: 20px;
+}
+
+#prompt {
+    color: red;
+    font-size: 15px;
+    margin-top: 20px;
+}
+
+.label {
+    font-size: 20px;
+}
+
+.edit_area {
+    font-size: 20px;
+    width: 100%;
+    height: 25px;
+    background: #fff;
+    padding: 5px;
+}
+
+#center_center {
+    width: 70%;
+    height: auto;
+    margin: 0px auto;
+}
+
+#prompt_board {
+    margin-top: 20px;
+}
+
+#btn_board {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.btn {
+    margin-left: 20px;
+    font-size: 18px;
+}

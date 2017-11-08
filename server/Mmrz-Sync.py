@@ -369,7 +369,12 @@ def index():
         return version_info()
 
     else:
-        redirect('/login')
+        redirect('/welcome')
+
+@route('/welcome')
+@view('welcome')
+def welcome():
+    return dict(universal_ROUTE_dict)
 
 @route('/login')
 @view('login')
