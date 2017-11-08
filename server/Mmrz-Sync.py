@@ -408,7 +408,12 @@ def mmrz():
 @route('/setting')
 @view('setting')
 def setting():
-    username = request.params.get('username', None)
+    username = request.get_cookie('username')
+    password = request.get_cookie('password')
+    password = urllib.unquote(password) if password else None
+
+    if not verify_login(username, password):
+        redirect('/')
 
     dbMgr = MmrzSyncDBManager("USERS")
     users = dbMgr.read_USERS_DB_DICT()
@@ -454,7 +459,12 @@ def chart():
 @route('/individual')
 @view('individual')
 def individual():
-    username = request.params.get('username', None)
+    username = request.get_cookie('username')
+    password = request.get_cookie('password')
+    password = urllib.unquote(password) if password else None
+
+    if not verify_login(username, password):
+        redirect('/')
 
     user_folder = "./WORDBOOK/{0}/".format(username)
     user_pkl = "{0}/data.pkl".format(user_folder)

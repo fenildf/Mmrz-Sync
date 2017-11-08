@@ -1,10 +1,10 @@
 // functions for setting.tpl
 
-(function() {
-    if(!verify_user($.cookie('username'), $.cookie('password'))) {
-        location.href="/";
-    }
-}());
+// (function() {
+//     if(!verify_user($.cookie('username'), $.cookie('password'))) {
+//         location.href="/";
+//     }
+// }());
 
 function send_verification_mail(email) {
     params = {

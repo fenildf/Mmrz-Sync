@@ -72,9 +72,9 @@
           $("#title").text("个人信息 -- Debug");
         }
 
-        if(getQueryString("username") != $.cookie("username")) {
-          location.href = "/";
-        }
+        // if(getQueryString("username") != $.cookie("username")) {
+        //   location.href = "/";
+        // }
       </script>
 
       <script type="text/javascript">

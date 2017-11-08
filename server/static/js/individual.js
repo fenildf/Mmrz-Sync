@@ -139,8 +139,8 @@ function limit_import_number(self) {
     self.value = (self.value <   0 ?  "" : self.value);
 }
 
-(function() {
-    if(!verify_user($.cookie('username'), $.cookie('password'))) {
-        location.href="/";
-    }
-}());
+// (function() {
+//     if(!verify_user($.cookie('username'), $.cookie('password'))) {
+//         location.href="/";
+//     }
+// }());

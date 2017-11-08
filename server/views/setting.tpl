@@ -90,9 +90,9 @@
           $("#title").text("个人设定 -- Debug");
         }
 
-        if(getQueryString("username") != $.cookie("username")) {
-          location.href = "/";
-        }
+        // if(getQueryString("username") != $.cookie("username")) {
+        //   location.href = "/";
+        // }
       </script>
 
       <script type="text/javascript">
