@@ -28,6 +28,8 @@ import datetime, time, math
 import re
 import os
 
+static_file_verion = 'v=1010'
+
 def each_file(target):
     for root, dirs, files in os.walk(target):
         for f in files:
@@ -101,17 +103,17 @@ CONFIG_PATH = sys.path[0] + '/version.ini'
 universal_POST_dict = {
     "verified": False,
     "mmrz_code": MMRZ_CODE_Universal_Error,
-    "message_str":  ""
+    "message_str":  "",
 }
 
 universal_GET_dict = {
     'occupied_client': 'NULL',
     'version_info': {"CLI": "CLI-0.0.0", "GUI": "GUI-0.0.0"},
-    'message_str': 'message from Mmrz-Sync server'
+    'message_str': 'message from Mmrz-Sync server',
 }
 
 universal_ROUTE_dict = {
-    'static_file_version': 'v=1009'
+    'static_file_version': static_file_verion,
 }
 
 ### universal functions
