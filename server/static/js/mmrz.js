@@ -15,7 +15,7 @@
 // window.rows_from_DB          -- 本次需要背诵单词的列表
 // window.cursor_of_rows        -- 当前背诵进度游标的位置
 // window.last_rows_from_DB     -- 缓存的上一次单词列表的状态(仅用于undo功能)
-// window.last_cursor_of_rows   -- 还窜的上一次游标的状态(仅用于undo功能)
+// window.last_cursor_of_rows   -- 缓存的上一次游标的状态(仅用于undo功能)
 // window.word_tts_found        -- 是否从Mmrz-Sync服务器成功获取了发音(因为函数未使用, 所以该变量也未使用)
 // window.word_tts_url          -- 从Mmrz-Sync服务器获取的发音数据地址(因为函数未使用, 所以该变量也未使用)
 // window.null_when_open        -- 从服务器获取到的待背诵列表是否一开始就为空(若为空则直接显示相应提示给用户)
@@ -595,7 +595,7 @@ function make_new_layer() {
 }
 
 (function() {
-    init();
+    // init();
 }());
 
 

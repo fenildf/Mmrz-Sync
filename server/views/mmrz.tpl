@@ -143,6 +143,7 @@
       </script>
 
       <script type="text/javascript">
+        init();
         show_word();
         period_state_check();
 
