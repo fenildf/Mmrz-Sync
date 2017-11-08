@@ -280,6 +280,26 @@ function get_shortest_remind() {
     return shortest_remind;
 }
 
+function get_next_approximate_words_count() {
+    approximate_words_count = "";
+
+    params = {
+        username: $.cookie('username'),
+    };
+
+    $.ajax({
+        url: "/get_next_approximate_words_count",
+        type: "get",
+        data: params,
+        async: false,
+        success: function(rec) {
+            approximate_words_count = rec;
+        }
+    });
+
+    return approximate_words_count;
+}
+
 function init_rows_from_DB() {
     wordbooks = get_wordbooks();
     wordbook_normal = wordbooks['wordbook'];
@@ -346,6 +366,7 @@ function show_word() {
         }
 
         $("#label_word").text(get_shortest_remind());
+        $("#label_meaning").text(get_next_approximate_words_count());
         $("#words_count").empty();
 
         set_speaker_icon("none");
@@ -359,6 +380,7 @@ function show_word() {
         is_favourite = window.rows_from_DB[window.cursor_of_rows][7];
 
         $("#label_word").text(window.rows_from_DB[window.cursor_of_rows][0]);
+        $("#label_meaning").text("");
         $("#mem_times").text(window.rows_from_DB[window.cursor_of_rows][2]);
         $("#words_left").text("剩余 " + window.rows_from_DB.length + " / " + window.max_size_this_turn + " 个单词");
         $("#btn_view").css("display", "");
@@ -372,7 +394,6 @@ function show_word() {
 
     $("#btn_yes").css("display", "none");
     $("#btn_no").css("display", "none");
-    $("#label_meaning").text("");
 }
 
 function show_secret() {

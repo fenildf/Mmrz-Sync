@@ -1200,6 +1200,37 @@ def get_shortest_remind():
 
     return remindTimeStr
 
+@get('/get_next_approximate_words_count/')
+@get('/get_next_approximate_words_count')
+def get_next_approximate_words_count():
+    username = request.params.get('username', None)
+
+    if not is_username_available(username):
+        dbMgr = MmrzSyncDBManager(username)
+        rows = dbMgr.readAllDB()
+        dbMgr.closeDB()
+
+        if not rows:
+            return ""
+
+        rows = sorted(rows, key=lambda row: row[3]) # from small to big
+        words_count = 1
+        for i in range(len(rows) - 1):
+            remindTime_next = rows[i + 1][3]
+            remindTime_this = rows[i][3]
+
+            if remindTime_next - remindTime_this <= 30 * 60:
+                words_count += 1
+            else:
+                break
+
+        words_count_string = "大约 {0} 个单词".format(words_count)
+
+    else:
+        words_count_string = "数据获取错误"
+
+    return words_count_string
+
 @get('/get_hujiang_tts/')
 @get('/get_hujiang_tts')
 def get_hujiang_tts():
