@@ -148,9 +148,11 @@
         period_state_check();
 
         if(is_state_cache_available()) {
-          if(confirm("检测远端有未完成的背诵状态, 是否需要恢复?")) {
-            restore_remote_saved_state();
-          }
+          // if(confirm("检测远端有未完成的背诵状态, 是否需要恢复?")) {
+          //   restore_remote_saved_state();
+          // }
+          restore_remote_saved_state();
+          layer.msg("恢复背诵状态成功", {'time': 1000});
         }
 
         $("#user_info").text($.cookie('username'));
