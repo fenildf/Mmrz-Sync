@@ -103,7 +103,7 @@ function is_state_cache_available() {
         type: "post",
         data: params,
         async: false,
-        success:function(rec) {
+        success: function(rec) {
             rec = JSON.parse(rec);
             state_cached = rec['state_cached'];
         }
@@ -125,7 +125,7 @@ function verify_eiginvalue() {
         type: "post",
         data: params,
         async: true,
-        success:function(rec) {
+        success: function(rec) {
             rec = JSON.parse(rec);
             if(rec["mmrz_code"] == window.MMRZ_CODE_SaveState_Diff_Eigenvalue) {
                 save_current_state();
@@ -171,7 +171,7 @@ function restore_remote_saved_state() {
         type: "post",
         data: params,
         async: false,
-        success:function(rec) {
+        success: function(rec) {
             rec = JSON.parse(rec);
             window.cursor_of_rows = rec["current_cursor"];
             window.max_size_this_turn = rec["max_size_this_turn"];
@@ -218,7 +218,7 @@ function clear_state_cached_flag_and_eiginvalue() {
         type: "post",
         data: params,
         async: true,
-        success:function(rec) {
+        success: function(rec) {
             console.log("clear_state_cached_flag_and_eiginvalue OK");
         }
     });
@@ -237,7 +237,7 @@ function get_wordbooks() {
         type: "post",
         data: params,
         async: false,
-        success:function(rec) {
+        success: function(rec) {
             wordbook = JSON.parse(rec);
         }
     });
