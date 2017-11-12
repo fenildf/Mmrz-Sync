@@ -179,7 +179,8 @@ function restore_remote_saved_state() {
 
             show_word();
 
-            clear_state_cached_flag_and_eiginvalue();
+            // 此时不清除远端状态, 仅在一次背诵周期完成时清除
+            // clear_state_cached_flag_and_eiginvalue();
             layer.msg("恢复状态成功", {'time': 1000});
         }
     });
