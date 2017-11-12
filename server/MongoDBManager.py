@@ -51,11 +51,12 @@ class MongoDBManager:
 
         if result.count() == 0:
             return False
+
         else:
             document = result[0]
             document["state_cached"] = False
-            document["rows_length"] = None
-            document["current_cursor"] = None
+            document["rows_length"] = 0
+            document["current_cursor"] = 0
             self.db.memorize_state.update({"username": document["username"]}, {"$set": document})
 
             return True
