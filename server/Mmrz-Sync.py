@@ -915,10 +915,10 @@ def verify_eiginvalue():
         userData = dbMgr.query_memorize_state(username)
         dbMgr.closeDB()
 
-        rows_length_fromDB = userData.get('rows_length', None)
-        current_cursor_fromDB = userData.get('current_cursor', None)
-        rows_length_from_client = request.forms.get('rows_length', None)
-        current_cursor_from_client = request.forms.get('current_cursor', None)
+        rows_length_fromDB = userData.get('rows_length', 0)
+        current_cursor_fromDB = userData.get('current_cursor', 0)
+        rows_length_from_client = request.forms.get('rows_length', 0)
+        current_cursor_from_client = request.forms.get('current_cursor', 0)
 
         if rows_length_from_client == rows_length_fromDB and current_cursor_from_client == current_cursor_fromDB:
             dict_for_return["mmrz_code"] = MMRZ_CODE_SaveState_Same_Eigenvalue
@@ -940,11 +940,17 @@ def save_current_state():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
     else:
-        current_state = request.forms.get('current_state', None)
+        current_state = request.forms.get('current_state', "[]")
         current_state = json.loads(current_state)
-        rows_length_from_client = request.forms.get('rows_length', None)
-        current_cursor_from_client = request.forms.get('current_cursor', None)
-        max_size_this_turn_from_client = request.forms.get('max_size_this_turn', None)
+        rows_length_from_client = request.forms.get('rows_length', 0)
+        current_cursor_from_client = request.forms.get('current_cursor', 0)
+        max_size_this_turn_from_client = request.forms.get('max_size_this_turn', 0)
+
+        # not save state if state length is 0
+        if len(current_state) == 0:
+            dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Error # this error code better changed to something like: MMRZ_CODE_State_Length_Zero
+            json_for_return = json.dumps(dict_for_return)
+            return json_for_return
 
         document = {
             "username": username,
