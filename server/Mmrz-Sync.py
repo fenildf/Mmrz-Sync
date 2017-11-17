@@ -309,7 +309,7 @@ def query_hujiang(key_word):
         'Accept-Encoding': 'gzip, deflate, sdch',
         }
 
-    url = "http://m.hujiang.com/d/dict_jp_api.ashx?type=jc&w={0}".format(urllib.quote(key_word))
+    url = "https://m.hujiang.com/d/dict_jp_api.ashx?type=jc&w={0}".format(urllib.quote(key_word))
 
     response = requests.get(url, headers=headers)
     try:
