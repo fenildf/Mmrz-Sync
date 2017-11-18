@@ -79,6 +79,7 @@ function tik_tik() {
 function read_and_set_speak_type() {
     // if speak_type cookie not set before, default is manual
     if(!$.cookie('speak_type')) {
+        $.cookie('speak_type', "manual", {path: '/', expires: 365});
         speak_type = "manual";
     }
     else {
