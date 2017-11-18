@@ -149,6 +149,26 @@ function post(url, params) {
     return form;
 }
 
+function set_speak_type_icon(status) {
+    // manual
+    if(status == "manual") {
+        $("#speak_manual").css("display", "");
+        $("#speak_auto").css("display", "none");
+    }
+
+    // auto
+    else if(status == "auto") {
+        $("#speak_manual").css("display", "none");
+        $("#speak_auto").css("display", "");
+    }
+
+    // none
+    else {
+        $("#speak_manual").css("display", "none");
+        $("#speak_auto").css("display", "none");
+    }
+}
+
 function set_speaker_icon(status) {
     // png
     if(status == "png") {

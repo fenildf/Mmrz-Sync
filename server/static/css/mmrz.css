@@ -1,4 +1,5 @@
 :root {
+    --left-icon-pos: 35px;
     --right-icon-pos: 35px;
 }
 
@@ -51,6 +52,28 @@
 #uinfo_board {
     margin-top: 15px;
     text-align: center;
+}
+
+#speak_manual {
+    width: 15px;
+    height: 15px;
+    position: fixed;;
+    left: 15px;
+    top: var(--left-icon-pos);
+    border: 0;
+    background: url(/img/speak_manual.png);
+    background-size: cover;
+}
+
+#speak_auto {
+    width: 15px;
+    height: 15px;
+    position: fixed;;
+    left: 15px;
+    top: var(--left-icon-pos);
+    border: 0;
+    background: url(/img/speak_auto.png);
+    background-size: cover;
 }
 
 #favourite_star_white_btn {

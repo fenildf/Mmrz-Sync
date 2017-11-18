@@ -76,6 +76,39 @@ function tik_tik() {
     });
 }
 
+function read_and_set_speak_type() {
+    // if speak_type cookie not set before, default is manual
+    if(!$.cookie('speak_type')) {
+        speak_type = "manual";
+    }
+    else {
+        speak_type = $.cookie("speak_type");
+    }
+
+    if(speak_type == "manual") {
+        set_speak_type_icon("manual");
+    }
+    if(speak_type == "auto") {
+        set_speak_type_icon("auto");
+    }
+}
+
+function change_speak_type() {
+    speak_type = $.cookie('speak_type');
+
+    // change to auto type & set cookie to auto if cookie is "manual"
+    if(speak_type == "manual") {
+        set_speak_type_icon("auto");
+        $.cookie('speak_type', "auto",  {path: '/', expires: 365});
+    }
+
+    // change to manual type & set cookie to manual if cookie is "auto"
+    if(speak_type == "auto") {
+        set_speak_type_icon("manual");
+        $.cookie('speak_type', "manual", {path: '/', expires: 365});
+    }
+}
+
 function period_state_check() {
     timestamp = Date.parse(new Date()) / 1000;
 
@@ -390,6 +423,12 @@ function show_word() {
             set_favourite_icon("black");
         } else {
             set_favourite_icon("white");
+        }
+
+        // 发音相关
+        speak_type = $.cookie('speak_type');
+        if(speak_type == 'auto') {
+            speak_word();
         }
     }
 

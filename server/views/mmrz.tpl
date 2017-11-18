@@ -70,6 +70,9 @@
 
       <audio id="speaker" src=""></audio>
 
+      <button id="speak_manual" onclick="change_speak_type()"></button>
+      <button id="speak_auto" onclick="change_speak_type()" style="display: none"></button>
+
       <button id="speak_png_btn" onclick="speak_word()"></button>
       <button id="speak_gif_btn" onclick="speak_word()" style="display: none"></button>
 
@@ -146,6 +149,7 @@
         init();
         show_word();
         period_state_check();
+        read_and_set_speak_type();
 
         if(is_state_cache_available()) {
           restore_remote_saved_state();
