@@ -425,12 +425,6 @@ function show_word() {
         } else {
             set_favourite_icon("white");
         }
-
-        // 发音相关
-        speak_type = $.cookie('speak_type');
-        if(speak_type == 'auto') {
-            speak_word();
-        }
     }
 
     $("#btn_yes").css("display", "none");
@@ -445,6 +439,12 @@ function show_secret() {
 
     window.secret_is_hiding  = false;
     window.secret_is_showing = !window.secret_is_hiding;
+
+    // 自动发音相关
+    speak_type = $.cookie('speak_type');
+    if(speak_type == 'auto') {
+        speak_word();
+    }
 
     to_show = window.rows_from_DB[window.cursor_of_rows][1];
     if(to_show.length > 30) {

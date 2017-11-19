@@ -62,7 +62,7 @@
     top: var(--left-icon-pos);
     border: 0;
     background: url(/img/speak_manual.png);
-    background-size: cover;
+    background-size: contain;
 }
 
 #speak_auto {
@@ -73,7 +73,7 @@
     top: var(--left-icon-pos);
     border: 0;
     background: url(/img/speak_auto.png);
-    background-size: cover;
+    background-size: contain;
 }
 
 #favourite_star_white_btn {
