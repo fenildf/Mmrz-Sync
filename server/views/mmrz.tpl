@@ -147,9 +147,9 @@
 
       <script type="text/javascript">
         init();
+        read_and_set_speak_type();
         show_word();
         period_state_check();
-        read_and_set_speak_type();
 
         if(is_state_cache_available()) {
           restore_remote_saved_state();
