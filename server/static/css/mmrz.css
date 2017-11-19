@@ -55,8 +55,8 @@
 }
 
 #speak_manual {
-    width: 15px;
-    height: 15px;
+    width: 30px;
+    height: 30px;
     position: fixed;;
     left: 15px;
     top: var(--left-icon-pos);
@@ -66,8 +66,8 @@
 }
 
 #speak_auto {
-    width: 15px;
-    height: 15px;
+    width: 30px;
+    height: 30px;
     position: fixed;;
     left: 15px;
     top: var(--left-icon-pos);
