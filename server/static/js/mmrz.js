@@ -407,6 +407,7 @@ function show_word() {
         set_speaker_icon("none");
         $("#magnifier_btn").css("display", "none");
         set_favourite_icon("none");
+        set_speak_type_icon("none");
     }
     // 尚未背诵完毕
     else {
