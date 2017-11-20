@@ -106,14 +106,14 @@ function change_speak_type() {
     if(speak_type == "manual") {
         set_speak_type_icon("auto");
         $.cookie('speak_type', "auto",  {path: '/', expires: 365});
-        layer.msg("自动播放模式", {'time': 1000});
+        layer.msg("自动发音模式", {'time': 1000});
     }
 
     // change to manual type & set cookie to manual if cookie is "auto"
     if(speak_type == "auto") {
         set_speak_type_icon("manual");
         $.cookie('speak_type', "manual", {path: '/', expires: 365});
-        layer.msg("手动播放模式", {'time': 1000});
+        layer.msg("手动发音模式", {'time': 1000});
     }
 }
 
