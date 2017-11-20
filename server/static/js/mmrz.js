@@ -36,7 +36,12 @@ function init() {
     window.last_save_timestamp = Date.parse(new Date()) / 1000;
 
     // init rows
-    init_rows_from_DB();    
+    init_rows_from_DB();
+
+    // init icons
+    set_speaker_icon("png");
+    set_favourite_icon("white");
+    set_speak_type_icon("manual");    
 }
 
 function search_word_id(target, arr, low, high) {

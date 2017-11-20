@@ -71,15 +71,15 @@
       <audio id="speaker" src=""></audio>
 
       <button id="speak_manual" onclick="change_speak_type()"></button>
-      <button id="speak_auto" onclick="change_speak_type()" style="display: none"></button>
+      <button id="speak_auto" onclick="change_speak_type()"></button>
 
       <button id="speak_png_btn" onclick="speak_word()"></button>
-      <button id="speak_gif_btn" onclick="speak_word()" style="display: none"></button>
+      <button id="speak_gif_btn" onclick="speak_word()"></button>
 
       <button id="magnifier_btn" onclick="view_hujiang()"></button>
 
       <button id="favourite_star_white_btn" onclick="favourite_action()"></button>
-      <button id="favourite_star_black_btn" onclick="favourite_action()" style="display: none"></button>
+      <button id="favourite_star_black_btn" onclick="favourite_action()"></button>
 
       <div id="copyright"></div>
 
