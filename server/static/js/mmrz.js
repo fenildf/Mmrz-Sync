@@ -106,12 +106,14 @@ function change_speak_type() {
     if(speak_type == "manual") {
         set_speak_type_icon("auto");
         $.cookie('speak_type', "auto",  {path: '/', expires: 365});
+        layer.msg("自动播放模式", {'time': 1000});
     }
 
     // change to manual type & set cookie to manual if cookie is "auto"
     if(speak_type == "auto") {
         set_speak_type_icon("manual");
         $.cookie('speak_type', "manual", {path: '/', expires: 365});
+        layer.msg("手动播放模式", {'time': 1000});
     }
 }
 
@@ -220,7 +222,7 @@ function restore_remote_saved_state() {
 
             // 此时不清除远端状态, 仅在一次背诵周期完成时清除
             // clear_state_cached_flag_and_eiginvalue();
-            layer.msg("恢复状态成功", {'time': 1000});
+            layer.msg("恢复背诵状态成功", {'time': 1000});
         }
     });
 }
