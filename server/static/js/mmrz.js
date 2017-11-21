@@ -428,6 +428,15 @@ function show_word() {
         $("#words_left").text("剩余 " + window.rows_from_DB.length + " / " + window.max_size_this_turn + " 个单词");
         $("#btn_view").css("display", "");
 
+        // 设置为自动发音时预加载读音
+        speak_type = $.cookie('speak_type');
+        if(speak_type == 'auto') {
+            pre_load_sound();
+        }
+
+        // 每次都设置发音图标为静止
+        set_speaker_icon("png");
+
         if(is_favourite == 1) {
             set_favourite_icon("black");
         } else {
@@ -544,7 +553,26 @@ function view_hujiang() {
     }
 }
 
+function pre_load_sound() {
+    speaker = document.getElementById("speaker");
+
+    key_word = window.rows_from_DB[window.cursor_of_rows][0];
+    secret_info = window.rows_from_DB[window.cursor_of_rows][1];
+
+    if(is_word_EN(key_word)) {
+        speaker.src = "http://tts.yeshj.com/s/" + key_word;
+    }
+    else {
+        if(secret_info.indexOf("--") > 0) {
+            key_word = secret_info.split("-")[0];
+            key_word = key_word.replace(/\d/g, "");
+        }
+        speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
+    }
+}
+
 function speak_word() {
+    // TODO: use pre_load_sound()
     speaker = document.getElementById("speaker");
 
     key_word = window.rows_from_DB[window.cursor_of_rows][0];
