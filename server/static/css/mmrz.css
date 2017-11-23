@@ -57,7 +57,7 @@
 #speak_manual {
     width: 30px;
     height: 30px;
-    position: fixed;;
+    position: fixed;
     left: 15px;
     top: var(--left-icon-pos);
     border: 0;
@@ -68,7 +68,7 @@
 #speak_auto {
     width: 30px;
     height: 30px;
-    position: fixed;;
+    position: fixed;
     left: 15px;
     top: var(--left-icon-pos);
     border: 0;
