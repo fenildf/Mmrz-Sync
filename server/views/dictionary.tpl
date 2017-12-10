@@ -39,8 +39,8 @@
           %for define in defines:
             <p>
               [{{define["PronounceJp"]}}]
-              <button style="width: 30px; height: 30px; background: url(/img/added_no.png); background-size: cover; border: 0;"></button>
-              <button style="width: 30px; height: 30px; background: url(/img/added_yes.png); background-size: cover; border: 0;"></button>
+              <button style="width: 30px; height: 30px; background: url(/img/added_no.png); background-size: cover; border: 0; vertical-align: middle;"></button>
+              <button style="width: 30px; height: 30px; background: url(/img/added_yes.png); background-size: cover; border: 0; vertical-align: middle;"></button>
             </p>
             <p>{{define["Comment"]}}</p>
             <p>=====================</p>
