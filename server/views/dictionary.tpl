@@ -13,6 +13,7 @@
     <script type="text/javascript" src="./js/jquery1.8.3.min.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./js/jquery1.4.1.cookie.min.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./js/utils.js?{{static_file_version}}"></script>
+    <script type="text/javascript" src="./js/dictionary.js?{{static_file_version}}"></script>
 
     <link rel="stylesheet" type="text/css" href="./css/common.css?{{static_file_version}}">
     <link rel="stylesheet" type="text/css" href="./css/dictionary.css?{{static_file_version}}">
@@ -39,8 +40,8 @@
           %for define in defines:
             <p>
               [{{define["PronounceJp"]}}]
-              <button style="width: 30px; height: 30px; background: url(/img/added_no.png); background-size: cover; border: 0; vertical-align: middle;"></button>
-              <button style="width: 30px; height: 30px; background: url(/img/added_yes.png); background-size: cover; border: 0; vertical-align: middle;"></button>
+              <button onclick="is_word_exist()" style="width: 30px; height: 30px; background: url(/img/added_no.png); background-size: cover; border: 0; vertical-align: middle;"></button>
+              <button onclick="is_word_exist()" style="width: 30px; height: 30px; background: url(/img/added_yes.png); background-size: cover; border: 0; vertical-align: middle;"></button>
             </p>
             <p>{{define["Comment"]}}</p>
             <p>=====================</p>

@@ -28,7 +28,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1020'
+static_file_verion = 'v=1021'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -1022,7 +1022,11 @@ def clear_state_cached_flag_and_eiginvalue():
 def is_word_exist():
     username = request.forms.get('username', None)
     password = request.forms.get('password', None)
-    wordInfo = request.forms.get('wordInfo', None)
+
+    # wordInfo = request.forms.get('wordInfo', None)
+
+    word      = request.forms.get('word', None)
+    pronounce = request.forms.get('pronounce', None)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -1032,7 +1036,7 @@ def is_word_exist():
         return json_for_return
     else:
         dbMgr = MmrzSyncDBManager(username)
-        exist = dbMgr.is_word_exist(wordInfo)
+        exist = dbMgr.is_word_exist(word, pronounce)
 
         dict_for_return['exist'] = exist
 
