@@ -246,11 +246,20 @@ class MmrzSyncDBManager:
         return self.c.execute("SELECT * FROM (SELECT unm.* FROM (select * from (SELECT tab1.* FROM unmmrz tab1 where tab1.memTimes < '8' order by tab1.remindTime) UNION ALL SELECT tab2.* FROM unmmrz tab2 where tab2.memTimes = '8') unm WHERE CASE WHEN '{0}' = 'all' THEN unm.memTimes <= 8 ELSE unm.memTimes = '{0}' END limit {1} offset {1}*{2}) LIMIT 200".format(params[0], params[1], params[2])).fetchall()
 
     def is_word_exist(self, word, pronounce):
+        log = open("Mmrz-Sync.log", "ab")
+
         if " -- " in pronounce:
             pronounce_para = pronounce.split(" -- ")[0]
         else:
             pronounce_para = pronounce
         result = self.c.execute("SELECT * FROM UNMMRZ WHERE word = '{0}'".format(word)).fetchall()
+
+        log.write("result: " + str(result))
+        log.write("word: " + str(word))
+        log.write("pronounce: " + str(pronounce))
+
+        log.close()
+
         for item in result:
             pronounce = item[1]
             if " -- " in pronounce:
