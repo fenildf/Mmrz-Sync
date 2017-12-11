@@ -259,7 +259,7 @@ class MmrzSyncDBManager:
         log.write("pronounce_before: " + str(pronounce) + "\n")
 
         for item in result:
-            pronounce = item[1]
+            pronounce = item[1].encode('utf-8')
             log.write("pronounce_after: " + str(pronounce) + "\n")
             if " -- " in pronounce:
                 pronounce_select = pronounce.split(" -- ")[0]
