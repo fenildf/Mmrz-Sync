@@ -4,8 +4,8 @@ function is_word_exist() {
     params = {
         username: $.cookie('username'),
         password: $.cookie('password'),
-        word: '123',
-        pronounce: '123',
+        word: 'こわごわ',
+        pronounce: 'こわごわ -- 提心吊胆、心惊胆战',
     };
 
     $.ajax({
