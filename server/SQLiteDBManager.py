@@ -254,11 +254,9 @@ class MmrzSyncDBManager:
             pronounce_para = pronounce
         result = self.c.execute("SELECT * FROM UNMMRZ WHERE word = '{0}'".format(word)).fetchall()
 
-        log.write("result: " + str(result))
-        log.write("word: " + str(word))
-        log.write("pronounce: " + str(pronounce))
-
-        log.close()
+        log.write("result: " + str(result) + "\n")
+        log.write("word: " + str(word) + "\n")
+        log.write("pronounce: " + str(pronounce) + "\n")
 
         for item in result:
             pronounce = item[1]
@@ -266,6 +264,8 @@ class MmrzSyncDBManager:
                 pronounce_select = pronounce.split(" -- ")[0]
             else:
                 pronounce_select = pronounce
+            log.write("pronounce_para: " + str(pronounce_para) + "\n")
+            log.write("pronounce_select: " + str(pronounce_select) + "\n")
             if pronounce_para == pronounce_select:
                 return True
         return False
