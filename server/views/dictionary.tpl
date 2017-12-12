@@ -37,11 +37,13 @@
         %if not defines:
           <p>查询失败: {{key_word}}</p>
         %else:
+          %idx = -1
           %for define in defines:
+            %idx += 1
             <p>
-              [{{define["PronounceJp"]}}]
-              <button onclick="is_word_exist()" style="width: 30px; height: 30px; background: url(/img/added_no.png); background-size: cover; border: 0; vertical-align: middle;"></button>
-              <button onclick="is_word_exist()" style="width: 30px; height: 30px; background: url(/img/added_yes.png); background-size: cover; border: 0; vertical-align: middle;"></button>
+              <span class="PronounceJp_list" id="PronounceJp_{{idx}}">[{{define["PronounceJp"]}}]</span>
+              <button class="button_yes_list" id="button_no_{{idx}}" onclick="" style="width: 30px; height: 30px; background: url(/img/added_no.png); background-size: cover; border: 0; vertical-align: middle;"></button>
+              <button class="button_no_list" id="button_yes_{{idx}}" onclick="" style="width: 30px; height: 30px; background: url(/img/added_yes.png); background-size: cover; border: 0; vertical-align: middle;"></button>
             </p>
             <p>{{define["Comment"]}}</p>
             <p>=====================</p>
@@ -69,6 +71,17 @@
         }
         else {
           location.href = "./dictionary?key_word=" + key_word;
+        }
+      }
+
+      for(i = 0; i < $(".PronounceJp_list").length; i++) {
+        pronounce = $("#PronounceJp_" + i).text();
+        pronounce = pronounce.replace('[', '').replace(']', '');
+        if(is_word_exist(key_word, pronounce)) {
+          set_added_icon(i, "yes");
+        }
+        else {
+          set_added_icon(i, "no");;
         }
       }
     </script>

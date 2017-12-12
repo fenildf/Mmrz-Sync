@@ -209,6 +209,26 @@ function set_favourite_icon(status) {
     }
 }
 
+function set_added_icon(id, status) {
+    // yes
+    if(status == "yes") {
+        $("#button_yes_" + id).css("display", "");
+        $("#button_no_" + id).css("display", "none");
+    }
+
+    // no
+    else if(status == "no") {
+        $("#button_yes_" + id).css("display", "none");
+        $("#button_no_" + id).css("display", "");
+    }
+
+    // none
+    else {
+        $("#button_yes_" + id).css("display", "none");
+        $("#button_no_" + id).css("display", "none");
+    }
+}
+
 function verify_user(username, password) {
     verified = false;
 

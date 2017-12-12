@@ -1,11 +1,11 @@
 // functions for dictionary.tpl
 
-function is_word_exist() {
+function is_word_exist(word, pronounce) {
     params = {
         username: $.cookie('username'),
         password: $.cookie('password'),
-        word: 'こわごわ',
-        pronounce: 'こわごわ',
+        word: word,
+        pronounce: pronounce,
     };
 
     $.ajax({
@@ -15,6 +15,10 @@ function is_word_exist() {
         async: false,
         success: function(rec) {
             console.log(rec);
+            rec = JSON.parse(rec);
+            exist = rec['exist'];
         }
     });
+
+    return exist;
 }
