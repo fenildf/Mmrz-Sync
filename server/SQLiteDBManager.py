@@ -196,6 +196,9 @@ class MmrzSyncDBManager:
     def insertDB(self, row):
         self.c.execute("insert into UNMMRZ values(?, ?, ?, ?, ?, ?)", row)
 
+    def deleteDB_by_wordID(self, wordID):
+        self.c.execute("delete from UNMMRZ where wordID = {0}".format(wordID))
+
     def updateDB(self, row, update_whole_row=False):
         if update_whole_row:
             self.c.execute(u"update UNMMRZ set word = '{0}', pronounce = '{1}', memTimes = {2}, remindTime = {3}, remindTimeStr = '{4}' where wordID = '{5}'".format(row[0], row[1], row[2], row[3], row[4], row[5]))
@@ -269,8 +272,8 @@ class MmrzSyncDBManager:
             log.write("pronounce_select: " + str(pronounce_select) + "\n")
             log.close()
             if pronounce_para == pronounce_select:
-                return True
-        return False
+                return True, item[5]
+        return False, None
 
     def is_word_exist_old(self, wordInfo):
         word      = wordInfo[0]

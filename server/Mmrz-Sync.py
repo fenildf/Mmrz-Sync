@@ -1036,7 +1036,7 @@ def is_word_exist():
         return json_for_return
     else:
         dbMgr = MmrzSyncDBManager(username)
-        exist = dbMgr.is_word_exist(word, pronounce)
+        exist, wordID = dbMgr.is_word_exist(word, pronounce)
 
         dict_for_return['exist'] = exist
 
@@ -1095,6 +1095,65 @@ def online_import():
         fr.close()
         added = smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username, quantity, is_smart)
         dict_for_return['added'] = added
+
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
+@post('/save_one_word/')
+@post('/save_one_word')
+def save_one_word():
+    username = request.get_cookie('username')
+    password = request.get_cookie('password')
+
+    word      = request.forms.get('word', None)
+    pronounce = request.forms.get('word', None)
+
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        dict_for_return['verified'] = True
+        dbMgr = MmrzSyncDBManager()
+
+        word          = word
+        pronounce     = pronounce
+        memTimes      = 0
+        remindTime    = cal_remind_time(memTimes, "int")
+        remindTimeStr = cal_remind_time(memTimes, "str")
+        wordID        = dbMgr.getMaxWordID() + 1
+
+        row = [word, pronounce, memTimes, remindTime, remindTimeStr, wordID]
+        dbMgr.insertDB(row)
+
+        dbMgr.closeDB()
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
+@post('/remove_one_word/')
+@post('/remove_one_word')
+def remove_one_word():
+    username = request.get_cookie('username')
+    password = request.get_cookie('password')
+
+    word      = request.forms.get('word', None)
+    pronounce = request.forms.get('word', None)
+
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['message_str'] = "login failed"
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        dict_for_return['verified'] = True
+        dbMgr = MmrzSyncDBManager()
+
+        exist, wordID = dbMgr.is_word_exist(word, pronounce)
+        if exist:
+            dbMgr.deleteDB_by_wordID(wordID)
+        else:
+            dict_for_return["mmrz_code"] = "not exist, abort"
 
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
