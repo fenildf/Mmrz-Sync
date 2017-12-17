@@ -32,6 +32,7 @@
   </head>
 
   <body>
+    <!-- 必须放在 body 中, 原因不明 -->
     <script type="text/javascript" src="./js/notie.js?{{static_file_version}}"></script>
     <div id="center_board">
       <h2 id="title">背诵模式</h2>

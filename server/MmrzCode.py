@@ -12,7 +12,7 @@ MMRZ_CODE_Username_Not_Available_Error = -400011
 MMRZ_CODE_Username_Not_Valid = -400012
 MMRZ_CODE_Password_Not_Valid = -400013
 
-# email
+# email:
 MMRZ_CODE_Email_Verification_OK = MMRZ_CODE_Universal_OK
 MMRZ_CODE_Email_Send_OK = MMRZ_CODE_Universal_OK
 MMRZ_CODE_Email_Address_Not_Changed = -400101
@@ -25,4 +25,9 @@ MMRZ_CODE_SaveState_Save_OK = MMRZ_CODE_Universal_OK
 MMRZ_CODE_Restore_State_OK = MMRZ_CODE_Universal_OK
 MMRZ_CODE_SaveState_Same_Eigenvalue = -400201
 MMRZ_CODE_SaveState_Diff_Eigenvalue = -400202
+
+# change_one_word_status:
+MMRZ_CODE_Word_Save_OK = -400211
+MMRZ_CODE_Word_Remove_OK = -400212
+
 

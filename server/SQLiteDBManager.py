@@ -267,16 +267,6 @@ class MmrzSyncDBManager:
                 return True, item[5]
         return False, None
 
-    def is_word_exist_old(self, wordInfo):
-        word      = wordInfo[0]
-        pronounce = wordInfo[1]
-
-        result = self.c.execute("SELECT * FROM UNMMRZ WHERE word = '{0}' AND pronounce = '{1}'".format(word, pronounce))
-        if len(result) >= 1:
-            return True
-        else:
-            return False
-
     def closeDB(self):
         self.db.commit()
         self.db.close()

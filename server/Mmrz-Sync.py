@@ -1104,62 +1104,45 @@ def online_import():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
-@post('/save_one_word/')
-@post('/save_one_word')
-def save_one_word():
+@post('/change_one_word_status/')
+@post('/change_one_word_status')
+def change_one_word_status():
     username = request.get_cookie('username')
     password = request.get_cookie('password')
+    password = urllib.unquote(password) if password else None
 
     word      = request.forms.get('word', None)
-    pronounce = request.forms.get('word', None)
+    pronounce = request.forms.get('pronounce', None)
 
+    dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
         dict_for_return['verified'] = False
-        dict_for_return['message_str'] = "login failed"
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
     else:
         dict_for_return['verified'] = True
-        dbMgr = MmrzSyncDBManager()
-
-        word          = word
-        pronounce     = pronounce
-        memTimes      = 0
-        remindTime    = cal_remind_time(memTimes, "int")
-        remindTimeStr = cal_remind_time(memTimes, "str")
-        wordID        = dbMgr.getMaxWordID() + 1
-
-        row = [word, pronounce, memTimes, remindTime, remindTimeStr, wordID]
-        dbMgr.insertDB(row)
-
-        dbMgr.closeDB()
-        json_for_return = json.dumps(dict_for_return)
-        return json_for_return
-
-@post('/remove_one_word/')
-@post('/remove_one_word')
-def remove_one_word():
-    username = request.get_cookie('username')
-    password = request.get_cookie('password')
-
-    word      = request.forms.get('word', None)
-    pronounce = request.forms.get('word', None)
-
-    if not verify_login(username, password):
-        dict_for_return['verified'] = False
-        dict_for_return['message_str'] = "login failed"
-        json_for_return = json.dumps(dict_for_return)
-        return json_for_return
-    else:
-        dict_for_return['verified'] = True
-        dbMgr = MmrzSyncDBManager()
+        dbMgr = MmrzSyncDBManager(username)
 
         exist, wordID = dbMgr.is_word_exist(word, pronounce)
         if exist:
             dbMgr.deleteDB_by_wordID(wordID)
-        else:
-            dict_for_return["mmrz_code"] = "not exist, abort"
 
+            dict_for_return['mmrz_code'] = MMRZ_CODE_Word_Remove_OK
+        else:
+            word          = word.decode("utf8")
+            pronounce     = pronounce.decode("utf8")
+            memTimes      = 0
+            remindTime    = cal_remind_time(memTimes, "int")
+            remindTimeStr = cal_remind_time(memTimes, "str")
+            wordID        = dbMgr.getMaxWordID() + 1
+
+            row = [word, pronounce, memTimes, remindTime, remindTimeStr, wordID]
+            dbMgr.insertDB(row)
+
+            dict_for_return['mmrz_code'] = MMRZ_CODE_Word_Save_OK
+
+        dbMgr.closeDB()
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 

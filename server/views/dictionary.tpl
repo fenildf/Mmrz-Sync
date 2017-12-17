@@ -25,6 +25,8 @@
   </head>
 
   <body>
+    <!-- 必须放在 body 中, 原因不明 -->
+    <script type="text/javascript" src="./js/notie.js?{{static_file_version}}"></script>
     <div id="center_board">
       <h2 id="title">查单词</h2>
 
@@ -42,10 +44,10 @@
             %idx += 1
             <p>
               <span class="PronounceJp_list" id="PronounceJp_{{idx}}">[{{define["PronounceJp"]}}]</span>
-              <button class="button_yes_list" id="button_no_{{idx}}" onclick="" style="width: 30px; height: 30px; background: url(/img/added_no.png); background-size: cover; border: 0; vertical-align: middle;"></button>
-              <button class="button_no_list" id="button_yes_{{idx}}" onclick="" style="width: 30px; height: 30px; background: url(/img/added_yes.png); background-size: cover; border: 0; vertical-align: middle;"></button>
+              <button class="button_yes_list" id="button_no_{{idx}}" onclick="change_one_word_status({{idx}})" style="width: 30px; height: 30px; background: url(/img/added_no.png); background-size: cover; border: 0; vertical-align: middle;"></button>
+              <button class="button_no_list" id="button_yes_{{idx}}" onclick="change_one_word_status({{idx}})" style="width: 30px; height: 30px; background: url(/img/added_yes.png); background-size: cover; border: 0; vertical-align: middle;"></button>
             </p>
-            <p>{{define["Comment"]}}</p>
+            <p id="Comment_{{idx}}">{{define["Comment"]}}</p>
             <p>=====================</p>
           %end
         %end
