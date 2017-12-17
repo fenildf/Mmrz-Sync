@@ -552,8 +552,13 @@ def ranking():
     return_dict.update(dict(db_info_list = db_info_list, date = date, week = week, month = month, year = year))
     return return_dict
 
-@route('/dictionary')
 @route('/dict')
+def dict_short():
+    query = request.urlparts.query
+    url = '/dictionary?{0}'.format(query) if query else '/dictionary'
+    redirect(url)
+
+@route('/dictionary')
 @view('dictionary')
 def dictionary():
     username = request.params.get('username', None)
@@ -590,7 +595,7 @@ def show_wordbook():
         dbMgr.closeDB()
     # else user name not exist, redirect to /
     else:
-        redirect('/') 
+        redirect('/')
 
     rows_for_return = []
     for row in rows:
