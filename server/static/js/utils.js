@@ -48,6 +48,12 @@ function Copyright() {
     copyright.innerHTML += "<a style='color: black; font-size: 10px;' target='_blank' href='http://www.miitbeian.gov.cn'>渝ICP备17002936号</a>";
 }
 
+function logout() {
+    $.cookie('username', "", {path: '/', expires: 7});
+    $.cookie('password', "", {path: '/', expires: 7});
+    location.href="/";
+}
+
 function is_cellphone() {
     userAgentInfo = navigator.userAgent;
     Agents = [

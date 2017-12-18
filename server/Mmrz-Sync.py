@@ -28,7 +28,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1023'
+static_file_verion = 'v=1024'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -562,13 +562,17 @@ def dict_short():
 @route('/dictionary')
 @view('dictionary')
 def dictionary():
-    username = request.params.get('username', None)
+    username = request.get_cookie('username')
+    password = request.get_cookie('password')
+    password = urllib.unquote(password) if password else None
+
     key_word = request.params.get('key_word', None)
 
+    verified = verify_login(username, password)
     defines = query_hujiang(key_word)
 
     return_dict = dict(universal_ROUTE_dict)
-    return_dict.update(dict(defines=defines, key_word=key_word))
+    return_dict.update(dict(defines=defines, verified=verified, key_word=key_word))
     return return_dict
 
 @route('/wordbook')

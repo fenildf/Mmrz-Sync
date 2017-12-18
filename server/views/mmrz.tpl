@@ -64,7 +64,7 @@
       </div>
 
       <div id="uinfo_board">
-        <a href="javascript:individual()" id="user_info"></a>
+        <a href="javascript:window.open('/individual')" id="user_info"></a>
         <a href="javascript:save_current_state()">同步</a>
         <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
       </div>
@@ -161,12 +161,6 @@
         domain = document.domain;
         if(domain == "localhost" || domain == "127.0.0.1") {
           $("#title").text("背诵模式 -- Debug");
-        }
-      </script>
-
-      <script type="text/javascript">
-        function individual() {
-          window.open("/individual?username=" + $.cookie('username'));
         }
       </script>
 

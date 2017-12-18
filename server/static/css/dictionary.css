@@ -45,6 +45,11 @@
     margin-top: 20px;
 }
 
+#uinfo_board {
+    margin-top: 15px;
+    text-align: center;
+}
+
 #btn_board {
     margin-top: 10px;
     text-align: right;

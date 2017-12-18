@@ -62,12 +62,6 @@ function search_word_id(target, arr, low, high) {
     return - 1;
 }
 
-function logout() {
-    $.cookie('username', "", {path: '/', expires: 7});
-    $.cookie('password', "", {path: '/', expires: 7});
-    location.href="/";
-}
-
 function tik_tik() {
     params = {
         username: $.cookie('username'),

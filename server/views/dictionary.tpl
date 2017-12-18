@@ -38,6 +38,7 @@
 
         %if not defines:
           <p>查询失败: {{key_word}}</p>
+          <hr>
         %else:
           %idx = -1
           %for define in defines:
@@ -51,7 +52,20 @@
             <hr>
           %end
         %end
-          
+
+        %if not verified:
+          <div id="uinfo_board">
+            请
+            <a href="javascript:location.href='/login'">登录</a>
+            或
+            <a href="javascript:location.href='/signup'">注册</a>
+          </div>
+        %else:
+          <div id="uinfo_board">
+            <a href="javascript:window.open('/individual')" id="user_info"></a>
+            <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
+          </div>
+        %end
 
         <div id="copyright"></div>
       </div>
@@ -60,6 +74,8 @@
     <script type="text/javascript">
       key_word = getQueryString("key_word");
       $("#dictionary_key_word").val(key_word);
+
+      $("#user_info").text($.cookie('username'));
 
       domain = document.domain;
       if(domain == "localhost" || domain == "127.0.0.1") {
