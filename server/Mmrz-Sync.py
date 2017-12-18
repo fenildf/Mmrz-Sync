@@ -566,7 +566,7 @@ def dictionary():
     password = request.get_cookie('password')
     password = urllib.unquote(password) if password else None
 
-    key_word = request.params.get('key_word', None)
+    key_word = request.params.get('key_word', "无单词")
 
     verified = verify_login(username, password)
     defines = query_hujiang(key_word)
