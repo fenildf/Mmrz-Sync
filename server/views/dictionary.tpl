@@ -48,7 +48,7 @@
               <button class="button_no_list" id="button_yes_{{idx}}" onclick="change_one_word_status({{idx}})" style="width: 30px; height: 30px; background: url(/img/added_yes.png); background-size: cover; border: 0; vertical-align: middle;"></button>
             </p>
             <p id="Comment_{{idx}}">{{define["Comment"]}}</p>
-            <p>=====================</p>
+            <hr>
           %end
         %end
           
