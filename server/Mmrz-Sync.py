@@ -28,7 +28,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1022'
+static_file_verion = 'v=1023'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -311,7 +311,8 @@ def query_hujiang(key_word):
 
     url = "https://m.hujiang.com/d/dict_jp_api.ashx?type=jc&w={0}".format(urllib.quote(key_word))
 
-    response = requests.get(url, headers=headers, verify=False)
+    proxies = {}
+    response = requests.get(url, headers=headers, verify=False, proxies=proxies)
     try:
         defines = response.json()
     except:
@@ -1036,6 +1037,7 @@ def is_word_exist():
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
+        dict_for_return['message_str'] = "/is_word_exist verify failed"
 
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
@@ -1044,6 +1046,7 @@ def is_word_exist():
         exist, wordID = dbMgr.is_word_exist(word, pronounce)
 
         dict_for_return['exist'] = exist
+        dict_for_return['message_str'] = "/is_word_exist verify OK"
 
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
@@ -1118,6 +1121,7 @@ def change_one_word_status():
     if not verify_login(username, password):
         dict_for_return['verified'] = False
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
+        dict_for_return['message_str'] = "/change_one_word_status verify failed"
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
     else:
@@ -1129,6 +1133,7 @@ def change_one_word_status():
             dbMgr.deleteDB_by_wordID(wordID)
 
             dict_for_return['mmrz_code'] = MMRZ_CODE_Word_Remove_OK
+            dict_for_return['message_str'] = "/change_one_word_status remove OK"
         else:
             word          = word.decode("utf8")
             pronounce     = pronounce.decode("utf8")
@@ -1141,6 +1146,7 @@ def change_one_word_status():
             dbMgr.insertDB(row)
 
             dict_for_return['mmrz_code'] = MMRZ_CODE_Word_Save_OK
+            dict_for_return['message_str'] = "/change_one_word_status save OK"
 
         dbMgr.closeDB()
         json_for_return = json.dumps(dict_for_return)

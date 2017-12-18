@@ -14,7 +14,6 @@ function is_word_exist(word, pronounce) {
         data: params,
         async: false,
         success: function(rec) {
-            console.log(rec);
             rec = JSON.parse(rec);
             exist = rec['exist'];
         }
@@ -24,6 +23,7 @@ function is_word_exist(word, pronounce) {
 }
 
 function change_one_word_status(idx) {
+    word = getQueryString("key_word");
     pronounce = $("#PronounceJp_" + idx).text().replace('[', '').replace(']', '');
     meaning = $("#Comment_" + idx).text();
     pronounce = pronounce + " -- " + meaning;
@@ -31,8 +31,12 @@ function change_one_word_status(idx) {
     params = {
         username: $.cookie('username'),
         password: $.cookie('password'),
-        word: getQueryString("key_word"),
+        word: word,
         pronounce: pronounce,
+    }
+
+    if(is_word_exist(word, pronounce) && !confirm("确认删除该单词?")) {
+        return;
     }
 
     $.ajax({
@@ -44,7 +48,12 @@ function change_one_word_status(idx) {
             rec = JSON.parse(rec);
 
             mmrz_code = rec['mmrz_code'];
-            if(mmrz_code == window.MMRZ_CODE_Word_Save_OK) {
+            if(mmrz_code == window.MMRZ_CODE_Universal_Verification_Fail) {
+                if(confirm("老用户请登录后添加单词, 新用户请注册后享受相应功能.")) {
+                    location.href = "/login";
+                }
+            }
+            else if(mmrz_code == window.MMRZ_CODE_Word_Save_OK) {
                 set_added_icon(idx, "yes");
                 notie.alert(1, "保存至单词本成功", 1.5);
             }
