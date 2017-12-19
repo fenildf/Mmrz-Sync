@@ -32,7 +32,7 @@
 
       <div id="center_center">
         <div class="info">
-          <input class="edit_area" type="text", id="dictionary_key_word" onkeypress='if(event.keyCode==13){query_hujiang()}'>
+          <input class="edit_area" type="text" id="dictionary_key_word" onfocus="this.select()" onmouseup="this.select()" onkeypress='if(event.keyCode==13){query_hujiang()}'>
           <button id="query" onclick="query_hujiang()">查询</button>
         </div>
 
@@ -75,8 +75,6 @@
     <script type="text/javascript">
       key_word = getQueryString("key_word");
       $("#dictionary_key_word").val(key_word);
-
-      $("#dictionary_key_word").focus(function(){this.select()});
 
       $("#user_info").text($.cookie('username'));
 
