@@ -76,6 +76,8 @@
       key_word = getQueryString("key_word");
       $("#dictionary_key_word").val(key_word);
 
+      $("#dictionary_key_word").focus(function(){this.select()});
+
       $("#user_info").text($.cookie('username'));
 
       domain = document.domain;
