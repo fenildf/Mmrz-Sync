@@ -32,7 +32,7 @@
 
       <div id="center_center">
         <div class="info">
-          <input class="edit_area" type="text" id="dictionary_key_word" onfocus="this.select()" onmouseup="this.select()" onkeypress='if(event.keyCode==13){query_hujiang()}'>
+          <input class="edit_area" type="text" id="dictionary_key_word" onfocus="this.select()" onmouseup="preventDefault(event)" onkeypress='if(event.keyCode==13){query_hujiang()}'>
           <button id="query" onclick="query_hujiang()">查询</button>
         </div>
 
@@ -91,6 +91,11 @@
         else {
           location.href = "./dictionary?key_word=" + key_word;
         }
+      }
+
+      function preventDefault(eventTag) {  
+        var event = eventTag || window.event;
+        event.preventDefault();
       }
 
       for(i = 0; i < $(".PronounceJp_list").length; i++) {
