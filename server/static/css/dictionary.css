@@ -26,13 +26,17 @@
 
 .edit_area {
     font-size: 15px;
-    width: 60%;
     background: #fff;
     padding: 5px;
 }
 
 #query {
     font-size: 15px;
+    position: absolute;
+    height: 30px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
 }
 
 #center_center {
