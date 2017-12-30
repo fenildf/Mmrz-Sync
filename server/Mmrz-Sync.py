@@ -322,6 +322,10 @@ def query_hujiang(key_word):
         Comment = defines[i]["Comment"]
         comments = re.findall("<br/>([^a-zA-Z]+)<br/>", Comment)
 
+        # 如果未找到前后<br>包裹的字符串, 则找出以<br>结尾的第一个字符串
+        if not comments:
+            comments = re.findall("^([^a-zA-Z]+?)<br/>", Comment)
+
         tmp = ", ".join(comments)
 
         # 如果tmp为空, 则取出原有完整的样子
