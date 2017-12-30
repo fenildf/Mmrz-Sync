@@ -522,7 +522,6 @@ function view_hujiang() {
     key_word = window.rows_from_DB[window.cursor_of_rows][0];
     key_word = key_word.split("，")[0]; // full-width
     key_word = key_word.split(",")[0];  // half-width
-    
 
     url = get_hujiang_url(key_word);
     if(is_cellphone()) {

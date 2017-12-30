@@ -67,6 +67,13 @@
         %end
       </table>
 
+      <div style="margin:auto;">
+        <span style="font-size: 13px">当前提取 {{len(rows)}} / {{word_quantity}} 个单词</span>
+        <br/>
+
+        <ul id="pagination-demo" class="pagination-sm"></ul>
+      </div>
+
       <div id="copyright"></div>
 
       <script>
