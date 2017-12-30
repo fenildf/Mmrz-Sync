@@ -88,7 +88,7 @@
         url_page = Number(getQueryString("page"));
         url_page = url_page <= 1 ? 1 : url_page;
 
-        $('#pagination-demo').twbsPagination({
+        $('.pagination-sm').twbsPagination({
           totalPages: page_max,
           visiblePages: visiblePages,
           version: '1.1',
