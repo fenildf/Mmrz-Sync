@@ -594,11 +594,11 @@ def show_wordbook():
         times = 'all'
         page_size = 200
 
-        count = dbMgr.selete_UNMMRZ_COUNT(times)
+        count = dbMgr.select_UNMMRZ_COUNT(times)
         page_max = int(math.ceil(count/float(page_size)))
 
         params = [times, page_size, page - 1]
-        rows = dbMgr.selete_UNMMRZ_DATA_BY_PAGE(params)
+        rows = dbMgr.select_UNMMRZ_DATA_BY_PAGE(params)
 
         word_quantity = len(dbMgr.readAllDB())
         dbMgr.closeDB()
