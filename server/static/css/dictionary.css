@@ -29,6 +29,7 @@
     font-size: 15px;
     background: #fff;
     padding: 5px;
+    width: 100%;
     vertical-align: middle;
 }
 
@@ -37,8 +38,7 @@
     position: absolute;
     height: 30px;
     top: 0px;
-    bottom: 0px;
-    right: 31px;
+    right: -10px;
     border-radius: 8px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
