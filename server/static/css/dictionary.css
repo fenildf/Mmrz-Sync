@@ -37,6 +37,8 @@
 
 #query {
     font-size: 15px;
+    color: #fff;
+    background: #27a1cc;
     position: absolute;
     height: 30px;
     top: 3px;
