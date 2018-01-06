@@ -28,7 +28,9 @@
     <!-- 必须放在 body 中, 原因不明 -->
     <script type="text/javascript" src="./js/notie.js?{{static_file_version}}"></script>
     <div id="center_board">
-      <h2 id="title">Mmrz</h2>
+      <a href="./">
+        <h2 id="title" style="color: black">Mmrz</h2>
+      </a>
 
       <div id="center_center">
         <div class="info" style="height: 30px;">
