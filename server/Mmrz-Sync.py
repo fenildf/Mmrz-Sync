@@ -11,6 +11,7 @@ from bottle import post, get, request, redirect
 from bs4 import BeautifulSoup
 from SQLiteDBManager import TikTimeDBManager, MmrzSyncDBManager
 from MongoDBManager import MongoDBManager
+from MmrzLog import log
 from MmrzCode import *
 import requests
 import MmrzMail
@@ -719,7 +720,7 @@ def sign_up():
         dict_for_return['message_str'] = "Signed up"
 
         # notify to wechat when new user signed up
-        text = "New user notification: {0}".format(username)
+        text = urllib.quote("New user notification: {0}".format(username))
         urllib2.urlopen("http://zhanglintc.work:8000/send?text={0}".format(text))
 
     json_for_return = json.dumps(dict_for_return)
