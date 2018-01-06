@@ -28,9 +28,9 @@
     <!-- 必须放在 body 中, 原因不明 -->
     <script type="text/javascript" src="./js/notie.js?{{static_file_version}}"></script>
     <div id="center_board">
-      <a href="./">
-        <h2 id="title" style="color: black">Mmrz</h2>
-      </a>
+      <h2 id="title">
+        <a id="title_a" href="./" style="color: black">Mmrz</a>
+      </h2>
 
       <div id="center_center">
         <div class="info" style="height: 30px;">
@@ -85,7 +85,7 @@
 
       domain = document.domain;
       if(domain == "localhost" || domain == "127.0.0.1") {
-        $("#title").text("Mmrz -- Debug");
+        $("#title_a").text("Mmrz -- Debug");
       }
 
       function query_hujiang() {
