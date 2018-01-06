@@ -718,6 +718,10 @@ def sign_up():
         dict_for_return['mmrz_code'] = MMRZ_CODE_Signup_OK
         dict_for_return['message_str'] = "Signed up"
 
+        # notify to wechat when new user signed up
+        text = "New user notification: {0}".format(username)
+        urllib2.urlopen("http://zhanglintc.work:8000/send?text={0}".format(text))
+
     json_for_return = json.dumps(dict_for_return)
     return json_for_return
 
