@@ -28,7 +28,7 @@
     <!-- 必须放在 body 中, 原因不明 -->
     <script type="text/javascript" src="./js/notie.js?{{static_file_version}}"></script>
     <div id="center_board">
-      <h2 id="title">查单词</h2>
+      <h2 id="title">Mmrz</h2>
 
       <div id="center_center">
         <div class="info" style="height: 30px;">
@@ -36,7 +36,10 @@
           <button id="query" onclick="query_hujiang()">查询</button>
         </div>
 
-        %if not defines:
+        %if defines == None:
+          <p>&nbsp</p>
+          <hr>
+        %elif not defines:
           <p>查询失败: {{key_word}}</p>
           <hr>
         %else:
@@ -80,13 +83,13 @@
 
       domain = document.domain;
       if(domain == "localhost" || domain == "127.0.0.1") {
-        $("#title").text("查单词 -- Debug");
+        $("#title").text("Mmrz -- Debug");
       }
 
       function query_hujiang() {
         key_word = $("#dictionary_key_word").val();
         if(!key_word) {
-          return;
+          location.href = "./dictionary";
         }
         else {
           location.href = "./dictionary?key_word=" + key_word;

@@ -301,6 +301,12 @@ def smart_import(path, username, quantity=100, is_smart=True):
     return added
 
 def query_hujiang(key_word):
+    """
+    return value:
+    1. OK: list object
+    2. NG: [] null list
+    """
+
     if not key_word:
         return []
 
@@ -368,8 +374,7 @@ def server_static_img(filename):
     return static_file(filename, root='./static/layer')
 
 @route('/')
-@view('welcome')
-def welcome():
+def index():
     if request.params.get('req_thing') == "version_info":
         return version_info()
 
@@ -377,11 +382,7 @@ def welcome():
     password = request.get_cookie('password')
     password = urllib.unquote(password) if password else None
 
-    if verify_login(username, password):
-        redirect('/memorize')
-
-    else:
-        return dict(universal_ROUTE_dict)
+    return dictionary()
 
 @route('/login')
 @view('login')
@@ -570,10 +571,14 @@ def dictionary():
     password = request.get_cookie('password')
     password = urllib.unquote(password) if password else None
 
-    key_word = request.params.get('key_word', "无单词")
+    key_word = request.params.get('key_word', None)
 
     verified = verify_login(username, password)
-    defines = query_hujiang(key_word)
+
+    if not key_word:
+        defines = None
+    else:
+        defines = query_hujiang(key_word)
 
     return_dict = dict(universal_ROUTE_dict)
     return_dict.update(dict(defines=defines, verified=verified, key_word=key_word))
