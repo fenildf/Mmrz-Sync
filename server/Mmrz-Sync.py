@@ -1003,6 +1003,7 @@ def save_current_state_partially():
 
     current_cursor_from_client = request.forms.get('current_cursor', None)
     need_splice = request.forms.get('need_splice', None)
+    need_splice = json.loads(need_splice)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
