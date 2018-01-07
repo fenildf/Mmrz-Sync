@@ -1016,13 +1016,10 @@ def save_current_state_partially():
         dbMgr = MongoDBManager()
         userData = dbMgr.query_memorize_state(username)
         userData['current_cursor'] = current_cursor_from_client
-        log.d("need_splice: {0}".format(str(need_splice)))
         if need_splice:
-            log.d("if")
             current_cursor_from_client = int(current_cursor_from_client)
             del userData['data'][current_cursor_from_client]
         else:
-            log.d("else")
             pass
         dbMgr.update_memorize_state(userData)
         dbMgr.closeDB()

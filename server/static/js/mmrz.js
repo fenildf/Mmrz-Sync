@@ -207,7 +207,6 @@ function save_current_state_partially(need_splice) {
         data: params,
         async: true,
         success: function(rec) {
-            notie.alert(1, "部分更新成功", 0.5);
             console.log(rec);
         }
     });
@@ -250,7 +249,7 @@ function restore_last_word() {
 
         row = window.rows_from_DB[window.cursor_of_rows];
         update_row(row, false);
-        save_current_state();
+        // save_current_state();
 
         show_word();
 
@@ -526,12 +525,12 @@ function hide_secret(remember, pass) {
 
         window.rows_from_DB.splice(window.cursor_of_rows, 1);
         move_cursor(false);
-        save_current_state_partially(true);
+        // save_current_state_partially(true);
     }
     else {
         window.rows_from_DB[window.cursor_of_rows][6] = true; // firstTimeFail: false => true
         move_cursor(true);
-        save_current_state_partially(false);
+        // save_current_state_partially(false);
     }
 }
 
