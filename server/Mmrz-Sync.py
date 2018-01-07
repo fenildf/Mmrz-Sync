@@ -29,7 +29,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1031'
+static_file_verion = 'v=1032'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -990,6 +990,39 @@ def save_current_state():
         dbMgr.closeDB()
 
         dict_for_return['mmrz_code'] = MMRZ_CODE_SaveState_Save_OK
+
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+
+@post('/save_current_state_partially/')
+@post('/save_current_state_partially')
+def save_current_state_partially():
+    username = request.get_cookie('username')
+    password = request.get_cookie('password')
+    password = urllib.unquote(password) if password else None
+
+    current_cursor_from_client = request.forms.get('current_cursor', None)
+    need_splice = request.forms.get('need_splice', None)
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
+        dict_for_return['message_str'] = "verify failed"
+
+        json_for_return = json.dumps(dict_for_return)
+        return json_for_return
+    else:
+        dbMgr = MongoDBManager()
+        userData = dbMgr.query_memorize_state(username)
+        userData['current_cursor'] = current_cursor_from_client
+        if need_splice:
+            del userData['data'][current_cursor_from_client]
+        else:
+            pass
+        dbMgr.update_memorize_state(userData)
+        dbMgr.closeDB()
+        dict_for_return['mmrz_code'] = MMRZ_CODE_SaveState_Save_OK
+        dict_for_return['message_str'] = "state portion save OK"
 
         json_for_return = json.dumps(dict_for_return)
         return json_for_return

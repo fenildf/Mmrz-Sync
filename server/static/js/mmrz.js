@@ -195,6 +195,24 @@ function save_current_state() {
     });
 }
 
+function save_current_state_partially(need_splice) {
+    params = {
+        "current_cursor": window.cursor_of_rows,
+        "need_splice": need_splice,
+    };
+
+    $.ajax({
+        url: "/save_current_state_partially",
+        type: "post",
+        data: params,
+        async: true,
+        success: function(rec) {
+            notie.alert(1, "部分更新成功", 0.5);
+            console.log(rec);
+        }
+    });
+}
+
 function restore_remote_saved_state() {
     params = {
         username: $.cookie('username'),
@@ -232,6 +250,7 @@ function restore_last_word() {
 
         row = window.rows_from_DB[window.cursor_of_rows];
         update_row(row, false);
+        save_current_state();
 
         show_word();
 
@@ -507,10 +526,12 @@ function hide_secret(remember, pass) {
 
         window.rows_from_DB.splice(window.cursor_of_rows, 1);
         move_cursor(false);
+        save_current_state_partially(false);
     }
     else {
         window.rows_from_DB[window.cursor_of_rows][6] = true; // firstTimeFail: false => true
         move_cursor(true);
+        save_current_state_partially(true);
     }
 }
 
