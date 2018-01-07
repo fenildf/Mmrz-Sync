@@ -1003,6 +1003,7 @@ def save_current_state_partially():
 
     current_cursor_from_client = request.forms.get('current_cursor', None)
     need_splice = request.forms.get('need_splice', None)
+    log.i("need_splice: {0}".format(str(need_splice)))
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -1016,6 +1017,7 @@ def save_current_state_partially():
         userData = dbMgr.query_memorize_state(username)
         userData['current_cursor'] = current_cursor_from_client
         if need_splice:
+            log.i(str(userData))
             del userData['data'][current_cursor_from_client]
         else:
             pass
