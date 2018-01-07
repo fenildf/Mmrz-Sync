@@ -526,12 +526,12 @@ function hide_secret(remember, pass) {
 
         window.rows_from_DB.splice(window.cursor_of_rows, 1);
         move_cursor(false);
-        save_current_state_partially(false);
+        save_current_state_partially(true);
     }
     else {
         window.rows_from_DB[window.cursor_of_rows][6] = true; // firstTimeFail: false => true
         move_cursor(true);
-        save_current_state_partially(true);
+        save_current_state_partially(false);
     }
 }
 

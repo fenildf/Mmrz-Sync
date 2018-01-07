@@ -1018,6 +1018,7 @@ def save_current_state_partially():
         userData['current_cursor'] = current_cursor_from_client
         if need_splice:
             log.i(str(userData))
+            current_cursor_from_client = int(current_cursor_from_client)
             del userData['data'][current_cursor_from_client]
         else:
             pass
