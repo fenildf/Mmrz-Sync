@@ -1025,12 +1025,15 @@ def save_current_state_partially():
         else:
             last_cursor_from_client = int(last_cursor_from_client)
             userData['data'][last_cursor_from_client][6] = True
-        dbMgr.update_memorize_state(userData)
+
+        state_cached = userData.get('state_cached', False)
+        if state_cached:
+            dbMgr.update_memorize_state(userData)
+        else:
+            pass
         dbMgr.closeDB()
         dict_for_return['mmrz_code'] = MMRZ_CODE_SaveState_Save_OK
         dict_for_return['message_str'] = "save_current_state_partially save OK"
-
-        state_cached = userData.get('state_cached', False)
         dict_for_return['state_cached'] = state_cached
 
         json_for_return = json.dumps(dict_for_return)
