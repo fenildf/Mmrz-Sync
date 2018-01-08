@@ -212,6 +212,17 @@ function save_current_state_partially(move_cursor, current_cursor, last_cursor) 
         async: true,
         success: function(rec) {
             console.log(rec);
+
+            rec = JSON.parse(rec);
+
+            state_cached = rec["state_cached"];
+            if(!state_cached) {
+                console.log("state not cached")
+                save_current_state();
+            }
+            else {
+                console.log("state cached");
+            }
         }
     });
 }

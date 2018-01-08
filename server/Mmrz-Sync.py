@@ -29,7 +29,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1033'
+static_file_verion = 'v=1034'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -1029,6 +1029,9 @@ def save_current_state_partially():
         dbMgr.closeDB()
         dict_for_return['mmrz_code'] = MMRZ_CODE_SaveState_Save_OK
         dict_for_return['message_str'] = "save_current_state_partially save OK"
+
+        state_cached = userData.get('state_cached', False)
+        dict_for_return['state_cached'] = state_cached
 
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
