@@ -192,7 +192,8 @@ function save_current_state() {
         data: params,
         async: true,
         success: function(rec) {
-            notie.alert(1, "当前背诵状态已保存至远端", 1.5);
+            // notie.alert(1, "当前背诵状态已保存至远端", 1.5);
+            console.log("/save_current_state OK")
             console.log(rec);
         }
     });
@@ -212,16 +213,9 @@ function save_current_state_partially(move_cursor, current_cursor, last_cursor) 
         async: true,
         success: function(rec) {
             console.log(rec);
-
             rec = JSON.parse(rec);
-
-            state_cached = rec["state_cached"];
-            if(!state_cached) {
-                console.log("state not cached")
+            if(!rec["state_cached"]) {
                 save_current_state();
-            }
-            else {
-                console.log("state cached");
             }
         }
     });
