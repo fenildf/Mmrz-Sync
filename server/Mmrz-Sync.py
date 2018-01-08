@@ -1017,17 +1017,16 @@ def save_current_state_partially():
         dbMgr = MongoDBManager()
         userData = dbMgr.query_memorize_state(username)
         userData['current_cursor'] = current_cursor_from_client
-        # move_cursor is False means remember or pass
-        if not move_cursor:
-            current_cursor_from_client = int(current_cursor_from_client)
-            del userData['data'][current_cursor_from_client]
-        # move_cursor is True means firstTimeFail
-        else:
-            last_cursor_from_client = int(last_cursor_from_client)
-            userData['data'][last_cursor_from_client][6] = True
-
         state_cached = userData.get('state_cached', False)
         if state_cached:
+            # move_cursor is False means remember or pass
+            if not move_cursor:
+                current_cursor_from_client = int(current_cursor_from_client)
+                del userData['data'][current_cursor_from_client]
+            # move_cursor is True means firstTimeFail
+            else:
+                last_cursor_from_client = int(last_cursor_from_client)
+                userData['data'][last_cursor_from_client][6] = True
             dbMgr.update_memorize_state(userData)
         else:
             pass
