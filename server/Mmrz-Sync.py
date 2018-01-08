@@ -29,7 +29,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1032'
+static_file_verion = 'v=1033'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -1001,14 +1001,15 @@ def save_current_state_partially():
     password = request.get_cookie('password')
     password = urllib.unquote(password) if password else None
 
+    move_cursor = request.forms.get('move_cursor', None)
+    move_cursor = json.loads(move_cursor)
     current_cursor_from_client = request.forms.get('current_cursor', None)
-    need_splice = request.forms.get('need_splice', None)
-    need_splice = json.loads(need_splice)
+    last_cursor_from_client = request.forms.get('last_cursor', None)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
-        dict_for_return['message_str'] = "verify failed"
+        dict_for_return['message_str'] = "save_current_state_partially verify failed"
 
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
@@ -1016,15 +1017,17 @@ def save_current_state_partially():
         dbMgr = MongoDBManager()
         userData = dbMgr.query_memorize_state(username)
         userData['current_cursor'] = current_cursor_from_client
-        if need_splice:
+        # move_cursor is False means remember or pass
+        if not move_cursor:
             current_cursor_from_client = int(current_cursor_from_client)
             del userData['data'][current_cursor_from_client]
+        # move_cursor is True means firstTimeFail
         else:
-            pass
+            userData['data'][last_cursor_from_client][6] = True
         dbMgr.update_memorize_state(userData)
         dbMgr.closeDB()
         dict_for_return['mmrz_code'] = MMRZ_CODE_SaveState_Save_OK
-        dict_for_return['message_str'] = "state portion save OK"
+        dict_for_return['message_str'] = "save_current_state_partially save OK"
 
         json_for_return = json.dumps(dict_for_return)
         return json_for_return

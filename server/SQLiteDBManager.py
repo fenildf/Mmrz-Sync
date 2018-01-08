@@ -93,6 +93,10 @@ class MmrzSyncDBManager:
         [4]remindTimeStr  -- char[255]
         [5]wordID         -- int
 
+        below not DB design, added by client
+        [6]firstTimeFail  -- bool
+        [7]is_favourite   -- int => 1 as true, 0 as false
+
         table FAVOURITE:
         [0]wordID         -- int
         [1]favourite      -- boolean (true: 1, false: 0)

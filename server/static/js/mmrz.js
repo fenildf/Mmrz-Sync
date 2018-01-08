@@ -7,6 +7,8 @@
 // [3]remindTime     -- int
 // [4]remindTimeStr  -- char[255]
 // [5]wordID         -- int
+
+// below not in DB, added by client:
 // [6]firstTimeFail  -- bool
 // [7]is_favourite   -- int => 1 as true, 0 as false
 
@@ -118,7 +120,8 @@ function period_state_check() {
         // verify_eiginvalue() only if cursor_of_rows moved or rows_from_DB.length reduced
         if(window.cursor_of_rows != 0 || window.rows_from_DB.length != window.max_size_this_turn) {
             // verify eiginvalue, if OK, call save_current_state() in verify_eiginvalue()
-            verify_eiginvalue();
+            // verify_eiginvalue(); // use save_current_state_partially(), so not use save_current_state() in verify_eiginvalue()
+            console.log("period_state_check() executed")
         }
         window.last_save_timestamp = timestamp;
     }
@@ -195,10 +198,11 @@ function save_current_state() {
     });
 }
 
-function save_current_state_partially(need_splice) {
+function save_current_state_partially(move_cursor, current_cursor, last_cursor) {
     params = {
-        "current_cursor": window.cursor_of_rows,
-        "need_splice": need_splice,
+        "move_cursor": move_cursor,
+        "current_cursor": current_cursor,
+        "last_cursor": last_cursor,
     };
 
     $.ajax({
@@ -249,7 +253,7 @@ function restore_last_word() {
 
         row = window.rows_from_DB[window.cursor_of_rows];
         update_row(row, false);
-        // save_current_state();
+        save_current_state();
 
         show_word();
 
@@ -525,12 +529,13 @@ function hide_secret(remember, pass) {
 
         window.rows_from_DB.splice(window.cursor_of_rows, 1);
         move_cursor(false);
-        // save_current_state_partially(true);
+        save_current_state_partially(false, window.cursor_of_rows, -1);
     }
     else {
         window.rows_from_DB[window.cursor_of_rows][6] = true; // firstTimeFail: false => true
+        last_cursor = window.cursor_of_rows;
         move_cursor(true);
-        // save_current_state_partially(false);
+        save_current_state_partially(true, window.cursor_of_rows, last_cursor);
     }
 }
 
