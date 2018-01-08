@@ -68,8 +68,8 @@
         %else:
           <div id="uinfo_board">
             <a href="javascript:window.open('/individual')" id="user_info"></a>
-            <a href="javascript:window.open('/memorize')">背诵</a>
             <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
+            <a href="javascript:window.open('/memorize')">背诵</a>
           </div>
         %end
 
