@@ -538,13 +538,12 @@ function hide_secret(remember, pass) {
         // operate DB here
         update_row(row, false);
 
-        // splice local rows_from_DB, del remote rows_from_DB, then move_cursor(). must upate local and remote before move_cursor()
         window.rows_from_DB.splice(window.cursor_of_rows, 1);
-        save_current_state_partially(false, window.cursor_of_rows, -1);
+        last_cursor = window.cursor_of_rows;
         move_cursor(false);
+        save_current_state_partially(false, window.cursor_of_rows, last_cursor);
     }
     else {
-        // save last_cursor, move_cursor(), update remote. must move_cursor() before update remote
         window.rows_from_DB[window.cursor_of_rows][6] = true; // firstTimeFail: false => true
         last_cursor = window.cursor_of_rows;
         move_cursor(true);

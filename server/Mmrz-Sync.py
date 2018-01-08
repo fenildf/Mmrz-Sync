@@ -29,7 +29,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1034'
+static_file_verion = 'v=1035'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -1019,13 +1019,12 @@ def save_current_state_partially():
         userData['current_cursor'] = current_cursor_from_client
         state_cached = userData.get('state_cached', False)
         if state_cached:
+            last_cursor_from_client = int(last_cursor_from_client)
             # move_cursor is False means remember or pass
             if not move_cursor:
-                current_cursor_from_client = int(current_cursor_from_client)
-                del userData['data'][current_cursor_from_client]
+                del userData['data'][last_cursor_from_client]
             # move_cursor is True means firstTimeFail
             else:
-                last_cursor_from_client = int(last_cursor_from_client)
                 userData['data'][last_cursor_from_client][6] = True
             dbMgr.update_memorize_state(userData)
         else:
