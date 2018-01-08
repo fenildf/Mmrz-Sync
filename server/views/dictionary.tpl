@@ -35,7 +35,7 @@
       <div id="center_center">
         <div class="info" style="height: 30px;">
           <input class="edit_area" type="text" id="dictionary_key_word" onfocus="this.select()" onmouseup="preventDefault(event)" onkeypress='if(event.keyCode==13){query_hujiang()}'>
-          <button id="query" onclick="query_hujiang()">查询</button>
+          <button id="query" onclick="query_hujiang()"></button>
         </div>
 
         %if defines == None:

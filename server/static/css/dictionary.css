@@ -38,15 +38,18 @@
 #query {
     font-size: 15px;
     color: #fff;
-    background: #27a1cc;
+    /*background: #27a1cc;*/
+    background: url(/img/search.png);
+    background-size: cover;
+    border: 0;
     position: absolute;
     height: 30px;
+    width: 30px;
     top: 4px;
-    right: 0px;
+    right: 2px;
     border-radius: 8px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
-    vertical-align: middle;
 }
 
 #center_center {
