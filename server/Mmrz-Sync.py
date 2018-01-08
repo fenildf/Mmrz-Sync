@@ -1023,6 +1023,7 @@ def save_current_state_partially():
             del userData['data'][current_cursor_from_client]
         # move_cursor is True means firstTimeFail
         else:
+            last_cursor_from_client = int(last_cursor_from_client)
             userData['data'][last_cursor_from_client][6] = True
         dbMgr.update_memorize_state(userData)
         dbMgr.closeDB()
