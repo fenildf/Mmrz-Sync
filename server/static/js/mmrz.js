@@ -37,6 +37,7 @@ function init() {
     window.last_rows_from_DB = null;
     window.last_cursor_of_rows = null;
     window.last_save_timestamp = Date.parse(new Date()) / 1000;
+    window.timestamp_token = query_timestamp_token();
 
     // init rows
     init_rows_from_DB();
@@ -117,23 +118,27 @@ function change_speak_type() {
 function period_state_check() {
     timestamp = Date.parse(new Date()) / 1000;
 
+    // execute every 60s
     if(timestamp - window.last_save_timestamp >= 60) {
         // verify_eiginvalue() only if cursor_of_rows moved or rows_from_DB.length reduced
         if(window.cursor_of_rows != 0 || window.rows_from_DB.length != window.max_size_this_turn) {
             // verify eiginvalue, if OK, call save_current_state() in verify_eiginvalue()
             // verify_eiginvalue(); // use save_current_state_partially(), so not use save_current_state() in verify_eiginvalue()
-            timestamp_token = query_timestamp_token();
-            if(window.timestamp_token < timestamp_token) {
-                notie.alert(1, "其他客户端已经更新状态, 即将强制刷新", 1.5);
-                setTimeout(location.reload(true), 1.5 * 1000);
-            }
-            else {
-                console.log("current_state is already up-to-date");
-            }
-            console.log("period_state_check() executed");
+            console.log("period_state_check() executed: 60s");
         }
         window.last_save_timestamp = timestamp;
     }
+
+    // execute every 5s
+    timestamp_token = query_timestamp_token();
+    if(window.timestamp_token < timestamp_token) {
+        notie.alert(1, "其他客户端已经更新状态, 即将强制刷新", 1.5);
+        setTimeout(function(){location.reload(true)}, 1.5 * 1000);
+    }
+    else {
+        console.log("current_state is already up-to-date");
+    }
+    console.log("period_state_check() executed: 5s");
 
     setTimeout(period_state_check, 5 * 1000);
 }
