@@ -29,7 +29,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1036'
+static_file_verion = 'v=1037'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -916,7 +916,34 @@ def is_state_cache_available():
         dbMgr.closeDB()
 
         state_cached = userData.get('state_cached', False)
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
         dict_for_return['state_cached'] = state_cached
+        json_for_return = json.dumps(dict_for_return)
+
+        return json_for_return
+
+@post('/query_timestamp_token/')
+@post('/query_timestamp_token')
+def query_timestamp_token():
+    username = request.get_cookie('username')
+    password = request.get_cookie('password')
+    password = urllib.unquote(password) if password else None
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
+        json_for_return = json.dumps(dict_for_return)
+
+        return json_for_return
+
+    else:
+        dbMgr = MongoDBManager()
+        userData = dbMgr.query_memorize_state(username)
+        dbMgr.closeDB()
+
+        timestamp_token = userData.get('timestamp_token', 0)
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
+        dict_for_return['timestamp_token'] = timestamp_token
         json_for_return = json.dumps(dict_for_return)
 
         return json_for_return
@@ -969,6 +996,7 @@ def save_current_state():
         rows_length_from_client = request.forms.get('rows_length', 0)
         current_cursor_from_client = request.forms.get('current_cursor', 0)
         max_size_this_turn_from_client = request.forms.get('max_size_this_turn', 0)
+        timestamp_token = time.time()
 
         # not save state if state length is 0
         if len(current_state) == 0:
@@ -982,6 +1010,7 @@ def save_current_state():
             "rows_length": rows_length_from_client,
             "current_cursor": current_cursor_from_client,
             "max_size_this_turn": max_size_this_turn_from_client,
+            "timestamp_token": timestamp_token,
             "data": current_state,
         }
 
@@ -990,6 +1019,7 @@ def save_current_state():
         dbMgr.closeDB()
 
         dict_for_return['mmrz_code'] = MMRZ_CODE_SaveState_Save_OK
+        dict_for_return['timestamp_token'] = timestamp_token
 
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
@@ -1017,6 +1047,7 @@ def save_current_state_partially():
         dbMgr = MongoDBManager()
         userData = dbMgr.query_memorize_state(username)
         userData['current_cursor'] = current_cursor_from_client
+        timestamp_token = time.time()
         state_cached = userData.get('state_cached', False)
         if state_cached:
             last_cursor_from_client = int(last_cursor_from_client)
@@ -1026,12 +1057,14 @@ def save_current_state_partially():
             # move_cursor is True means firstTimeFail
             else:
                 userData['data'][last_cursor_from_client][6] = True
+            userData['timestamp_token'] = timestamp_token
             dbMgr.update_memorize_state(userData)
         else:
             pass
         dbMgr.closeDB()
         dict_for_return['mmrz_code'] = MMRZ_CODE_SaveState_Save_OK
         dict_for_return['message_str'] = "save_current_state_partially save OK"
+        dict_for_return['timestamp_token'] = timestamp_token
         dict_for_return['state_cached'] = state_cached
 
         json_for_return = json.dumps(dict_for_return)

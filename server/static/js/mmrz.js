@@ -25,6 +25,7 @@
 // window.secret_is_hiding      -- 单词含义是否处于隐藏中(true为隐藏中, false为显示中)
 // window.secret_is_showing     -- 单词含义是否处于显示中, 总是为secret_is_hiding取反(true为显示中, false为隐藏中)
 // window.last_save_timestamp   -- 上一次状态检查时间, 若本次距离上次超过一分钟, 则上传当前背诵进度
+// window.timestamp_token       -- 作为标志的时间戳, 若此值小于服务器返回值, 则本地过旧, 需要强制刷新
 
 function init() {
     // jump to main path if not verified
@@ -121,7 +122,15 @@ function period_state_check() {
         if(window.cursor_of_rows != 0 || window.rows_from_DB.length != window.max_size_this_turn) {
             // verify eiginvalue, if OK, call save_current_state() in verify_eiginvalue()
             // verify_eiginvalue(); // use save_current_state_partially(), so not use save_current_state() in verify_eiginvalue()
-            console.log("period_state_check() executed")
+            timestamp_token = query_timestamp_token();
+            if(window.timestamp_token < timestamp_token) {
+                notie.alert(1, "其他客户端已经更新状态, 即将强制刷新", 1.5);
+                setTimeout(location.reload(true), 1.5 * 1000);
+            }
+            else {
+                console.log("current_state is already up-to-date");
+            }
+            console.log("period_state_check() executed");
         }
         window.last_save_timestamp = timestamp;
     }
@@ -148,6 +157,27 @@ function is_state_cache_available() {
     });
 
     return state_cached;
+}
+
+function query_timestamp_token() {
+    params = {
+        username: $.cookie('username'),
+        password: $.cookie('password'),
+    };
+
+    timestamp_token = 0;
+    $.ajax({
+        url: "/query_timestamp_token",
+        type: "post",
+        data: params,
+        async: false,
+        success: function(rec) {
+            rec = JSON.parse(rec);
+            timestamp_token = rec['timestamp_token'];
+        }
+    });
+
+    return timestamp_token;
 }
 
 function verify_eiginvalue() {
@@ -195,6 +225,9 @@ function save_current_state() {
             // notie.alert(1, "当前背诵状态已保存至远端", 1.5);
             console.log("/save_current_state OK")
             console.log(rec);
+
+            rec = JSON.parse(rec);
+            window.timestamp_token = rec["timestamp_token"];
         }
     });
 }
@@ -216,6 +249,9 @@ function save_current_state_partially(move_cursor, current_cursor, last_cursor) 
             rec = JSON.parse(rec);
             if(!rec["state_cached"]) {
                 save_current_state();
+            }
+            else {
+                window.timestamp_token = rec["timestamp_token"];
             }
         }
     });

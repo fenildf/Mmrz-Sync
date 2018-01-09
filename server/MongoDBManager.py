@@ -14,7 +14,9 @@ from ConfigManager import ConfigManager
 # 2. state_cached       -- bool, 是否有状态处于缓存中
 # 3. rows_length        -- int, 特征值: rows长度
 # 4. current_cursor     -- int, 特征值: 当前游标位置
-# 5. data               -- list, rows_from_DB
+# 5. max_size_this_turn -- int, 当次背诵周期取出的最大值
+# 6. timestamp_token    -- float, 作为标志的时间戳
+# 7. data               -- list, rows_from_DB
 
 class MongoDBManager:
     def __init__(self):
