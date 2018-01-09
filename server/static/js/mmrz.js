@@ -130,8 +130,7 @@ function period_state_check() {
     }
 
     // execute every 5s
-    timestamp_token = query_timestamp_token();
-    if(window.timestamp_token < timestamp_token) {
+    if(window.timestamp_token < query_timestamp_token()) {
         notie.alert(1, "其他客户端已经更新状态, 即将强制刷新", 1.5);
         setTimeout(function(){location.reload(true)}, 1.5 * 1000);
     }
@@ -170,7 +169,7 @@ function query_timestamp_token() {
         password: $.cookie('password'),
     };
 
-    timestamp_token = 0;
+    timestamp_token_from_server = 0;
     $.ajax({
         url: "/query_timestamp_token",
         type: "post",
@@ -178,11 +177,11 @@ function query_timestamp_token() {
         async: false,
         success: function(rec) {
             rec = JSON.parse(rec);
-            timestamp_token = rec['timestamp_token'];
+            timestamp_token_from_server = rec['timestamp_token'];
         }
     });
 
-    return timestamp_token;
+    return timestamp_token_from_server;
 }
 
 function verify_eiginvalue() {
