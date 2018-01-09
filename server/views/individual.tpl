@@ -15,6 +15,7 @@
     <script type="text/javascript" src="./js/chart.min.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./js/utils.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./js/individual.js?{{static_file_version}}"></script>
+    <script type="text/javascript" src="./layer/layer.js?{{static_file_version}}"></script>
 
     <link rel="stylesheet" type="text/css" href="./css/common.css?{{static_file_version}}">
     <link rel="stylesheet" type="text/css" href="./css/individual.css?{{static_file_version}}">
@@ -32,14 +33,17 @@
 
       <h3>单词导入区:</h3>
       <p id="lexicon_in_use">使用中的词典: {{book_name}}</p>
-      上传并更换词典: <button onclick="if(confirm('上传词典将删除当前使用中词典, 请谨慎操作.\n\n注意: 请务必上传 utf-8 格式的词典.\n\n确认继续上传?'))upload_file()">点击上传</button>
+      <p>更换使用中的词典:
+        <button onclick="if(confirm('选择词典将删除当前使用中词典, 请谨慎操作.\n\n确认继续选择词典?'))select_lexicon()">选择</button>
+        <button onclick="if(confirm('上传词典将删除当前使用中词典, 请谨慎操作.\n\n注意: 请务必上传 utf-8 格式的词典.\n\n确认继续上传?'))upload_file()">上传</button>
+      </p>
       <form id="file_upload_form" action="/upload_file_for_import" method="post" style="display: none" enctype="multipart/form-data">
         <input id="username" type="text" name="username">
         <input id="password" type="password" name="password">
         <input id="file_input" type="file" name="wordfile">
         <input id="submit" type="submit">
       </form>
-      <P>剩余单词数: {{remained_words}} / {{total_lines}}</P>
+      <p>剩余单词数: {{remained_words}} / {{total_lines}}</p>
       <p>目前导入进度: {{import_rate}}%</p>
       <p>离上次导入已有: {{time_elapsed}}</p>
       <p>

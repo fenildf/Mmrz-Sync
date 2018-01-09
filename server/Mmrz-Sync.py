@@ -671,6 +671,11 @@ def show_favoritebook():
 def layer_edit():
     return dict(universal_ROUTE_dict)
 
+@route('/layer_select')
+@view('layer_select')
+def layer_select():
+    return dict(universal_ROUTE_dict)
+
 ### posts
 @post('/log_in/')
 @post('/log_in')

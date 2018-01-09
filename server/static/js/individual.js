@@ -40,6 +40,22 @@ function import_type_change() {
     }
 }
 
+function select_lexicon() {
+    layer.open({
+        id: "iframe_select",
+        type: 2,
+        title: ["选择词典(testing)", 'font-size: 20px;'],
+        closeBtn: 0,
+        moveEnd: function() {
+            layer.close(layer.index);
+        },
+        shadeClose: false,
+        resize: false,
+        area: ['280px', '400px'],
+        content: './layer_select'
+    });
+}
+
 function upload_file() {
     if(is_cellphone()) {
         alert("不支持移动端上传词典, 请使用电脑上传");
