@@ -131,7 +131,7 @@ function period_state_check() {
 
     // execute every 5s
     if(window.timestamp_token < query_timestamp_token()) {
-        notie.alert(1, "其他客户端已经更新状态, 即将强制刷新", 3);
+        notie.alert(1, "远端状态已改变, 即将强制刷新", 3);
         setTimeout(function(){location.reload(true)}, 3 * 1000);
     }
     else {
