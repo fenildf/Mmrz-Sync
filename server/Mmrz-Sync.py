@@ -993,8 +993,10 @@ def save_current_state():
     username = request.forms.get('username', None)
     password = request.forms.get('password', None)
 
-    timestamp_token_from_client = request.forms.get(timestamp_token, 0)
+    timestamp_token_from_client = request.forms.get('timestamp_token', 0)
     timestamp_token_from_db = get_timestamp_token_from_db(username)
+    timestamp_token_from_client = int(timestamp_token_from_client)
+    timestamp_token_from_db = int(timestamp_token_from_db)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -1052,8 +1054,11 @@ def save_current_state_partially():
     move_cursor = json.loads(move_cursor)
     current_cursor_from_client = request.forms.get('current_cursor', None)
     last_cursor_from_client = request.forms.get('last_cursor', None)
-    timestamp_token_from_client = request.forms.get(timestamp_token, 0)
+
+    timestamp_token_from_client = request.forms.get('timestamp_token', 0)
     timestamp_token_from_db = get_timestamp_token_from_db(username)
+    timestamp_token_from_client = int(timestamp_token_from_client)
+    timestamp_token_from_db = int(timestamp_token_from_db)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -1174,8 +1179,11 @@ def update_row():
     password = request.forms.get('password', None)
 
     update_whole_row = request.forms.get('update_whole_row', False)
+
     timestamp_token_from_client = request.forms.get('timestamp_token', 0)
     timestamp_token_from_db = get_timestamp_token_from_db(username)
+    timestamp_token_from_client = int(timestamp_token_from_client)
+    timestamp_token_from_db = int(timestamp_token_from_db)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
