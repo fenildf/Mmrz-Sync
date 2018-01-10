@@ -218,6 +218,8 @@ function save_current_state() {
         // 当前状态
         "max_size_this_turn": window.max_size_this_turn,
         "current_state": JSON.stringify(window.rows_from_DB),
+
+        "timestamp_token": window.timestamp_token,
     };
 
     $.ajax({
@@ -241,6 +243,7 @@ function save_current_state_partially(move_cursor, current_cursor, last_cursor) 
         "move_cursor": move_cursor,
         "current_cursor": current_cursor,
         "last_cursor": last_cursor,
+        "timestamp_token": window.timestamp_token,
     };
 
     $.ajax({
@@ -353,6 +356,7 @@ function update_row(row, update_whole_row) {
         password: $.cookie('password'),
         row: JSON.stringify(row),
         update_whole_row: update_whole_row,
+        timestamp_token: window.timestamp_token,
     };
 
     $.ajax({
