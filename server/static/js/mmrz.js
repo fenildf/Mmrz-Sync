@@ -37,7 +37,7 @@ function init() {
     window.last_rows_from_DB = null;
     window.last_cursor_of_rows = null;
     window.last_save_timestamp = Date.parse(new Date()) / 1000;
-    window.timestamp_token = query_timestamp_token();
+    window.timestamp_token = Number.MAX_VALUE;
 
     // init rows
     init_rows_from_DB();
