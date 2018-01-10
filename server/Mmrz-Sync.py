@@ -29,7 +29,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1044'
+static_file_verion = 'v=1045'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -1050,8 +1050,8 @@ def save_current_state_partially():
     password = request.get_cookie('password')
     password = urllib.unquote(password) if password else None
 
-    move_cursor = request.forms.get('move_cursor', None)
-    move_cursor = json.loads(move_cursor)
+    need_move = request.forms.get('need_move', None)
+    need_move = json.loads(need_move)
     current_cursor_from_client = request.forms.get('current_cursor', None)
     last_cursor_from_client = request.forms.get('last_cursor', None)
 
@@ -1075,10 +1075,10 @@ def save_current_state_partially():
         state_cached = userData.get('state_cached', False)
         if state_cached:
             last_cursor_from_client = int(last_cursor_from_client)
-            # move_cursor is False means remember or pass
-            if not move_cursor:
+            # need_move is False means remember or pass
+            if not need_move:
                 del userData['data'][last_cursor_from_client]
-            # move_cursor is True means firstTimeFail
+            # need_move is True means firstTimeFail
             else:
                 userData['data'][last_cursor_from_client][6] = True
             userData['timestamp_token'] = timestamp_token

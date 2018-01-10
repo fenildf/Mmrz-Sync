@@ -238,9 +238,9 @@ function save_current_state() {
     });
 }
 
-function save_current_state_partially(move_cursor, current_cursor, last_cursor) {
+function save_current_state_partially(need_move, current_cursor, last_cursor) {
     params = {
-        "move_cursor": move_cursor,
+        "need_move": need_move,
         "current_cursor": current_cursor,
         "last_cursor": last_cursor,
         "timestamp_token": window.timestamp_token,
