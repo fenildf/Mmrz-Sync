@@ -130,8 +130,10 @@ function period_state_check() {
     }
 
     // execute every 5s
-    if(window.timestamp_token < query_timestamp_token()) {
-        notie.alert(1, "远端状态已改变, 即将强制刷新", 3);
+    tm_token_from_server = query_timestamp_token();
+    if(window.timestamp_token < tm_token_from_server) {
+        notie.alert(1, "远端背诵进度已改变, 即将强制刷新", 3);
+        layer.msg("local: " + window.timestamp_token + ", remote: " + tm_token_from_server, {'time': 3000});
         setTimeout(function(){location.reload(true)}, 3 * 1000);
     }
     else {
