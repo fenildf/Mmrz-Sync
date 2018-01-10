@@ -172,7 +172,7 @@ def verify_login(username, password):
 
     return username in users and password == users[username]
 
-def get_timestamp_token_from_db():
+def get_timestamp_token_from_db(username):
     dbMgr = MongoDBManager()
     userData = dbMgr.query_memorize_state(username)
     timestamp_token = userData.get('timestamp_token', 0)
@@ -950,7 +950,7 @@ def query_timestamp_token():
         return json_for_return
 
     else:
-        timestamp_token = get_timestamp_token_from_db()
+        timestamp_token = get_timestamp_token_from_db(username)
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
         dict_for_return['timestamp_token'] = timestamp_token
         json_for_return = json.dumps(dict_for_return)
@@ -994,7 +994,7 @@ def save_current_state():
     password = request.forms.get('password', None)
 
     timestamp_token_from_client = request.forms.get(timestamp_token, 0)
-    timestamp_token_from_db = get_timestamp_token_from_db()
+    timestamp_token_from_db = get_timestamp_token_from_db(username)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -1053,7 +1053,7 @@ def save_current_state_partially():
     current_cursor_from_client = request.forms.get('current_cursor', None)
     last_cursor_from_client = request.forms.get('last_cursor', None)
     timestamp_token_from_client = request.forms.get(timestamp_token, 0)
-    timestamp_token_from_db = get_timestamp_token_from_db()
+    timestamp_token_from_db = get_timestamp_token_from_db(username)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -1175,7 +1175,7 @@ def update_row():
 
     update_whole_row = request.forms.get('update_whole_row', False)
     timestamp_token_from_client = request.forms.get('timestamp_token', 0)
-    timestamp_token_from_db = get_timestamp_token_from_db()
+    timestamp_token_from_db = get_timestamp_token_from_db(username)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
