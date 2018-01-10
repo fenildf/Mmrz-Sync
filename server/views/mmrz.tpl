@@ -133,16 +133,14 @@
 
         $("#btn_yes").click(
           function () {
-            // hide_secret(false, false);
-            setTimeout(function(){hide_secret(true, false)}, 0);
+            hide_secret(true, false);
             show_word();
           }
         );
 
         $("#btn_no").click(
           function () {
-            // hide_secret(false, false);
-            setTimeout(function(){hide_secret(false, false)}, 0);
+            hide_secret(false, false);
             show_word();
           }
         );
