@@ -995,8 +995,8 @@ def save_current_state():
 
     timestamp_token_from_client = request.forms.get('timestamp_token', 0)
     timestamp_token_from_db = get_timestamp_token_from_db(username)
-    timestamp_token_from_client = int(timestamp_token_from_client)
-    timestamp_token_from_db = int(timestamp_token_from_db)
+    timestamp_token_from_client = float(timestamp_token_from_client)
+    timestamp_token_from_db = float(timestamp_token_from_db)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -1057,8 +1057,8 @@ def save_current_state_partially():
 
     timestamp_token_from_client = request.forms.get('timestamp_token', 0)
     timestamp_token_from_db = get_timestamp_token_from_db(username)
-    timestamp_token_from_client = int(timestamp_token_from_client)
-    timestamp_token_from_db = int(timestamp_token_from_db)
+    timestamp_token_from_client = float(timestamp_token_from_client)
+    timestamp_token_from_db = float(timestamp_token_from_db)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -1182,8 +1182,8 @@ def update_row():
 
     timestamp_token_from_client = request.forms.get('timestamp_token', 0)
     timestamp_token_from_db = get_timestamp_token_from_db(username)
-    timestamp_token_from_client = int(timestamp_token_from_client)
-    timestamp_token_from_db = int(timestamp_token_from_db)
+    timestamp_token_from_client = float(timestamp_token_from_client)
+    timestamp_token_from_db = float(timestamp_token_from_db)
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
