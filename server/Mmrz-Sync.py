@@ -172,7 +172,7 @@ def verify_login(username, password):
 
     return username in users and password == users[username]
 
-def get_timestamp_token_from_DB():
+def get_timestamp_token_from_db():
     dbMgr = MongoDBManager()
     userData = dbMgr.query_memorize_state(username)
     timestamp_token = userData.get('timestamp_token', 0)
@@ -950,7 +950,7 @@ def query_timestamp_token():
         return json_for_return
 
     else:
-        timestamp_token = get_timestamp_token_from_DB()
+        timestamp_token = get_timestamp_token_from_db()
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
         dict_for_return['timestamp_token'] = timestamp_token
         json_for_return = json.dumps(dict_for_return)
@@ -993,6 +993,9 @@ def save_current_state():
     username = request.forms.get('username', None)
     password = request.forms.get('password', None)
 
+    timestamp_token_from_client = request.forms.get(timestamp_token, 0)
+    timestamp_token_from_db = get_timestamp_token_from_db()
+
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
@@ -1023,9 +1026,14 @@ def save_current_state():
             "data": current_state,
         }
 
-        dbMgr = MongoDBManager()
-        dbMgr.update_memorize_state(document)
-        dbMgr.closeDB()
+        if timestamp_token_from_client + 4.9 < timestamp_token_from_db:
+            dict_for_return['message_str'] = "save_current_state: timestamp too old"
+        else:
+            dbMgr = MongoDBManager()
+            dbMgr.update_memorize_state(document)
+            dbMgr.closeDB()
+            dict_for_return['message_str'] = timestamp_token
+            dict_for_return['message_str'] = "save_current_state: save OK"
 
         dict_for_return['mmrz_code'] = MMRZ_CODE_SaveState_Save_OK
         dict_for_return['timestamp_token'] = timestamp_token
@@ -1044,6 +1052,8 @@ def save_current_state_partially():
     move_cursor = json.loads(move_cursor)
     current_cursor_from_client = request.forms.get('current_cursor', None)
     last_cursor_from_client = request.forms.get('last_cursor', None)
+    timestamp_token_from_client = request.forms.get(timestamp_token, 0)
+    timestamp_token_from_db = get_timestamp_token_from_db()
 
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
@@ -1067,12 +1077,15 @@ def save_current_state_partially():
             else:
                 userData['data'][last_cursor_from_client][6] = True
             userData['timestamp_token'] = timestamp_token
-            dbMgr.update_memorize_state(userData)
+            if timestamp_token_from_client + 4.9 < timestamp_token_from_db:
+                dict_for_return['message_str'] = "save_current_state_partially timestamp too old"
+            else:
+                dict_for_return['message_str'] = "save_current_state_partially save OK"
+                dbMgr.update_memorize_state(userData)
         else:
             pass
         dbMgr.closeDB()
-        dict_for_return['mmrz_code'] = MMRZ_CODE_SaveState_Save_OK
-        dict_for_return['message_str'] = "save_current_state_partially save OK"
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
         dict_for_return['timestamp_token'] = timestamp_token
         dict_for_return['state_cached'] = state_cached
 
@@ -1160,6 +1173,10 @@ def update_row():
     username = request.forms.get('username', None)
     password = request.forms.get('password', None)
 
+    update_whole_row = request.forms.get('update_whole_row', False)
+    timestamp_token_from_client = request.forms.get('timestamp_token', 0)
+    timestamp_token_from_db = get_timestamp_token_from_db()
+
     dict_for_return = dict(universal_POST_dict)
     if not verify_login(username, password):
         dict_for_return['verified'] = False
@@ -1168,14 +1185,18 @@ def update_row():
         return json_for_return
     else:
         row = request.forms['row']
-        update_whole_row = request.forms.get('update_whole_row', False)
         row = json.loads(row)
-        dbMgr = MmrzSyncDBManager(username)
-        dbMgr.createDB()
-        dbMgr.updateDB(row, update_whole_row)
-        dbMgr.closeDB()
+        if timestamp_token_from_client + 4.9 < timestamp_token_from_db:
+            dict_for_return['need_reload'] = True
+            dict_for_return['message_str'] = "timestamp too old"
+        else:
+            dbMgr = MmrzSyncDBManager(username)
+            dbMgr.createDB()
+            dbMgr.updateDB(row, update_whole_row)
+            dbMgr.closeDB()
+            dict_for_return['need_reload'] = False
+            dict_for_return['message_str'] = "Update row success"
         dict_for_return['verified'] = True
-        dict_for_return['message_str'] = "Update row success"
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
