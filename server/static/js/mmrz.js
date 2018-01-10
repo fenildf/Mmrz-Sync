@@ -130,16 +130,8 @@ function period_state_check() {
     }
 
     // execute every 5s
-    tm_token_from_server = query_timestamp_token();
-    if(window.timestamp_token + 4.9 < tm_token_from_server) {
-        notie.alert(1, "远端背诵进度已改变, 即将强制刷新", 3);
-        // layer.msg("local: " + window.timestamp_token + ", remote: " + tm_token_from_server, {'time': 3000});
-        setTimeout(function(){location.reload(true)}, 3 * 1000);
-    }
-    else {
-        // console.log("current_state is already up-to-date");
-    }
     // console.log("period_state_check() executed: 5s");
+    query_timestamp_token();
 
     setTimeout(period_state_check, 5 * 1000);
 }
@@ -171,19 +163,25 @@ function query_timestamp_token() {
         password: $.cookie('password'),
     };
 
-    timestamp_token_from_server = 0;
     $.ajax({
         url: "/query_timestamp_token",
         type: "post",
         data: params,
-        async: false,
+        async: true,
         success: function(rec) {
             rec = JSON.parse(rec);
             timestamp_token_from_server = rec['timestamp_token'];
+            if(window.timestamp_token + 4.9 < timestamp_token_from_server) {
+                notie.alert(1, "远端背诵进度已改变, 即将强制刷新", 3);
+                // layer.msg("local: " + window.timestamp_token + ", remote: " + tm_token_from_server, {'time': 3000});
+                setTimeout(function(){location.reload(true)}, 3 * 1000);
+            }
+            else {
+                // console.log("current_state is already up-to-date");
+                window.timestamp_token = timestamp_token_from_server;
+            }
         }
     });
-
-    return timestamp_token_from_server;
 }
 
 function verify_eiginvalue() {
