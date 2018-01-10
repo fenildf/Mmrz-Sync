@@ -172,6 +172,14 @@ def verify_login(username, password):
 
     return username in users and password == users[username]
 
+def get_timestamp_token_from_DB():
+    dbMgr = MongoDBManager()
+    userData = dbMgr.query_memorize_state(username)
+    timestamp_token = userData.get('timestamp_token', 0)
+    dbMgr.closeDB()
+
+    return timestamp_token
+
 def split_remindTime(remindTime, adjust=False):
     if adjust:
         remindTime += 59
@@ -942,11 +950,7 @@ def query_timestamp_token():
         return json_for_return
 
     else:
-        dbMgr = MongoDBManager()
-        userData = dbMgr.query_memorize_state(username)
-        dbMgr.closeDB()
-
-        timestamp_token = userData.get('timestamp_token', 0)
+        timestamp_token = get_timestamp_token_from_DB()
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
         dict_for_return['timestamp_token'] = timestamp_token
         json_for_return = json.dumps(dict_for_return)
