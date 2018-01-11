@@ -173,10 +173,13 @@ def verify_login(username, password):
     return username in users and password == users[username]
 
 def get_timestamp_token_from_db(username):
-    dbMgr = MongoDBManager()
-    userData = dbMgr.query_memorize_state(username)
-    timestamp_token = userData.get('timestamp_token', 0)
-    dbMgr.closeDB()
+    try:
+        dbMgr = MongoDBManager()
+        userData = dbMgr.query_memorize_state(username)
+        timestamp_token = userData.get('timestamp_token', sys.maxint)
+        dbMgr.closeDB()
+    except:
+        timestamp_token = sys.maxint
 
     return timestamp_token
 
