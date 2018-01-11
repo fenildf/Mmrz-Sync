@@ -37,7 +37,7 @@ function init() {
     window.last_rows_from_DB = null;
     window.last_cursor_of_rows = null;
     window.last_save_timestamp = Date.parse(new Date()) / 1000;
-    window.timestamp_token = Number.MAX_VALUE;
+    window.timestamp_token = get_timestamp_token();
 
     // init rows
     init_rows_from_DB();
@@ -131,7 +131,7 @@ function period_state_check() {
 
     // execute every 5s
     // console.log("period_state_check() executed: 5s");
-    query_timestamp_token();
+    period_timestamp_token_check();
 
     setTimeout(period_state_check, 5 * 1000);
 }
@@ -157,7 +157,28 @@ function is_state_cache_available() {
     return state_cached;
 }
 
-function query_timestamp_token() {
+function get_timestamp_token() {
+    params = {
+        username: $.cookie('username'),
+        password: $.cookie('password'),
+    };
+
+    timestamp_token_from_server = Number.MAX_VALUE;
+    $.ajax({
+        url: "/query_timestamp_token",
+        type: "post",
+        data: params,
+        async: false,
+        success: function(rec) {
+            rec = JSON.parse(rec);
+            timestamp_token_from_server = rec['timestamp_token'];
+        }
+    });
+
+    return timestamp_token_from_server;
+}
+
+function period_timestamp_token_check() {
     params = {
         username: $.cookie('username'),
         password: $.cookie('password'),
@@ -177,8 +198,7 @@ function query_timestamp_token() {
                 setTimeout(function(){location.reload(true)}, 3 * 1000);
             }
             else {
-                // console.log("current_state is already up-to-date");
-                window.timestamp_token = timestamp_token_from_server;
+                console.log("current_state is already up-to-date: " + timestamp_token_from_server);
             }
         }
     });
