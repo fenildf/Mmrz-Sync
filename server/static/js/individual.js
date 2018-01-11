@@ -44,14 +44,14 @@ function select_lexicon() {
     layer.open({
         id: "iframe_select",
         type: 2,
-        title: ["选择词典(testing)", 'font-size: 20px;'],
+        title: ["选择词典", 'font-size: 20px;'],
         closeBtn: 0,
         moveEnd: function() {
             layer.close(layer.index);
         },
         shadeClose: false,
         resize: false,
-        area: ['280px', '400px'],
+        area: ['280px', '210px'],
         content: './layer_select'
     });
 }

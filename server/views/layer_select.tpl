@@ -15,7 +15,7 @@
     <script type="text/javascript" src="./js/utils.js?{{static_file_version}}"></script>
 
     <link rel="stylesheet" type="text/css" href="./css/common.css?{{static_file_version}}">
-    <link rel="stylesheet" type="text/css" href="./css/layer_edit.css?{{static_file_version}}">
+    <link rel="stylesheet" type="text/css" href="./css/layer_select.css?{{static_file_version}}">
 
     <link rel="shortcut icon" href="./fav.ico"/>
     <link rel="bookmark" href="./fav.ico"/>
@@ -27,31 +27,20 @@
     <div id="center_board">
       <div id="center_center">
         <div class="info">
-          <span class="label">单词:</span>
+          <span class="label">预置词典:</span>
         </div>
 
         <div class="info">
-          <textarea class="edit_area" wrap="physical" id="word"></textarea>
-        </div>
-
-        <div class="info">
-          <span class="label">发音:</span>
-        </div>
-
-        <div class="info">
-          <textarea class="edit_area" wrap="physical" id="pronounce"></textarea>
-        </div>
-
-        <div class="info">
-          <span class="label">解释:</span>
-        </div>
-
-        <div class="info">
-          <textarea class="edit_area_big" id="meaning"></textarea>
+          <select style="width: 100%; height: 30px; font: 18px">
+            <option value="N1">日语等级考试N1.voc</option>
+            <option value="N2">日语等级考试N2.voc</option>
+            <option value="N3">日语等级考试N3.voc</option>
+            <option value="N4">日语等级考试N4.voc</option>
+          </select>
         </div>
 
         <div id="btn_board">
-          <button class="btn" id="confirm" onclick="update_word_info()">修改</button>
+          <button class="btn" id="confirm" onclick="if(confirm('确认要使用该词典替换当前词典吗?'))alert('comming soon');parent.layer.close(parent.layer.index)">确定</button>
           <button class="btn" id="cancel" onclick="parent.layer.close(parent.layer.index)">取消</button>
         </div>
 
