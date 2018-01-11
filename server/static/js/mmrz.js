@@ -442,9 +442,10 @@ function init_rows_from_DB() {
         // sqlite数据库中,显示boolean 有三种状态, 0(false)  1(true)  和 null [不会直接返回true和false]
         row[7] = wordbook_favourite[i][1] == 1 ? 1 : 0;
 
-        if(row[3] < (new Date().getTime() / 1000)) {
-            window.rows_from_DB.push(row);
-        }
+        // if(row[3] < (new Date().getTime() / 1000)) {
+        //     window.rows_from_DB.push(row);
+        // }
+        window.rows_from_DB.push(row);
     }
 
     if(window.rows_from_DB.length == 0) {
