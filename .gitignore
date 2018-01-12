@@ -70,6 +70,7 @@ client/wordbook.db
 
 *.db
 *.yb
+*.voc
 *.mmz
 *.pkl
 /server/version.ini
