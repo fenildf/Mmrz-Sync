@@ -70,8 +70,10 @@ function upload_file() {
 
     file_input.onchange = function() {
         file_ext = file_input.value.split('.').pop().toLowerCase();
-        if(file_ext != "mmz" && file_ext != "yb") {
-            alert("仅支持 *.mmz 和 *.yb 上传");
+        filename = file_input.value.split('\\').pop();
+
+        if(file_ext != "mmz" && file_ext != "voc" && file_ext != "yb") {
+            alert("仅支持 *.mmz, *.voc, *.yb 上传");
             return;
         }
 
@@ -81,7 +83,9 @@ function upload_file() {
         }
 
         oData = new FormData(document.forms.namedItem("file_upload_form"));
-        oReq = new XMLHttpRequest();  
+        oData.append("filename", filename);
+
+        oReq = new XMLHttpRequest();
         oReq.open("POST", "/upload_lexicon" , true);
         oReq.send(oData);
 

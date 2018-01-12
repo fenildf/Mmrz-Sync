@@ -797,6 +797,7 @@ def upload_wordbook():
 def upload_lexicon():
     username = request.forms.get('username', None)
     password = request.forms.get('password', None)
+    filename = request.forms.get('filename', None)
     wordfile = request.files.get('wordfile', None)
 
     dict_for_return = dict(universal_POST_dict)
@@ -813,19 +814,19 @@ def upload_lexicon():
         return json_for_return
     else:
         target_folder = "./WORDBOOK/{0}/".format(username)
-        name, ext = os.path.splitext(wordfile.filename)
+        name, ext = os.path.splitext(filename)
 
         for path in each_file(target_folder):
             ext = os.path.basename(path).split(".")[-1].lower()
-            if ext in ("mmz", "yb"):
+            if ext in ("mmz", "voc", "yb"):
                 os.remove(path)
 
-        wordfile.save(target_folder)
-
-        wordfile_path = target_folder + wordfile.filename
+        wordfile_path = target_folder + filename
+        wordfile.save(wordfile_path)
+    
         pklMgr = PickleManager(username)
         pklMgr.load_pkl()
-        pklMgr.set_book_name(wordfile.filename)
+        pklMgr.set_book_name(filename)
         pklMgr.set_total_lines(get_file_lines(wordfile_path))
         pklMgr.set_last_import_time()
         pklMgr.set_last_import_time_int()
