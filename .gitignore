@@ -74,9 +74,8 @@ client/wordbook.db
 *.mmz
 *.pkl
 /server/version.ini
-/WORDBOOK
-/USERDB
-USERDB
+/server/WORDBOOK
+/server/USERDB
 admin.rb
 
 
