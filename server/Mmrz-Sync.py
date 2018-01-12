@@ -29,12 +29,58 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1048'
+static_file_verion = 'v=1049'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
         for f in files:
             yield os.path.join(root, f)
+
+class JsonManager:
+    def __init__(self, username):
+        self.path = "./WORDBOOK/{0}/data.json".format(username)
+
+        if not os.path.exists(self.path):
+            tmp_json = {}
+            tmp_json["book_name"] = ""
+            tmp_json["total_lines"] = 0
+            tmp_json["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+            tmp_json["last_import_time_int"] = int(time.time())
+
+            fw = open(self.path, "wb")
+            fw.write(json.dumps(tmp_json))
+            fw.close()
+
+    def load_json(self):
+        fr = open(self.path, "rb")
+        content = fr.read()
+        fr.close()
+        self.json = json.loads(content)
+
+    def dump_json(self):
+        fw = open(self.path, "wb")
+        fw.write(json.dumps(self.json, indent=4))
+        fw.close()
+
+    def set_book_name(self, book_name):
+        self.load_json()
+        self.json["book_name"] = book_name
+        self.dump_json()
+
+    def set_total_lines(self, total_lines):
+        self.load_json()
+        self.json["total_lines"] = total_lines
+        self.dump_json()
+
+    def set_last_import_time(self):
+        self.load_json()
+        self.json["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+        self.dump_json()
+
+    def set_last_import_time_int(self):
+        self.load_json()
+        self.json["last_import_time_int"] = int(time.time())
+        self.dump_json()
 
 class PickleManager:
     def __init__(self, username):
