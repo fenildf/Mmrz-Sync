@@ -32,34 +32,34 @@ class JsonManager:
         fr = open(self.path, "rb")
         content = fr.read()
         fr.close()
-        self.json = json.loads(content)
+        self.jsn = json.loads(content)
 
     def set_json(self, content):
-        self.json = content
+        self.jsn = content
 
     def dump_json(self):
         fw = open(self.path, "wb")
-        fw.write(json.dumps(self.json, indent=4))
+        fw.write(json.dumps(self.jsn, indent=4))
         fw.close()
 
     def set_book_name(self, book_name):
         self.load_json()
-        self.json["book_name"] = book_name
+        self.jsn["book_name"] = book_name
         self.dump_json()
 
     def set_total_lines(self, total_lines):
         self.load_json()
-        self.json["total_lines"] = total_lines
+        self.jsn["total_lines"] = total_lines
         self.dump_json()
 
     def set_last_import_time(self):
         self.load_json()
-        self.json["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+        self.jsn["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
         self.dump_json()
 
     def set_last_import_time_int(self):
         self.load_json()
-        self.json["last_import_time_int"] = int(time.time())
+        self.jsn["last_import_time_int"] = int(time.time())
         self.dump_json()
 
 class PickleManager:
