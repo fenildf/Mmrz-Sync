@@ -66,7 +66,7 @@
       <div id="uinfo_board">
         <a href="javascript:window.open('/individual')" id="user_info"></a>
         <a href="javascript:if(confirm('确认退出帐号 ' + $.cookie('username') + ' ?'))logout()">注销</a>
-        <a href="javascript:window.open('/dictionary?key_word=' + $('#label_word').text())">查词</a>
+        <a href="javascript:jump_to_dict()">查词</a>
       </div>
 
       <audio id="speaker" src=""></audio>

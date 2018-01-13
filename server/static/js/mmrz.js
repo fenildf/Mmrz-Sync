@@ -66,6 +66,16 @@ function search_word_id(target, arr, low, high) {
     return - 1;
 }
 
+function jump_to_dict() {
+    key_word = $('#label_word').text();
+    if(key_word.search("下次背诵") < 0) {
+        window.open('/dictionary?key_word=' + key_word);
+    }
+    else {
+        window.open('/dictionary');
+    }
+}
+
 function tik_tik() {
     params = {
         username: $.cookie('username'),
