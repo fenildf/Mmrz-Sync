@@ -268,11 +268,13 @@ def smart_import(path, username, quantity=100, is_smart=True):
     if path == "":
         return
 
-    if ".mmz" not in path and ".yb" not in path:
+    if ".mmz" not in path and ".voc" not in path and ".yb" not in path:
         return
 
     if ".mmz" in path:
         suffix = ".mmz"
+    elif ".voc" in path:
+        suffix = ".voc"
     elif ".yb" in path:
         suffix = ".yb"
     else:
@@ -331,7 +333,7 @@ def smart_import(path, username, quantity=100, is_smart=True):
                 print "load err"
                 continue
 
-        if suffix == ".yb":
+        if suffix == ".yb" or suffix == ".voc":
             line = line.replace(" ", "")
             mc = re.search("(.*)「(.*)」(.*)", line)
             if mc:
