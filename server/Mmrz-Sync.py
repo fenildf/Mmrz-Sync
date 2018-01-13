@@ -36,6 +36,13 @@ def each_file(target):
         for f in files:
             yield os.path.join(root, f)
 
+# jsn data format:
+# jsn = {   
+#     book_name: str,
+#     total_lines: int,
+#     last_import_time: str,
+#     last_import_time_int: int,
+# }
 class JsonManager:
     def __init__(self, username):
         self.path = "./WORDBOOK/{0}/data.json".format(username)
@@ -82,6 +89,13 @@ class JsonManager:
         self.jsn["last_import_time_int"] = int(time.time())
         self.dump_json()
 
+# pkl data format:
+# pkl = {   
+#     book_name: str,
+#     total_lines: int,
+#     last_import_time: str,
+#     last_import_time_int: int,
+# }
 class PickleManager:
     def __init__(self, username):
         self.path = "./WORDBOOK/{0}/data.pkl".format(username)
@@ -126,14 +140,6 @@ class PickleManager:
         self.load_pkl()
         self.pkl["last_import_time_int"] = int(time.time())
         self.dump_pkl()
-
-# pkl data format:
-# pkl = {   
-#     book_name: str,
-#     total_lines: int,
-#     last_import_time: str,
-#     last_import_time_int: int,
-# }
 
 # Refer to: http://stackoverflow.com/questions/16865997/python-bottle-module-causes-error-413-request-entity-too-large
 # There was a bug:
