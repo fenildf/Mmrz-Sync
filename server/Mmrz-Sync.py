@@ -685,7 +685,15 @@ def layer_edit():
 @route('/layer_select')
 @view('layer_select')
 def layer_select():
-    return dict(universal_ROUTE_dict)
+    lexicon_path = "./LEXICONS/"
+    if not os.path.exists(lexicon_path):
+        lexicon_list = ["fake1.voc", "fake2.voc"]
+    else:
+        lexicon_list = sorted(os.listdir(lexicon_path))
+
+    return_dict = dict(universal_ROUTE_dict)
+    return_dict.update(dict(lexicon_list=lexicon_list))
+    return return_dict
 
 ### posts
 @post('/log_in/')

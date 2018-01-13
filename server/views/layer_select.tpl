@@ -32,15 +32,17 @@
 
         <div class="info">
           <select style="width: 100%; height: 30px; font: 18px">
-            <option value="N1">日语等级考试N1.voc</option>
-            <option value="N2">日语等级考试N2.voc</option>
-            <option value="N3">日语等级考试N3.voc</option>
-            <option value="N4">日语等级考试N4.voc</option>
+            %idx = 0
+            %for lexicon in lexicon_list:
+              %idx += 1
+              %id = "lexicon_{0}".format(idx)
+              <option value="{{id}}">{{lexicon}}</option>
+            %end
           </select>
         </div>
 
         <div id="btn_board">
-          <button class="btn" id="confirm" onclick="if(confirm('确认要使用该词典替换当前词典吗?'))alert('comming soon');parent.layer.close(parent.layer.index)">确定</button>
+          <button class="btn" id="confirm" onclick="if(confirm('确认要使用该词典替换当前词典吗?')){alert('comming soon');parent.layer.close(parent.layer.index)}">确定</button>
           <button class="btn" id="cancel" onclick="parent.layer.close(parent.layer.index)">取消</button>
         </div>
 
@@ -75,24 +77,6 @@
             parent.layer.msg("未修改任何内容!", {'time': 1000});
           }
         }
-      </script>
-
-      <script type="text/javascript">
-        word = parent.window.rows_from_DB[parent.window.cursor_of_rows][0];
-        combine = parent.window.rows_from_DB[parent.window.cursor_of_rows][1];
-        if(combine.search("--") > 0) {
-          combine = combine.split("--");
-          pronounce = combine[0].replace(" ", "");
-          meaning = combine[1].replace(" ", "");
-        }
-        else {
-          pronounce = "";
-          meaning = combine;
-        }
-
-        $("#word").val(word);
-        $("#pronounce").val(pronounce);
-        $("#meaning").val(meaning);
       </script>
 
       <div style="display: none;">
