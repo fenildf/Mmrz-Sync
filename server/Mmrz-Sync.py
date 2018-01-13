@@ -58,36 +58,36 @@ class JsonManager:
             fw.write(json.dumps(tmp_json))
             fw.close()
 
-    def load_json(self):
+    def load_jsn(self):
         fr = open(self.path, "rb")
         content = fr.read()
         fr.close()
         self.jsn = json.loads(content)
 
-    def dump_json(self):
+    def dump_jsn(self):
         fw = open(self.path, "wb")
         fw.write(json.dumps(self.jsn, indent=4))
         fw.close()
 
     def set_book_name(self, book_name):
-        self.load_json()
+        self.load_jsn()
         self.jsn["book_name"] = book_name
-        self.dump_json()
+        self.dump_jsn()
 
     def set_total_lines(self, total_lines):
-        self.load_json()
+        self.load_jsn()
         self.jsn["total_lines"] = total_lines
-        self.dump_json()
+        self.dump_jsn()
 
     def set_last_import_time(self):
-        self.load_json()
+        self.load_jsn()
         self.jsn["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-        self.dump_json()
+        self.dump_jsn()
 
     def set_last_import_time_int(self):
-        self.load_json()
+        self.load_jsn()
         self.jsn["last_import_time_int"] = int(time.time())
-        self.dump_json()
+        self.dump_jsn()
 
 # pkl data format:
 # pkl = {   
