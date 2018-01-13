@@ -286,15 +286,11 @@ def smart_import(path, username, quantity=100, is_smart=True):
     else:
         suffix = ".*"
 
-    fr = open("./WORDBOOK/{0}/data.pkl".format(username), "rb")
-    pkl_data = pickle.load(fr)
-    fr.close()
-
-    fw = open("./WORDBOOK/{0}/data.pkl".format(username), "wb")
-    pkl_data["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-    pkl_data["last_import_time_int"] = int(time.time())
-    pickle.dump(pkl_data, fw)
-    fw.close()
+    pklMgr = PickleManager(username)
+    pklMgr.load_pkl()
+    pklMgr.set_last_import_time()
+    pklMgr.set_last_import_time_int()
+    pklMgr.dump_pkl()
 
     IMPORT_QUANTITY = quantity
 
