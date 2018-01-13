@@ -554,10 +554,9 @@ def individual():
         pklMgr.set_last_import_time_int()
         pklMgr.dump_pkl()
 
-    fr = open("./WORDBOOK/{0}/data.pkl".format(username), "rb")
-    pkl = pickle.load(fr)
-    fr.close()
-
+    pklMgr = PickleManager(username)
+    pklMgr.load_pkl()
+    pkl = pklMgr.pkl
 
     if not pkl["book_name"] == "--":
         fr = open("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), "rb")
