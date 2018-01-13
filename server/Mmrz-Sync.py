@@ -1282,9 +1282,9 @@ def online_import():
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "Online import success"
 
-        fr = open("./WORDBOOK/{0}/data.pkl".format(username), "rb")
-        pkl = pickle.load(fr)
-        fr.close()
+        pklMgr = PickleManager(username)
+        pklMgr.load_pkl()
+        pkl = pklMgr.pkl
         added = smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username, quantity, is_smart)
         dict_for_return['added'] = added
 
