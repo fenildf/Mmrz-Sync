@@ -62,7 +62,11 @@ class JsonManager:
         fr = open(self.path, "rb")
         content = fr.read()
         fr.close()
-        self.jsn = json.loads(content)
+        jsn = json.loads(content)
+        for k, v in jsn.items():
+            if type(v) == type(u""):
+                jsn[k] = v.encode("utf-8")
+        self.jsn = jsn
 
     def dump_jsn(self):
         fw = open(self.path, "wb")
@@ -286,11 +290,11 @@ def smart_import(path, username, quantity=100, is_smart=True):
     else:
         suffix = ".*"
 
-    pklMgr = PickleManager(username)
-    pklMgr.load_pkl()
-    pklMgr.set_last_import_time()
-    pklMgr.set_last_import_time_int()
-    pklMgr.dump_pkl()
+    jsnMgr = JsonManager(username)
+    jsnMgr.load_jsn()
+    jsnMgr.set_last_import_time()
+    jsnMgr.set_last_import_time_int()
+    jsnMgr.dump_jsn()
 
     IMPORT_QUANTITY = quantity
 
@@ -535,48 +539,48 @@ def individual():
         redirect('/')
 
     user_folder = "./WORDBOOK/{0}/".format(username)
-    user_pkl = "{0}/data.pkl".format(user_folder)
+    user_jsn = "{0}/data.json".format(user_folder)
 
     if not os.path.exists(user_folder):
         os.mkdir(user_folder)
 
-    if not os.path.exists(user_pkl):
-        pklMgr = PickleManager(username)
+    if not os.path.exists(user_jsn):
+        jsnMgr = JsonManager(username)
         
-        pklMgr.load_pkl()
-        pklMgr.set_book_name("--")
-        pklMgr.set_total_lines("--")
-        pklMgr.set_last_import_time()
-        pklMgr.set_last_import_time_int()
-        pklMgr.dump_pkl()
+        jsnMgr.load_jsn()
+        jsnMgr.set_book_name("--")
+        jsnMgr.set_total_lines("--")
+        jsnMgr.set_last_import_time()
+        jsnMgr.set_last_import_time_int()
+        jsnMgr.dump_jsn()
 
-    pklMgr = PickleManager(username)
-    pklMgr.load_pkl()
-    pkl = pklMgr.pkl
+    jsnMgr = JsonManager(username)
+    jsnMgr.load_jsn()
+    jsn = jsnMgr.jsn
 
-    if not pkl["book_name"] == "--":
-        fr = open("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), "rb")
+    if not jsn["book_name"] == "--":
+        fr = open("./WORDBOOK/{0}/{1}".format(username, jsn["book_name"]), "rb")
         content = fr.read()
         fr.close()
 
         lq = len(filter(lambda x: x not in ['', '\r', '\n', '\r\n'], content.split("\n")))
 
-        pkl["remained_words"] = lq
-        pkl["import_rate"]    = (1 - round(float(lq) / float(pkl["total_lines"]), 4)) * 100
+        jsn["remained_words"] = lq
+        jsn["import_rate"]    = (1 - round(float(lq) / float(jsn["total_lines"]), 4)) * 100
 
-        days, hours, mins, secs = split_remindTime(int(time.time()) - pkl.get("last_import_time_int", 0))
-        pkl["time_elapsed"]   = "{0}天{1}时{2}分".format(days, hours, mins)
+        days, hours, mins, secs = split_remindTime(int(time.time()) - jsn.get("last_import_time_int", 0))
+        jsn["time_elapsed"]   = "{0}天{1}时{2}分".format(days, hours, mins)
     else:
-        pkl["book_name"] = "--"
-        pkl["total_lines"] = "--"
-        pkl["last_import_time"] = "--"
-        pkl["last_import_time_int"] = "--"
-        pkl["remained_words"] = "--"
-        pkl["import_rate"] = "--"
-        pkl["time_elapsed"] = "--"
+        jsn["book_name"] = "--"
+        jsn["total_lines"] = "--"
+        jsn["last_import_time"] = "--"
+        jsn["last_import_time_int"] = "--"
+        jsn["remained_words"] = "--"
+        jsn["import_rate"] = "--"
+        jsn["time_elapsed"] = "--"
 
     return_dict = dict(universal_ROUTE_dict)
-    return_dict.update(pkl)
+    return_dict.update(jsn)
     return return_dict
 
 @route('/ranking')
@@ -873,13 +877,13 @@ def upload_lexicon():
         wordfile_path = target_folder + filename
         wordfile.save(wordfile_path)
     
-        pklMgr = PickleManager(username)
-        pklMgr.load_pkl()
-        pklMgr.set_book_name(filename)
-        pklMgr.set_total_lines(get_file_lines(wordfile_path))
-        pklMgr.set_last_import_time()
-        pklMgr.set_last_import_time_int()
-        pklMgr.dump_pkl()
+        jsnMgr = JsonManager(username)
+        jsnMgr.load_jsn()
+        jsnMgr.set_book_name(filename)
+        jsnMgr.set_total_lines(get_file_lines(wordfile_path))
+        jsnMgr.set_last_import_time()
+        jsnMgr.set_last_import_time_int()
+        jsnMgr.dump_jsn()
 
         with open(wordfile_path, "rb") as fr:
             content = ""; idx = 0
@@ -1283,10 +1287,10 @@ def online_import():
         dict_for_return['verified'] = True
         dict_for_return['message_str'] = "Online import success"
 
-        pklMgr = PickleManager(username)
-        pklMgr.load_pkl()
-        pkl = pklMgr.pkl
-        added = smart_import("./WORDBOOK/{0}/{1}".format(username, pkl["book_name"]), username, quantity, is_smart)
+        jsnMgr = JsonManager(username)
+        jsnMgr.load_jsn()
+        jsn = jsnMgr.jsn
+        added = smart_import("./WORDBOOK/{0}/{1}".format(username, jsn["book_name"]), username, quantity, is_smart)
         dict_for_return['added'] = added
 
         json_for_return = json.dumps(dict_for_return)
