@@ -23,7 +23,6 @@ import configparser
 import json, sys
 import socket
 import base64
-import pickle
 import random
 import datetime, time, math
 import re
@@ -92,58 +91,6 @@ class JsonManager:
         self.load_jsn()
         self.jsn["last_import_time_int"] = int(time.time())
         self.dump_jsn()
-
-# pkl data format:
-# pkl = {   
-#     book_name: str,
-#     total_lines: int,
-#     last_import_time: str,
-#     last_import_time_int: int,
-# }
-class PickleManager:
-    def __init__(self, username):
-        self.path = "./WORDBOOK/{0}/data.pkl".format(username)
-
-        if not os.path.exists(self.path):
-            tmp_pkl = {}
-            tmp_pkl["book_name"] = ""
-            tmp_pkl["total_lines"] = 0
-            tmp_pkl["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-            tmp_pkl["last_import_time_int"] = int(time.time())
-
-            fw = open(self.path, "wb")
-            pickle.dump(tmp_pkl, fw)
-            fw.close()
-
-    def load_pkl(self):
-        fr = open(self.path, "rb")
-        self.pkl = pickle.load(fr)
-        fr.close()
-
-    def dump_pkl(self):
-        fw = open(self.path, "wb")
-        pickle.dump(self.pkl, fw)
-        fw.close()
-
-    def set_book_name(self, book_name):
-        self.load_pkl()
-        self.pkl["book_name"] = book_name
-        self.dump_pkl()
-
-    def set_total_lines(self, total_lines):
-        self.load_pkl()
-        self.pkl["total_lines"] = total_lines
-        self.dump_pkl()
-
-    def set_last_import_time(self):
-        self.load_pkl()
-        self.pkl["last_import_time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-        self.dump_pkl()
-
-    def set_last_import_time_int(self):
-        self.load_pkl()
-        self.pkl["last_import_time_int"] = int(time.time())
-        self.dump_pkl()
 
 # Refer to: http://stackoverflow.com/questions/16865997/python-bottle-module-causes-error-413-request-entity-too-large
 # There was a bug:
