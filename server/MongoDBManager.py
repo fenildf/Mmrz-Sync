@@ -46,7 +46,7 @@ class MongoDBManager:
             self.db.memorize_state.insert_one(document)
         # if find, update codument
         else:
-            self.db.memorize_state.update({"username": document["username"]}, {"$set": document})
+            self.db.memorize_state.update_one({"username": document["username"]}, {"$set": document})
 
     def clear_state_cached_flag_and_eiginvalue(self, username):
         result = self.db.memorize_state.find(dict(username=username))
@@ -59,7 +59,7 @@ class MongoDBManager:
             document["state_cached"] = False
             document["rows_length"] = 0
             document["current_cursor"] = 0
-            self.db.memorize_state.update({"username": document["username"]}, {"$set": document})
+            self.db.memorize_state.update_one({"username": document["username"]}, {"$set": document})
 
             return True
 
