@@ -40,7 +40,7 @@ function import_type_change() {
     }
 }
 
-function select_lexicon() {
+function make_choose_lexicon_layer() {
     layer.open({
         id: "iframe_select",
         type: 2,
@@ -53,6 +53,34 @@ function select_lexicon() {
         resize: false,
         area: ['280px', '210px'],
         content: './layer_select'
+    });
+}
+
+function select_lexicon(lexicon_id, lexicon) {
+    params = {
+        username: $.cookie('username'),
+        password: $.cookie('password'),
+        lexicon_id: lexicon_id,
+    }
+
+    $.ajax({
+        url: "/select_lexicon",
+        type: "post",
+        data: params,
+        async: false,
+        success: function(rec) {
+            rec = JSON.parse(rec);
+            mmrz_code = rec['mmrz_code'];
+
+            if(mmrz_code == window.MMRZ_CODE_Universal_OK) {
+                alert('成功选择词典: "' + lexicon + '"');
+                location.reload(true);
+            }
+            else {
+                alert("大概是什么奇怪的地方出问题了, 操作失败!");
+                location.reload(true);
+            }
+        }
     });
 }
 

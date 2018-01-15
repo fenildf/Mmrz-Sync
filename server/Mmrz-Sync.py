@@ -24,11 +24,12 @@ import json, sys
 import socket
 import base64
 import random
+import shutil
 import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1051'
+static_file_verion = 'v=1052'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -185,6 +186,32 @@ def get_timestamp_token_from_db(username):
         timestamp_token = sys.maxint
 
     return timestamp_token
+
+def make_lexicon_dict():
+    lexicon_path = "./LEXICONS/"
+
+    if not os.path.exists(lexicon_path):
+        lexicon_dict = {
+            "lexicon_1": "fake1.voc",
+            "lexicon_2": "fake2.voc"
+        }
+    else:
+        lexicon_dict = {}
+        lexicon_list = sorted(os.listdir(lexicon_path))
+        for i in range(len(lexicon_list)):
+            lexicon_dict["lexicon_{0}".format(i)] = lexicon_list[i]
+
+    return lexicon_dict
+
+def clean_lexicon_in_user_folder(username):
+    target_folder = "./WORDBOOK/{0}/".format(username)
+
+    for path in each_file(target_folder):
+        ext = os.path.basename(path).split(".")[-1].lower()
+        if ext in ("mmz", "voc", "yb"):
+            os.remove(path)
+
+    return None
 
 def split_remindTime(remindTime, adjust=False):
     if adjust:
@@ -685,14 +712,10 @@ def layer_edit():
 @route('/layer_select')
 @view('layer_select')
 def layer_select():
-    lexicon_path = "./LEXICONS/"
-    if not os.path.exists(lexicon_path):
-        lexicon_list = ["fake1.voc", "fake2.voc"]
-    else:
-        lexicon_list = sorted(os.listdir(lexicon_path))
+    lexicon_dict = make_lexicon_dict()
 
     return_dict = dict(universal_ROUTE_dict)
-    return_dict.update(dict(lexicon_list=lexicon_list))
+    return_dict.update(dict(lexicon_dict=lexicon_dict))
     return return_dict
 
 ### posts
@@ -746,6 +769,44 @@ def sign_up():
         # notify to wechat when new user signed up
         text = urllib.quote("New user notification: {0}".format(username))
         urllib2.urlopen("http://zhanglintc.work:8000/send?text={0}".format(text))
+
+    json_for_return = json.dumps(dict_for_return)
+    return json_for_return
+
+@post('/select_lexicon/')
+@post('/select_lexicon')
+def select_lexicon():
+    username = request.get_cookie('username')
+    password = request.get_cookie('password')
+    password = urllib.unquote(password) if password else None
+
+    dict_for_return = dict(universal_POST_dict)
+    if not verify_login(username, password):
+        dict_for_return['verified'] = False
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
+        dict_for_return['message_str'] = "verify failed"
+    else:
+        lexicon_id = request.forms.get('lexicon_id')
+        lexicon_dict = make_lexicon_dict()
+        lexicon_name = lexicon_dict[lexicon_id]
+        dict_for_return['verified'] = True
+        try:
+            clean_lexicon_in_user_folder(username)
+            shutil.copy2('./LEXICONS/{0}'.format(lexicon_name), './WORDBOOK/{0}/{1}'.format(username, lexicon_name))
+            jsnMgr = JsonManager(username)
+
+            jsnMgr.load_jsn()
+            jsnMgr.set_book_name(lexicon_name)
+            jsnMgr.set_total_lines(get_file_lines('./LEXICONS/{0}'.format(lexicon_name)))
+            jsnMgr.set_last_import_time()
+            jsnMgr.set_last_import_time_int()
+            jsnMgr.dump_jsn()
+
+            dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
+            dict_for_return['message_str'] = "select_lexicon OK"
+        except:
+            dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Error
+            dict_for_return['message_str'] = "select_lexicon failed"
 
     json_for_return = json.dumps(dict_for_return)
     return json_for_return

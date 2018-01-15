@@ -34,7 +34,7 @@
       <h3>单词导入区:</h3>
       <p id="lexicon_in_use">使用中的词典: {{book_name}}</p>
       <p>更换使用中的词典:
-        <button onclick="if(confirm('选择词典将删除当前使用中词典, 请谨慎操作.\n\n确认继续选择词典?'))select_lexicon()">选择</button>
+        <button onclick="if(confirm('选择词典将删除当前使用中词典, 请谨慎操作.\n\n确认继续选择词典?'))make_choose_lexicon_layer()">选择</button>
         <button onclick="if(confirm('上传词典将删除当前使用中词典, 请谨慎操作.\n\n注意: 请务必上传 utf-8 格式的词典.\n\n确认继续上传?'))upload_file()">上传</button>
       </p>
       <form id="file_upload_form" action="/upload_file_for_import" method="post" style="display: none" enctype="multipart/form-data">
