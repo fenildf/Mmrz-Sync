@@ -372,6 +372,12 @@ def query_hujiang(key_word):
         if not comments:
             comments = re.findall("^([^a-zA-Z]+?)<br/>", Comment)
 
+        # 仍未找到, 则找出两个<br>间的内容, 不考虑是否含有英文字符
+        if not comments:
+            mc = re.search("<br/>(.+?)<br/>", Comment)
+            if mc:
+                comments = mc.groups(1)
+
         tmp = ", ".join(comments)
 
         # 如果tmp为空, 则取出原有完整的样子
