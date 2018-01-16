@@ -51,8 +51,20 @@
         <input type="radio" name="import_type" id="smart_import"  onchange="import_type_change()" value="is_smart">乱序
         <input type="radio" name="import_type" id="normal_import" onchange="import_type_change()" value="is_not_smart">顺序
       </p>
-      导入数量(1-200): <input id="quantity" type="tel" onafterpaste="limit_import_number(this)" onkeyup="limit_import_number(this)" value="50" style="width: 30px">
-      <p><a href="javascript:if(confirm('立即从远端单词本中 \'' + (getRadioValue('import_type') == 'is_smart' ? '乱序' : '顺序') + '\' 导入' + $('#quantity').val() + '个单词?'))online_import()">立即导入</a></p>
+      导入数量(1-200):
+      <select id="quantity" onafterpaste="limit_import_number(this)" onkeyup="limit_import_number(this)" style="width: 55px;">
+        <option value="1">1</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20" selected="selected">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="150">150</option>
+        <option value="200">200</option>
+      </select>
+      <p>
+        <a href="javascript:if(confirm('立即从远端单词本中 \'' + (getRadioValue('import_type') == 'is_smart' ? '乱序' : '顺序') + '\' 导入' + $('#quantity').val() + '个单词?'))online_import()">立即导入</a>
+      </p>
       
       <hr>
 
