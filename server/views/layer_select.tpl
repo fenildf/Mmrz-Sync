@@ -31,11 +31,15 @@
         </div>
 
         <div class="info">
-          <select id="lexicon_list" style="width: 100%; height: 30px; font: 18px">
+          <select id="lexicon_list" onchange="change_line_displayer()" style="width: 100%; height: 30px; font: 18px">
             %for lexicon_id, lexicon in lexicon_dict.items():
-              <option value="{{lexicon_id}}">{{lexicon}}</option>
+              <option value="{{lexicon_id}}" lines="{{lexicon[1]}}">{{lexicon[0]}}</option>
             %end
           </select>
+        </div>
+
+        <div style="margin-top: 10px">
+          <span id="line_displayer" style="font-size: 12px">共计 {{lexicon_dict['lexicon_0'][1]}} 个单词</span>
         </div>
 
         <div id="btn_board">
@@ -46,9 +50,17 @@
         <div id="copyright"></div>
       </div>
 
+      <script type="text/javascript">
+        function change_line_displayer() {
+          $('#line_displayer').text("共计 " + $('#lexicon_list').find('option:selected').attr("lines") + " 个单词");
+        }
+      </script>
+
       <div style="display: none;">
         <script src="https://s11.cnzz.com/z_stat.php?id=1261540749&web_id=1261540749" language="JavaScript"></script>
       </div>
     </div>
   </body>
 </html>
+
+

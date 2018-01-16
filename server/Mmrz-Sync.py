@@ -29,7 +29,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1052'
+static_file_verion = 'v=1053'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -188,18 +188,25 @@ def get_timestamp_token_from_db(username):
     return timestamp_token
 
 def make_lexicon_dict():
+    """
+    lexicon_dict[0]: lexicon_name
+    lexicon_dict[1]: lexicon_line
+    """
+
     lexicon_path = "./LEXICONS/"
 
     if not os.path.exists(lexicon_path):
         lexicon_dict = {
-            "lexicon_1": "fake1.voc",
-            "lexicon_2": "fake2.voc"
+            "lexicon_1": ("fake1.voc", 3584),
+            "lexicon_2": ("fake2.voc", 2812),
         }
     else:
         lexicon_dict = {}
         lexicon_list = sorted(os.listdir(lexicon_path))
         for i in range(len(lexicon_list)):
-            lexicon_dict["lexicon_{0}".format(i)] = lexicon_list[i]
+            file_path  = lexicon_path + lexicon_list[i]
+            file_lines = get_file_lines(file_path)
+            lexicon_dict["lexicon_{0}".format(i)] = (lexicon_list[i], file_lines)
 
     return lexicon_dict
 
@@ -794,7 +801,7 @@ def select_lexicon():
     else:
         lexicon_id = request.forms.get('lexicon_id')
         lexicon_dict = make_lexicon_dict()
-        lexicon_name = lexicon_dict[lexicon_id]
+        lexicon_name = lexicon_dict[lexicon_id][0]
         dict_for_return['verified'] = True
         try:
             clean_lexicon_in_user_folder(username)

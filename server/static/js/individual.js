@@ -51,7 +51,7 @@ function make_choose_lexicon_layer() {
         },
         shadeClose: false,
         resize: false,
-        area: ['280px', '210px'],
+        area: ['280px', '225px'],
         content: './layer_select'
     });
 }
