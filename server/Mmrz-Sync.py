@@ -1167,14 +1167,16 @@ def save_current_state_partially():
             # need_move is True means firstTimeFail
             else:
                 userData['data'][last_cursor_from_client][6] = True
-            userData['timestamp_token'] = timestamp_token
-            if timestamp_token_from_client + 4.9 < timestamp_token_from_db:
-                dict_for_return['message_str'] = "save_current_state_partially timestamp too old"
-            else:
-                dict_for_return['message_str'] = "save_current_state_partially save OK"
-                dbMgr.update_memorize_state(userData)
         else:
             pass
+
+        userData['timestamp_token'] = timestamp_token
+        if timestamp_token_from_client + 4.9 < timestamp_token_from_db:
+            dict_for_return['message_str'] = "save_current_state_partially timestamp too old"
+        else:
+            dict_for_return['message_str'] = "save_current_state_partially save OK"
+            dbMgr.update_memorize_state(userData)
+
         dbMgr.closeDB()
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
         dict_for_return['timestamp_token'] = timestamp_token
