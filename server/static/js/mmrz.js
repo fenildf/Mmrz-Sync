@@ -498,8 +498,8 @@ function show_word() {
     if(window.rows_from_DB.length == 0) {
 
         if(!window.null_when_open) {
-            clear_state_cached_flag_and_eiginvalue();
             alert( "恭喜完成本轮背诵\n\n" + inspire_words[Math.round(Math.random() * (inspire_words.length - 1))] );
+            clear_state_cached_flag_and_eiginvalue();
             location.reload();
         }
 
