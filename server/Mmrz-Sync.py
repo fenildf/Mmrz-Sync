@@ -1378,15 +1378,15 @@ def report_word_mistake():
     word      = request.forms.get('word', None)
     pronounce = request.forms.get('pronounce', None)
 
-    f = open("./mistake_report.json", "ab")
+    f = open("./mistake_report.txt", "ab")
     f.close()
 
-    fr = open("./mistake_report.json", "rb")
+    fr = open("./mistake_report.txt", "rb")
     content = fr.read().replace('\r\n', '\n')
     fr.close()
 
     dict_for_return = dict(universal_POST_dict)
-    this_word = "{0} {1}".format(word, pronounce)
+    this_word = "{0} {1} {2}".format(word, pronounce, "https://mmrz.zhanglintc.co/dictionary?key_word={0}".format(word))
     word_list = content.split('\n')
     if '' in word_list:
         word_list.remove('')
@@ -1395,7 +1395,7 @@ def report_word_mistake():
     else:
         word_list.append(this_word)
         content = "\n".join(word_list)
-        fw = open("./mistake_report.json", "wb")
+        fw = open("./mistake_report.txt", "wb")
         fw.write(content)
         fw.close()
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
