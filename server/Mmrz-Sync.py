@@ -29,7 +29,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1056'
+static_file_verion = 'v=1057'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -1371,6 +1371,37 @@ def change_one_word_status():
         dbMgr.closeDB()
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
+
+@post('/report_word_mistake/')
+@post('/report_word_mistake')
+def report_word_mistake():
+    word      = request.forms.get('word', None)
+    pronounce = request.forms.get('pronounce', None)
+
+    f = open("./mistake_report.json", "ab")
+    f.close()
+
+    fr = open("./mistake_report.json", "rb")
+    content = fr.read().replace('\r\n', '\n')
+    fr.close()
+
+    dict_for_return = dict(universal_POST_dict)
+    this_word = "{0} {1}".format(word, pronounce)
+    word_list = content.split('\n')
+    if '' in word_list:
+        word_list.remove('')
+    if this_word in word_list:
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Error
+    else:
+        word_list.append(this_word)
+        content = "\n".join(word_list)
+        fw = open("./mistake_report.json", "wb")
+        fw.write(content)
+        fw.close()
+        dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_OK
+
+    json_for_return = json.dumps(dict_for_return)
+    return json_for_return
 
 @post('/tik_tik/')
 @post('/tik_tik')

@@ -67,3 +67,33 @@ function change_one_word_status(idx) {
         }
     });
 }
+
+function report_word_mistake(idx) {
+    word = getQueryString("key_word");
+    pronounce = $("#PronounceJp_" + idx).text().replace('[', '').replace(']', '');
+
+    params = {
+        word: word,
+        pronounce: pronounce,
+    }
+
+    $.ajax({
+        url: "/report_word_mistake",
+        type: "post",
+        data: params,
+        async: true,
+        success: function(rec) {
+            rec = JSON.parse(rec);
+
+            mmrz_code = rec['mmrz_code'];
+            if(mmrz_code == window.MMRZ_CODE_Universal_OK) {
+                notie.alert(1, "单词错误报告成功, 谢谢反馈", 1.5);
+            }
+            else {
+                notie.alert(3, "该单词已存在于报告列表中, 谢谢反馈", 1.5);
+            }
+        }
+    });
+}
+
+
