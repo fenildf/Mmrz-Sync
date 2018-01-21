@@ -15,6 +15,7 @@
     <script type="text/javascript" src="./js/chart.min.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./js/utils.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./js/individual.js?{{static_file_version}}"></script>
+    <script type="text/javascript" src="./js/mmrz.js?{{static_file_version}}"></script>
     <script type="text/javascript" src="./layer/layer.js?{{static_file_version}}"></script>
 
     <link rel="stylesheet" type="text/css" href="./css/common.css?{{static_file_version}}">
@@ -27,6 +28,8 @@
   </head>
 
   <body>
+    <!-- 必须放在 body 中, 原因不明 -->
+    <script type="text/javascript" src="./js/notie.js?{{static_file_version}}"></script>
     <div id="center_board">
 
       <h2 id="title">个人信息</h2>
@@ -64,6 +67,10 @@
       </select>
       <p>
         <a href="javascript:if(confirm('立即从远端单词本中 \'' + (getRadioValue('import_type') == 'is_smart' ? '乱序' : '顺序') + '\' 导入' + $('#quantity').val() + '个单词?'))online_import()">立即导入</a>
+      </p>
+      <p>远端记录混乱时使用:</p>
+      <p>
+        <a href="javascript:clear_state_cached_flag_and_eiginvalue();notie.alert(1, '操作成功', 3);">强制清空</a>
       </p>
       
       <hr>
