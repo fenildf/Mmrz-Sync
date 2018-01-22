@@ -1061,12 +1061,12 @@ def verify_eiginvalue():
         userData = dbMgr.query_memorize_state(username)
         dbMgr.closeDB()
 
-        rows_length_fromDB = userData.get('rows_length', 0)
-        current_cursor_fromDB = userData.get('current_cursor', 0)
+        rows_length_from_db = userData.get('rows_length', 0)
+        current_cursor_from_db = userData.get('current_cursor', 0)
         rows_length_from_client = request.forms.get('rows_length', 0)
         current_cursor_from_client = request.forms.get('current_cursor', 0)
 
-        if rows_length_from_client == rows_length_fromDB and current_cursor_from_client == current_cursor_fromDB:
+        if rows_length_from_client == rows_length_from_db and current_cursor_from_client == current_cursor_from_db:
             dict_for_return["mmrz_code"] = MMRZ_CODE_SaveState_Same_Eigenvalue
         else:
             dict_for_return["mmrz_code"] = MMRZ_CODE_SaveState_Diff_Eigenvalue
