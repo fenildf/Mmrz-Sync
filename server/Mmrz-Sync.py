@@ -29,7 +29,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1057'
+static_file_verion = 'v=1058'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -1129,9 +1129,9 @@ def save_current_state():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
-@post('/save_current_state_partially/')
-@post('/save_current_state_partially')
-def save_current_state_partially():
+@post('/save_current_state_minimum/')
+@post('/save_current_state_minimum')
+def save_current_state_minimum():
     username = request.get_cookie('username')
     password = request.get_cookie('password')
     password = urllib.unquote(password) if password else None
@@ -1143,7 +1143,7 @@ def save_current_state_partially():
     # verify fail
     if not verify_login(username, password):
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
-        dict_for_return['message_str'] = "save_current_state_partially verify failed"
+        dict_for_return['message_str'] = "save_current_state_minimum verify failed"
 
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
@@ -1189,9 +1189,9 @@ def save_current_state_partially():
         userData['current_cursor'] = current_cursor_from_client
 
         if timestamp_token_from_client + 4.9 < timestamp_token_from_db:
-            dict_for_return['message_str'] = "save_current_state_partially timestamp too old"
+            dict_for_return['message_str'] = "save_current_state_minimum timestamp too old"
         else:
-            dict_for_return['message_str'] = "save_current_state_partially save OK"
+            dict_for_return['message_str'] = "save_current_state_minimum save OK"
             dbMgr.update_memorize_state(userData)
 
         dbMgr.closeDB()

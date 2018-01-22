@@ -133,7 +133,7 @@ function period_state_check() {
         // verify_eiginvalue() only if cursor_of_rows moved or rows_from_DB.length reduced
         if(window.cursor_of_rows != 0 || window.rows_from_DB.length != window.max_size_this_turn) {
             // verify eiginvalue, if OK, call save_current_state() in verify_eiginvalue()
-            // verify_eiginvalue(); // use save_current_state_partially(), so not use save_current_state() in verify_eiginvalue()
+            // verify_eiginvalue(); // use save_current_state_minimum(), so not use save_current_state() in verify_eiginvalue()
             console.log("period_state_check() executed: 60s");
         }
         window.last_save_timestamp = timestamp;
@@ -268,7 +268,7 @@ function save_current_state() {
     });
 }
 
-function save_current_state_partially(need_move, current_cursor, last_cursor) {
+function save_current_state_minimum(need_move, current_cursor, last_cursor) {
     params = {
         "need_move": need_move,
         "current_cursor": current_cursor,
@@ -277,7 +277,7 @@ function save_current_state_partially(need_move, current_cursor, last_cursor) {
     };
 
     $.ajax({
-        url: "/save_current_state_partially",
+        url: "/save_current_state_minimum",
         type: "post",
         data: params,
         async: true,
@@ -614,13 +614,13 @@ function hide_secret(remember, pass) {
         window.rows_from_DB.splice(window.cursor_of_rows, 1);
         last_cursor = window.cursor_of_rows;
         move_cursor(false);
-        save_current_state_partially(false, window.cursor_of_rows, last_cursor);
+        save_current_state_minimum(false, window.cursor_of_rows, last_cursor);
     }
     else {
         window.rows_from_DB[window.cursor_of_rows][6] = true; // firstTimeFail: false => true
         last_cursor = window.cursor_of_rows;
         move_cursor(true);
-        save_current_state_partially(true, window.cursor_of_rows, last_cursor);
+        save_current_state_minimum(true, window.cursor_of_rows, last_cursor);
     }
 }
 
