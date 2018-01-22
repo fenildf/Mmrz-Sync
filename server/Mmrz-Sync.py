@@ -1138,27 +1138,43 @@ def save_current_state_partially():
 
     need_move = request.forms.get('need_move', None)
     need_move = json.loads(need_move)
-    current_cursor_from_client = request.forms.get('current_cursor', None)
-    last_cursor_from_client = request.forms.get('last_cursor', None)
-
-    timestamp_token_from_client = request.forms.get('timestamp_token', 0)
-    timestamp_token_from_db = get_timestamp_token_from_db(username)
-    timestamp_token_from_client = float(timestamp_token_from_client)
-    timestamp_token_from_db = float(timestamp_token_from_db)
 
     dict_for_return = dict(universal_POST_dict)
+    # verify fail
     if not verify_login(username, password):
         dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Verification_Fail
         dict_for_return['message_str'] = "save_current_state_partially verify failed"
 
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
+
+    # verify OK
     else:
         dbMgr = MongoDBManager()
         userData = dbMgr.query_memorize_state(username)
-        userData['current_cursor'] = current_cursor_from_client
-        timestamp_token = time.time()
+
+        current_cursor_from_db = userData['current_cursor']
+        current_cursor_from_client = request.forms.get('current_cursor', 0)
+        last_cursor_from_client = request.forms.get('last_cursor', 0)
+
+        timestamp_token_from_client = request.forms.get('timestamp_token', 0)
+        timestamp_token_from_db = get_timestamp_token_from_db(username)
+        timestamp_token_from_client = float(timestamp_token_from_client)
+        timestamp_token_from_db = float(timestamp_token_from_db)
+
         state_cached = userData.get('state_cached', False)
+
+        # not match, close and return
+        if last_cursor_from_client != current_cursor_from_db:
+            dict_for_return['mmrz_code'] = MMRZ_CODE_Universal_Error
+            dict_for_return['state_cached'] = state_cached
+            dict_for_return['message_str'] = "current_cursor not match, need do save_current_state()"
+            dbMgr.closeDB()
+
+            json_for_return = json.dumps(dict_for_return)
+            return json_for_return
+
+        # only update cursor something when state_cached
         if state_cached:
             last_cursor_from_client = int(last_cursor_from_client)
             # need_move is False means remember or pass
@@ -1167,10 +1183,11 @@ def save_current_state_partially():
             # need_move is True means firstTimeFail
             else:
                 userData['data'][last_cursor_from_client][6] = True
-        else:
-            pass
 
+        timestamp_token = time.time()
         userData['timestamp_token'] = timestamp_token
+        userData['current_cursor'] = current_cursor_from_client
+
         if timestamp_token_from_client + 4.9 < timestamp_token_from_db:
             dict_for_return['message_str'] = "save_current_state_partially timestamp too old"
         else:

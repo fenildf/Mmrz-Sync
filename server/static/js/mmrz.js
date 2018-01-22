@@ -287,6 +287,10 @@ function save_current_state_partially(need_move, current_cursor, last_cursor) {
             if(!rec["state_cached"]) {
                 save_current_state();
             }
+            else if(rec["mmrz_code"] == window.MMRZ_CODE_Universal_Error) {
+                save_current_state();
+                notie.alert(1, "网络不稳定, 强制保存当前完整状态至远端", 2);
+            }
             else {
                 window.timestamp_token = rec["timestamp_token"];
             }
