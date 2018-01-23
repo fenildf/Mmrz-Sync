@@ -29,7 +29,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1058'
+static_file_verion = 'v=1059'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -1568,7 +1568,7 @@ def get_next_approximate_words_count():
         dbMgr.closeDB()
 
         if not rows:
-            return ""
+            return "帮助"
 
         rows = sorted(rows, key=lambda row: row[3]) # from small to big
         words_count = 1
@@ -1585,6 +1585,8 @@ def get_next_approximate_words_count():
 
     else:
         words_count_string = "数据获取错误"
+
+    print words_count_string
 
     return words_count_string
 

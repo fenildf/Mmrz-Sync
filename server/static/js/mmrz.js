@@ -435,6 +435,10 @@ function get_next_approximate_words_count() {
         async: false,
         success: function(rec) {
             approximate_words_count = rec;
+
+            if(approximate_words_count == '帮助') {
+                $("#label_meaning").wrap("<a target='_blank' href='http://imlane.top/post/mmrzbang-zhu'></a>");
+            }
         }
     });
 
