@@ -68,7 +68,7 @@ function search_word_id(target, arr, low, high) {
 
 function jump_to_dict() {
     key_word = $('#label_word').text();
-    if(key_word.search("下次背诵") < 0) {
+    if(key_word.search("下次背诵") < 0 && key_word.search("新用户") < 0) {
         window.open('/dictionary?key_word=' + key_word);
     }
     else {
