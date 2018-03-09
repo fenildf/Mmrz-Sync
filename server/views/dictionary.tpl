@@ -79,6 +79,8 @@
     </div>
 
     <script type="text/javascript">
+      notie.alert(3, "由于API变更, 暂时无法完场查询操作", 3);
+
       key_word = getQueryString("key_word");
       $("#dictionary_key_word").val(key_word);
 
