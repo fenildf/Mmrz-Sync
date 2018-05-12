@@ -440,6 +440,13 @@ def index():
 @route('/login')
 @view('login')
 def login():
+    username = request.get_cookie('username')
+    password = request.get_cookie('password')
+    password = urllib.unquote(password) if password else None
+
+    if verify_login(username, password):
+        redirect('/')
+
     return dict(universal_ROUTE_dict)
 
 @route('/signup')
