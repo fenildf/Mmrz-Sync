@@ -679,25 +679,12 @@ function pre_load_sound() {
         }
         speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
     }
+
+    speaker.preload = true;
 }
 
 function speak_word() {
-    // TODO: use pre_load_sound()
     speaker = document.getElementById("speaker");
-
-    key_word = window.rows_from_DB[window.cursor_of_rows][0];
-    secret_info = window.rows_from_DB[window.cursor_of_rows][1];
-
-    if(is_word_EN(key_word)) {
-        speaker.src = "http://tts.yeshj.com/s/" + key_word;
-    }
-    else {
-        if(secret_info.indexOf("--") > 0) {
-            key_word = secret_info.split("-")[0];
-            key_word = key_word.replace(/\d/g, "");
-        }
-        speaker.src = "http://fanyi.baidu.com/gettts?lan=jp&text=" + key_word;
-    }
 
     speaker.play();
 
