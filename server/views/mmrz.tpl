@@ -151,6 +151,7 @@
         read_and_set_speak_type();
         show_word();
         period_state_check();
+        pre_load_image();
         pre_load_sound();
 
         if(is_state_cache_available()) {

@@ -663,6 +663,20 @@ function view_hujiang() {
     }
 }
 
+function pre_load_image() {
+    // auto
+    (new Image()).src = "/img/speak_manual.png";
+    (new Image()).src = "/img/speak_auto.png";
+
+    // star
+    (new Image()).src = "/img/star_white.png";
+    (new Image()).src = "/img/star_black.png";
+
+    // speaker
+    (new Image()).src = "/img/speaker.png";
+    (new Image()).src = "/img/speaker.gif";
+}
+
 function pre_load_sound() {
     speaker = document.getElementById("speaker");
 
