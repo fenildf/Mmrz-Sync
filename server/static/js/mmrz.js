@@ -698,8 +698,9 @@ function pre_load_sound() {
 }
 
 function speak_word() {
-    speaker = document.getElementById("speaker");
+    pre_load_sound();
 
+    speaker = document.getElementById("speaker");
     speaker.play();
 
     set_speaker_icon("gif");
