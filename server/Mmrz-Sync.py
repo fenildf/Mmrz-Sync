@@ -347,7 +347,8 @@ def smart_import(path, username, quantity=100, is_smart=True):
 
     return added
 
-def query_hujiang(key_word):
+# Deprecated
+def query_hujiang_by_API(key_word):
     """
     return value:
     1. OK: list object
@@ -402,6 +403,70 @@ def query_hujiang(key_word):
         defines[i]["Comment"] = tmp
 
         defines[i]["PronounceJp"] = re.sub("\[|\]", "", defines[i]["PronounceJp"])
+
+    return defines
+
+def query_hujiang_by_html(key_word):
+    """
+    return value:
+    1. OK: list object
+    2. NG: string (reason)
+    3. null: [] null list
+    """
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36',
+        'Accept-Encoding': 'gzip, deflate, sdch',
+    }
+
+    url = "https://dict.hjenglish.com/jp/jc/" + urllib.quote(key_word)
+
+    req = urllib2.Request(url, None, headers)
+    try:
+        response = urllib2.urlopen(req, None, 3)
+        compressedData = response.read()
+    except Exception as e:
+        return "查询超时"
+
+    compressedStream = StringIO.StringIO(compressedData)
+    gzipper = gzip.GzipFile(fileobj=compressedStream)
+    html = gzipper.read()
+
+    soup = BeautifulSoup(html, "html.parser")
+    pronounce_list = soup.select('div[class=pronounces]')
+    comment_list = soup.select('div[class=simple]')
+
+    # rinse pronounce
+    d = {}; idx = 0
+    for sound in pronounce_list:
+        idx += 1
+        text = sound.get_text()
+        text = re.sub("^\n", "", text)
+        text = re.sub("\n\n", "\n", text)
+
+        l = text.split("\n")
+        if not d.get(l[0]):
+            d[l[0]] = idx
+
+    pure_pronounce_list = list(d.items())
+    pure_pronounce_list = sorted(pure_pronounce_list, lambda x, y: cmp(x[1], y[1]))
+
+    # rinse comment
+    comment_list = map(lambda comment: comment.get_text(), comment_list)
+    comment_list = map(lambda comment: re.sub("^\n", "", comment), comment_list)
+    comment_list = map(lambda comment: re.sub("\n", " ", comment), comment_list)
+
+    # length check
+    if len(pure_pronounce_list) != len(comment_list):
+        return "发音释义不匹配"
+
+    # rebuild defines
+    defines = []
+    for i in range(len(pure_pronounce_list)):
+        pronounce = pure_pronounce_list[i][0]
+        comment = comment_list[i]
+        d = {"PronounceJp": pronounce, "Comment": comment}
+        defines.append(d)
 
     return defines
 
@@ -637,7 +702,7 @@ def dictionary():
     if not key_word:
         defines = None
     else:
-        defines = query_hujiang(key_word)
+        defines = query_hujiang_by_html(key_word)
 
     return_dict = dict(universal_ROUTE_dict)
     return_dict.update(dict(defines=defines, verified=verified, key_word=key_word))
@@ -1597,6 +1662,7 @@ def get_next_approximate_words_count():
 
     return words_count_string
 
+# Deprecated
 @get('/get_hujiang_tts/')
 @get('/get_hujiang_tts')
 def get_hujiang_tts():

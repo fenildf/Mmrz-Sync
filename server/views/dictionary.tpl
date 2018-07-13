@@ -41,6 +41,9 @@
         %if defines == None:
           <p>&nbsp</p>
           <hr>
+        %elif type(defines) == type(""):
+          <p>查询失败: {{defines}}</p>
+          <hr>
         %elif not defines:
           <p>查询失败: {{key_word}}</p>
           <hr>
@@ -49,7 +52,7 @@
           %for define in defines:
             %idx += 1
             <p>
-              <span class="PronounceJp_list" id="PronounceJp_{{idx}}">[{{define["PronounceJp"]}}]</span>
+              <span class="PronounceJp_list" id="PronounceJp_{{idx}}">{{define["PronounceJp"]}}</span>
               <button class="button_yes_list" id="button_no_{{idx}}" onclick="change_one_word_status({{idx}})" style="width: 30px; height: 30px; background: url(/img/added_no.png); background-size: cover; border: 0; vertical-align: middle;"></button>
               <button class="button_no_list" id="button_yes_{{idx}}" onclick="change_one_word_status({{idx}})" style="width: 30px; height: 30px; background: url(/img/added_yes.png); background-size: cover; border: 0; vertical-align: middle;"></button>
               <button id="button_report" onclick="if(confirm('确认报告此单词错误(发音错误, 含义不全等)?'))report_word_mistake({{idx}})" style="width: 18px; height: 18px; background: url(/img/report.png); background-size: cover; border: 0; vertical-align: middle;"></button>
@@ -79,7 +82,7 @@
     </div>
 
     <script type="text/javascript">
-      notie.alert(3, "由于 API 变更, 暂时无法完成查询操作", 3);
+      // notie.alert(3, "由于 API 变更, 暂时无法完成查询操作", 3);
 
       key_word = getQueryString("key_word");
       $("#dictionary_key_word").val(key_word);
