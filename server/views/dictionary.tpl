@@ -82,7 +82,7 @@
     </div>
 
     <script type="text/javascript">
-      // notie.alert(3, "由于 API 变更, 暂时无法完成查询操作", 3);
+      notie.alert(1, "查询操作现已恢复正常使用", 3);
 
       key_word = getQueryString("key_word");
       $("#dictionary_key_word").val(key_word);

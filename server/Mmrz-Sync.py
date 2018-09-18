@@ -8,6 +8,7 @@
 
 from bottle import route, run, template, view, static_file
 from bottle import post, get, request, redirect
+from selenium import webdriver
 from bs4 import BeautifulSoup
 from SQLiteDBManager import TikTimeDBManager, MmrzSyncDBManager
 from MongoDBManager import MongoDBManager
@@ -29,7 +30,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1062'
+static_file_verion = 'v=1063'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -421,16 +422,30 @@ def query_hujiang_by_html(key_word):
 
     url = "https://dict.hjenglish.com/jp/jc/" + urllib.quote(key_word)
 
-    req = urllib2.Request(url, None, headers)
-    try:
-        response = urllib2.urlopen(req, None, 3)
-        compressedData = response.read()
-    except Exception as e:
-        return "查询超时"
+    #  req = urllib2.Request(url, None, headers)
+    #  try:
+    #      response = urllib2.urlopen(req, None, 3)
+    #      compressedData = response.read()
+    #  except Exception as e:
+    #      return "查询超时"
 
-    compressedStream = StringIO.StringIO(compressedData)
-    gzipper = gzip.GzipFile(fileobj=compressedStream)
-    html = gzipper.read()
+    driver = webdriver.PhantomJS(service_log_path="{0}/{1}".format(sys.path[0], 'ghostdriver.log'))
+    driver.set_page_load_timeout(10)
+    driver.set_script_timeout(10)
+
+    try:
+        driver.get(url)
+        driver.refresh()
+        html = driver.page_source
+    except:
+        html = driver.page_source
+        return "查询超时"
+    finally:
+        driver.close()
+
+    #  compressedStream = StringIO.StringIO(compressedData)
+    #  gzipper = gzip.GzipFile(fileobj=compressedStream)
+    #  html = gzipper.read()
 
     soup = BeautifulSoup(html, "html.parser")
     pronounce_list = soup.select('div[class=pronounces]')
