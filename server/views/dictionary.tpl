@@ -82,11 +82,12 @@
     </div>
 
     <script type="text/javascript">
-      notie.alert(1, "查询操作现已恢复正常使用", 3);
-
       key_word = getQueryString("key_word");
-      $("#dictionary_key_word").val(key_word);
+      if (!key_word) {
+        notie.alert(1, "查询操作现已恢复正常使用", 3);
+      }
 
+      $("#dictionary_key_word").val(key_word);
       $("#user_info").text($.cookie('username'));
 
       domain = document.domain;

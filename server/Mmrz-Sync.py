@@ -441,7 +441,7 @@ def query_hujiang_by_html(key_word):
         html = driver.page_source
         return "查询超时"
     finally:
-        driver.close()
+        driver.quit()
 
     #  compressedStream = StringIO.StringIO(compressedData)
     #  gzipper = gzip.GzipFile(fileobj=compressedStream)
