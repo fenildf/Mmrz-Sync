@@ -680,8 +680,14 @@ function pre_load_image() {
 function pre_load_sound() {
     speaker = document.getElementById("speaker");
 
-    key_word = window.rows_from_DB[window.cursor_of_rows][0];
-    secret_info = window.rows_from_DB[window.cursor_of_rows][1];
+    if (window.rows_from_DB[window.cursor_of_rows]) {
+        key_word    = window.rows_from_DB[window.cursor_of_rows][0];
+        secret_info = window.rows_from_DB[window.cursor_of_rows][1];
+    }
+    else {
+        key_word    = "";
+        secret_info = "";
+    }
 
     if(is_word_EN(key_word)) {
         speaker.src = "http://tts.yeshj.com/s/" + key_word;
