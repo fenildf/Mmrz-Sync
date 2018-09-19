@@ -422,12 +422,16 @@ def query_hujiang_by_html(key_word):
 
     url = "https://dict.hjenglish.com/jp/jc/" + urllib.quote(key_word)
 
-    #  req = urllib2.Request(url, None, headers)
-    #  try:
-    #      response = urllib2.urlopen(req, None, 3)
-    #      compressedData = response.read()
-    #  except Exception as e:
-    #      return "查询超时"
+    # req = urllib2.Request(url, None, headers)
+    # try:
+    #     response = urllib2.urlopen(req, None, 3)
+    #     compressedData = response.read()
+    # except Exception as e:
+    #     return "查询超时"
+
+    # compressedStream = StringIO.StringIO(compressedData)
+    # gzipper = gzip.GzipFile(fileobj=compressedStream)
+    # html = gzipper.read()
 
     driver = webdriver.PhantomJS(service_log_path="{0}/{1}".format(sys.path[0], 'ghostdriver.log'))
     driver.set_page_load_timeout(10)
@@ -442,10 +446,6 @@ def query_hujiang_by_html(key_word):
         return "查询超时"
     finally:
         driver.quit()
-
-    #  compressedStream = StringIO.StringIO(compressedData)
-    #  gzipper = gzip.GzipFile(fileobj=compressedStream)
-    #  html = gzipper.read()
 
     soup = BeautifulSoup(html, "html.parser")
     pronounce_list = soup.select('div[class=pronounces]')
