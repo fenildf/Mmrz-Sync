@@ -1785,19 +1785,27 @@ def download_wordbook():
         json_for_return = json.dumps(dict_for_return)
         return json_for_return
 
-# show serving IP (for debug)
-myname = socket.getfqdn(socket.gethostname())
-myaddr = socket.gethostbyname(myname)
+def initialize():
+    # initialize PhantomJS pool
+    WebdriverPool()
 
-print ""
-print "Serving IP: " + myaddr
-print ""
+if __name__ == "__main__":
+    initialize()
 
-# user gevent
-# import gevent; from gevent import monkey; monkey.patch_all()
+    # show serving IP (for debug)
+    myname = socket.getfqdn(socket.gethostname())
+    myaddr = socket.gethostbyname(myname)
 
-# run server
-# run(host='0.0.0.0', port=PORT)
-run(host='0.0.0.0', port=PORT, server='paste')
+    print ""
+    print "Serving IP: " + myaddr
+    print ""
+
+    # user gevent
+    # import gevent; from gevent import monkey; monkey.patch_all()
+
+    # run server
+    # run(host='0.0.0.0', port=PORT)
+    run(host='0.0.0.0', port=PORT, server='paste')
+
 
 

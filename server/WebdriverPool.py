@@ -6,7 +6,7 @@ import sys, json
 import time
 
 class WebdriverPool(object):
-    __pool_size = 3
+    __pool_size = 2
     __instance = None
     __initializd = False
     __drivers = [] # [(driver_1, availability), (driver_2, availability)]
@@ -23,11 +23,12 @@ class WebdriverPool(object):
                 driver = webdriver.PhantomJS(service_log_path="{0}/{1}".format(sys.path[0], 'ghostdriver.log'))
                 driver.set_page_load_timeout(10)
                 driver.set_script_timeout(10)
-                self.__drivers.append(driver, True)
+                pair = [driver, True]
+                self.__drivers.append(pair)
         else:
             pass
 
-    def __get_available_driver(self):
+    def __get_available_driver_idx(self):
         sn = 0
         while True:
             idx = sn % self.__pool_size
@@ -35,15 +36,23 @@ class WebdriverPool(object):
             driver          = pair[0]
             availability    = pair[1]
             if availability:
-                return driver
+                return idx
             else:
                 continue
 
-            if idx == 0:
+            if idx == self.__pool_size - 1:
                 time.sleep(0.1)
 
     def get_html(self, url):
-        driver = self.__get_available_driver()
+        # get idx
+        driver_idx = self.__get_available_driver_idx()
+
+        # get driver
+        driver = self.__drivers[driver_idx][0]
+
+        # set driver as busy
+        self.__drivers[driver_idx][1] = False
+
         try:
             driver.get(url)
             driver.refresh()
@@ -54,6 +63,10 @@ class WebdriverPool(object):
             # driver.quit()  # quit whole driver
             # driver.close() # close current window
             pass
+
+        # set driver as available
+        self.__drivers[driver_idx][1] = True
+
         return html
 
 if __name__ == '__main__':
