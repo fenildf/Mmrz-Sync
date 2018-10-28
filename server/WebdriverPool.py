@@ -7,9 +7,10 @@ import time
 
 class WebdriverPool(object):
     __pool_size = 2
-    __instance = None
     __initializd = False
-    __drivers = [] # [(driver_1, availability), (driver_2, availability)]
+    __drivers = [] # [ [driver_1, availability], [driver_2, availability] ]
+
+    __instance = None
 
     def __new__(cls, *args, **kw):
         if not cls.__instance:
