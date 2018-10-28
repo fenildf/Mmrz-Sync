@@ -12,6 +12,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from SQLiteDBManager import TikTimeDBManager, MmrzSyncDBManager
 from MongoDBManager import MongoDBManager
+from WebdriverPool import WebdriverPool
 from MmrzLog import log
 from MmrzCode import *
 import requests
@@ -433,9 +434,7 @@ def query_hujiang_by_html(key_word):
     # gzipper = gzip.GzipFile(fileobj=compressedStream)
     # html = gzipper.read()
 
-    driver = webdriver.PhantomJS(service_log_path="{0}/{1}".format(sys.path[0], 'ghostdriver.log'))
-    driver.set_page_load_timeout(10)
-    driver.set_script_timeout(10)
+    driver = WebdriverPool().driver
 
     try:
         driver.get(url)
@@ -445,7 +444,9 @@ def query_hujiang_by_html(key_word):
         html = driver.page_source
         return "查询超时"
     finally:
-        driver.quit()
+        # driver.quit()  # quit whole driver
+        # driver.close() # close current window
+        pass
 
     soup = BeautifulSoup(html, "html.parser")
     pronounce_list = soup.select('div[class=pronounces]')
