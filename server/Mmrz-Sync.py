@@ -434,19 +434,10 @@ def query_hujiang_by_html(key_word):
     # gzipper = gzip.GzipFile(fileobj=compressedStream)
     # html = gzipper.read()
 
-    driver = WebdriverPool().driver
-
-    try:
-        driver.get(url)
-        driver.refresh()
-        html = driver.page_source
-    except:
-        html = driver.page_source
+    wp = WebdriverPool()
+    html = wp.get_html(url)
+    if html == None:
         return "查询超时"
-    finally:
-        # driver.quit()  # quit whole driver
-        # driver.close() # close current window
-        pass
 
     soup = BeautifulSoup(html, "html.parser")
     pronounce_list = soup.select('div[class=pronounces]')
