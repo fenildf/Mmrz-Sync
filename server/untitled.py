@@ -10,7 +10,7 @@ class WebdriverPool(object):
     __initializd = False
     __drivers = [] # [ [driver_1, availability], [driver_2, availability] ]
 
-    # __instance = None
+    __instance = None
 
     # def __new__(cls, *args, **kw):
     #     if not cls.__instance:
@@ -36,7 +36,7 @@ class WebdriverPool(object):
             pair = self.__drivers[idx]
             driver          = pair[0]
             availability    = pair[1]
-
+            print "sn: ", sn
             if availability:
                 return idx
             else:
@@ -56,9 +56,10 @@ class WebdriverPool(object):
 
         # set driver as busy
         self.__drivers[driver_idx][1] = False
-        # print "driver_idx: ", driver_idx
-        # print "self.__drivers: ", self.__drivers
+        print driver_idx
+        print self.__drivers
 
+        time.sleep(5)
         try:
             driver.get(url)
             driver.refresh()
@@ -76,10 +77,11 @@ class WebdriverPool(object):
         return html
 
 if __name__ == '__main__':
+    url = "http://baidu.com"
     wp1 = WebdriverPool()
     wp2 = WebdriverPool()
     import threading
-    threading.Thread(target=wp1.get_html, args=("http://baidu.com",)).start()
-    threading.Thread(target=wp2.get_html, args=("http://baidu.com",)).start()
+    threading.Thread( target=wp1.get_html, args=(url,) ).start()
+    threading.Thread( target=wp2.get_html, args=(url,) ).start()
 
 
