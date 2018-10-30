@@ -639,24 +639,25 @@ function view_hujiang() {
 
     url = get_hujiang_url(key_word);
     if(is_cellphone()) {
-        layer.open({
-            id: "iframe_hujiang",
-            type: 2,
-            title: ["沪江小D", 'font-size: 20px;'],
-            closeBtn: 0,
-            moveEnd: function() {
-                layer.close(layer.index);
-            },
-            shadeClose: true,
-            resize: false,
-            scrollbar: false,
-            area: ['280px', '400px'],
-            success: function(index){
-                layer.setTop(index);
-                $("#iframe_hujiang").focus();
-            },
-            content: url
-        });
+        // layer.open({
+        //     id: "iframe_hujiang",
+        //     type: 2,
+        //     title: ["沪江小D", 'font-size: 20px;'],
+        //     closeBtn: 0,
+        //     moveEnd: function() {
+        //         layer.close(layer.index);
+        //     },
+        //     shadeClose: true,
+        //     resize: false,
+        //     scrollbar: false,
+        //     area: ['280px', '400px'],
+        //     success: function(index){
+        //         layer.setTop(index);
+        //         $("#iframe_hujiang").focus();
+        //     },
+        //     content: url
+        // });
+        layer.msg("沪江不支持手机网页查词", {'time': 1000});
     }
     else {
         window.open(url);

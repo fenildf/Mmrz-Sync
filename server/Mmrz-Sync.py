@@ -31,7 +31,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1064'
+static_file_verion = 'v=1065'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
@@ -1786,6 +1786,9 @@ def download_wordbook():
         return json_for_return
 
 def initialize():
+    # kill phantomjs
+    os.system("/usr/bin/perl {}/kill.pl".format(sys.path[0]))
+
     # initialize PhantomJS pool
     WebdriverPool()
 
