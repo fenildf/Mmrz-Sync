@@ -10,22 +10,22 @@ class WebdriverPool(object):
     __initializd = False
     __drivers = [] # [ [driver_1, availability], [driver_2, availability] ]
 
-    # __instance = None
+    __instance = None
 
-    # def __new__(cls, *args, **kw):
-    #     if not cls.__instance:
-    #         cls.__instance = super(WebdriverPool, cls).__new__(cls, *args, **kw)
-    #     return cls.__instance
+    def __new__(cls, *args, **kw):
+        if not cls.__instance:
+            cls.__instance = super(WebdriverPool, cls).__new__(cls, *args, **kw)
+        return cls.__instance
 
     def __init__(self):
-        if not self.__class__.__initializd:
-            self.__class__.__initializd = True
+        if not self.__initializd:
+            self.__initializd = True
             for i in range(self.__pool_size):
                 driver = webdriver.PhantomJS(service_log_path="{0}/{1}".format(sys.path[0], 'ghostdriver.log'))
                 driver.set_page_load_timeout(10)
                 driver.set_script_timeout(10)
                 pair = [driver, True]
-                self.__class__.__drivers.append(pair)
+                self.__drivers.append(pair)
         else:
             pass
 
@@ -76,10 +76,11 @@ class WebdriverPool(object):
         return html
 
 if __name__ == '__main__':
+    url = "http://baidu.com"
     wp1 = WebdriverPool()
     wp2 = WebdriverPool()
     import threading
-    threading.Thread(target=wp1.get_html, args=("http://baidu.com",)).start()
-    threading.Thread(target=wp2.get_html, args=("http://baidu.com",)).start()
+    threading.Thread( target=wp1.get_html, args=(url,) ).start()
+    threading.Thread( target=wp2.get_html, args=(url,) ).start()
 
 
