@@ -84,7 +84,7 @@
     <script type="text/javascript">
       key_word = getQueryString("key_word");
       if (!key_word) {
-        notie.alert(1, "查询操作现已恢复正常使用", 3);
+        // notie.alert(1, "查询操作现已恢复正常使用", 3);
       }
 
       $("#dictionary_key_word").val(key_word);

@@ -31,7 +31,7 @@ import datetime, time, math
 import re
 import os
 
-static_file_verion = 'v=1065'
+static_file_verion = 'v=1066'
 
 def each_file(target):
     for root, dirs, files in os.walk(target):
