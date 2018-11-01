@@ -2,6 +2,8 @@
 
 一个随时随地背诵单词的网站, 访问地址: [https://mmrz.zhanglintc.co](https://mmrz.zhanglintc.co)
 
+使用 Chrome 插件实现右键查询, 插件地址: [Mmrz search helper](https://chrome.google.com/webstore/detail/mmrz-search-helper/oeeiknpedgobffmdmgpeloongnaklphl)
+
 ------
 
 ## 简介:
@@ -11,6 +13,8 @@ Mmrz 是 Memorize 的缩写, 是一个旨在帮助大家记忆单词的网站. �
 本项目叫 Mmrz-Sync 的原因是最初只是作为 Mmrz 项目的同步服务器存在, 后来才支持网页版访问, 不过名字已经无法修改了.
 
 关于 Mmrz 项目的相关内容以及背诵原理部分可以直接跳转到到这里查看: [Mmrz](https://github.com/zhanglintc/Mmrz).
+
+Chrome 插件项目地址: [Mmrz-Extension](https://github.com/zhanglintc/Mmrz-Extension).
 
 ## 成员:
 
