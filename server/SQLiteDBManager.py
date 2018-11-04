@@ -26,18 +26,48 @@ class TikTimeDBManager:
         self.c = self.db.cursor()
 
     def insertDB(self, tikInfo):
-        self.c.execute("insert into TIKTIME values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tikInfo)
+        sql = """
+            INSERT INTO
+                TIKTIME
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        self.c.execute(sql, tikInfo)
 
     def getMaxUniqMinute(self, username):
-        MaxUniqMinute = self.c.execute("select max(uniqMinute) from TIKTIME where username == '{0}'".format(username)).fetchall()[0][0]
+        sql = """
+            SELECT
+                max(uniqMinute)
+            FROM
+                TIKTIME
+            WHERE
+                username == '{0}'
+        """.format(username)
+        MaxUniqMinute = self.c.execute(sql).fetchall()[0][0]
         return MaxUniqMinute
 
     def getMiniutes(self, username):
-        return self.c.execute("select count(uniqMinute) from TIKTIME where username == '{0}'".format(username)).fetchall()[0][0]
+        sql = """
+            SELECT
+                count(uniqMinute)
+            FROM
+                TIKTIME
+            WHERE
+                username == '{0}'
+        """.format(username)
+        return self.c.execute(sql).fetchall()[0][0]
 
     def getMiniutesByWeek(self, username, timeStamp):
         Year, Week, Day = datetime.date.fromtimestamp(timeStamp).isocalendar()
-        return self.c.execute("select count(uniqMinute) from TIKTIME where username == '{0}' and theYear == {1} and theWeek == {2}".format(username, Year, Week)).fetchall()[0][0]
+        sql = """
+            SELECT
+                count(uniqMinute)
+            FROM
+                TIKTIME
+            WHERE
+                username == '{0}' AND theYear == {1} AND theWeek == {2}
+        """.format(username, Year, Week)
+        return self.c.execute(sql).fetchall()[0][0]
 
     def getDailyRanking(self, timeStamp):
         # uniqMinute = timeStamp / 60        # 唯一分钟数
@@ -275,3 +305,6 @@ class MmrzSyncDBManager:
         self.db.commit()
         self.db.close()
 
+if __name__ == "__main__":
+    ttm = TikTimeDBManager()
+    print ttm.getMiniutesByWeek("zhanglin", 5)
